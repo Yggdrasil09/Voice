@@ -1,0 +1,132 @@
+.border-max {
+  min-width: 95%;
+  transition: 1s;
+  min-height: 500px;
+}
+
+.border-max:hover {
+  animation: pulse 500ms ease-out;
+  min-width:100%;
+}
+
+@keyframes pulse{
+	0%{
+		min-width:95%;
+	}
+	100%{
+		min-width:100%;
+	}
+}
+
+.border-max.col {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../../img/wave1.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position-x: 0;
+  background-position-y: 120%;
+  transition:1s;
+}
+
+.border-max:hover.col {
+  background: url("../../img/wave1.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: pulse-border 700ms ease-out;
+  background-position-x: 0;
+  background-position-y: 110%;
+}
+
+@keyframes pulse-border {
+	0% {
+		background-position-x: 0;
+		background-position-y: 120%;
+	}
+	100% {
+		background-position-x: 0;
+		background-position-y: 110%;
+	}
+  }
+
+.border-max h1 {
+  font-family: "Zilla Slab", serif;
+  font-size: 48px;
+  font-weight: 400;
+}
+
+.border-max h3 {
+  font-family: "Zilla Slab", serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.text {
+  margin-top: 7%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+
+.col {
+  text-align: center;
+}
+
+.col h1 {
+  display: inline;
+}
+
+.video-play-button {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  box-sizing: content-box;
+  display: block;
+  width: 32px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 18px 20px 18px 28px;
+}
+
+.video-play-button:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: rgb(193, 255, 244);
+  border-radius: 50%;
+}
+
+.video-play-button:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 9px 10px #cadbef;
+}
+.video-play-button span {
+  display: block;
+  position: relative;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  border-left: 33px solid #59cbb7;
+  border-top: 20px solid transparent;
+  border-bottom: 22px solid transparent;
+}
