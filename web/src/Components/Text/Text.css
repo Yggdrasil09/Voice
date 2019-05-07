@@ -1,14 +1,51 @@
-.text-container{
-    padding:30px 40px 30px 40px;
-    margin-left:auto;
-    margin-right:auto;
-    box-shadow: 0px 0px 6px 2px rgb(223, 223, 223);
-    background-color:white;
-    width:50vw;
-    height:45vh;
+.text-container {
+  padding: 30px 30px 30px 30px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 0px 6px 2px rgb(223, 223, 223);
+  background-color: white;
+  width: 50vw;
+  height: 45vh;
 }
 
-.text-container h1{
-    font-size:35px;
-    font-family:"Open Sans", sans-serif
+.text-container h1 {
+  line-height: 1.5em;
+  font-size: 2.5vw;
+  font-family: "Open Sans", sans-serif;
+}
+
+@media (min-width: 300px) and (max-width: 445.98px) {
+  .text-container {
+    padding: 20px 20px 20px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 0px 6px 2px rgb(223, 223, 223);
+    background-color: white;
+    width: 75vw;
+    height: 39vh;
+  }
+
+  .text-container h1 {
+    line-height: 1.5em;
+    font-size: 3.25vh;
+    font-family: "Open Sans", sans-serif;
+  }
+}
+
+@media (min-width: 446px) and (max-width: 999.98px) {
+  .text-container {
+    padding: 30px 30px 30px 30px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 0px 6px 2px rgb(223, 223, 223);
+    background-color: white;
+    width: 75vw;
+    height: 45vh;
+  }
+
+  .text-container h1 {
+    line-height: 1.5em;
+    font-size: 4vh;
+    font-family: "Open Sans", sans-serif;
+  }
 }

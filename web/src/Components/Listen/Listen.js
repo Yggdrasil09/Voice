@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-import Text from '../Text/Text';
+import Text from "../Text/Text";
 import "./Listen.css";
 
 class Listen extends Component {
@@ -11,14 +11,14 @@ class Listen extends Component {
       <Container className="max-border">
         <div className="top-heading">
           <NavLink to="/">
-            <div class="back">
+            <div className="back">
               <div />
             </div>
           </NavLink>
         </div>
         <Row>
-          <Col xs={2} />
-          <Col xs={8} className="display">
+          <Col xs={1} />
+          <Col xs={10} className="display">
             <div>
               <p>Click</p>
               <svg className="play-now" viewBox="0 0 13 15">
@@ -38,9 +38,22 @@ class Listen extends Component {
               </svg>
               <p> did they accurately speak the sentence?</p>
             </div>
-            <Text/>
+            <Text />
+            <div className="review-step">
+              <div className="up-vote">
+                <i class="far fa-thumbs-up" />
+                <span>Yes</span>
+              </div>
+              <button type="button" className="video-play-button1">
+                <span />
+              </button>
+              <div className="down-vote">
+                <i class="far fa-thumbs-down" />
+                <span>No</span>
+              </div>
+            </div>
           </Col>
-          <Col xs={2} />
+          <Col xs={1} />
         </Row>
       </Container>
     );

@@ -1,22 +1,8 @@
 .border-max {
   border-top:1px solid #f3f2f0;
-  min-width: 95%;
+  min-width: 100%;
   transition: 1s;
   min-height: 500px;
-}
-
-.border-max:hover {
-  animation: pulse 500ms ease-out;
-  min-width: 100%;
-}
-
-@keyframes pulse {
-  0% {
-    min-width: 95%;
-  }
-  100% {
-    min-width: 100%;
-  }
 }
 
 .border-max.col {
@@ -28,7 +14,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-position-x: 0;
-  background-position-y: 115%;
+  background-position-y: 145%;
   transition: 1s;
 }
 
@@ -38,17 +24,17 @@
   background-size: contain;
   animation: pulse-border 700ms ease-out;
   background-position-x: 0;
-  background-position-y: 110%;
+  background-position-y: 105%;
 }
 
 @keyframes pulse-border {
   0% {
     background-position-x: 0;
-    background-position-y: 115%;
+    background-position-y: 145%;
   }
   100% {
     background-position-x: 0;
-    background-position-y: 110%;
+    background-position-y: 105%;
   }
 }
 
