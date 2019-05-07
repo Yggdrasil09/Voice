@@ -39,18 +39,29 @@ class Listen extends Component {
               <p> did they accurately speak the sentence?</p>
             </div>
             <Text />
+
             <div className="review-step">
-              <div className="up-vote">
-                <i class="far fa-thumbs-up" />
-                <span>Yes</span>
-              </div>
-              <button type="button" className="video-play-button1">
-                <span />
-              </button>
-              <div className="down-vote">
-                <i class="far fa-thumbs-down" />
-                <span>No</span>
-              </div>
+              <Container className="max-border">
+                <Row className="max-border">
+                  <Col sm={5} xs={5}>
+                    <div className="up-vote">
+                      <i class="far fa-thumbs-up" />
+                      <span>Yes</span>
+                    </div>
+                  </Col>
+                  <Col sm={2} xs={2}>
+                    <button type="button" className="video-play-button1">
+                      <span />
+                    </button>
+                  </Col>
+                  <Col sm={5} xs={5}>
+                    <div className="down-vote">
+                      <i class="far fa-thumbs-down" />
+                      <span>No</span>
+                    </div>
+                  </Col>
+                </Row>
+              </Container>
             </div>
           </Col>
           <Col xs={1} />
