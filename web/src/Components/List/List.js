@@ -1,38 +1,21 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 
 import "./List.css";
+import ListenTask from '../Tasks/ListenTask';
+import SpeakTask from '../Tasks/SpeakTask';
 
 class List extends Component {
   render() {
     return (
-      <Container className="border-max">
+      <Container className="max-border">
         <Row>
-          <Col className="border-max">
-            <Row className="text">
-              <Col>
-                <div className="information">
-                  <h6>
-                    Validating donated clips is equally important to the Voice
-                    mission. Take a listen and help us create quality open
-                    source voice data.
-                  </h6>
-                </div>
-              </Col>
-              <Col>
-                <h1>Listen</h1>
-                <h3>Help us validate voices</h3>
-              </Col>
-              <Col>
-                <NavLink to="/listen">
-                  <a id="play-video" class="video-play-button" href="#top">
-                    <span />
-                  </a>
-                </NavLink>
-              </Col>
-            </Row>
-          </Col>
+          <h2>ToDo</h2>
+        </Row>
+        <ListenTask/>
+        <SpeakTask/>
+        <Row>
+          <h2>Done</h2>
         </Row>
       </Container>
     );
