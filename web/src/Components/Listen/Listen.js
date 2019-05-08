@@ -1,11 +1,28 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import Sound from 'react-sound';
 
+import SoundFile from '../../sound/SampleAudio_0.4mb.mp3';
 import Text from "../Text/Text";
 import "./Listen.css";
 
 class Listen extends Component {
+
+  constructor()
+  {
+    super();
+    this.state={sound:false};
+    this.soundPlayer = this.soundPlayer.bind(this);
+  }
+
+  soundPlayer()
+  {
+    this.setState((state) => ({
+      sound: !state.sound,
+    }));
+  }
+
   render() {
     return (
       <Container className="max-border">
@@ -45,18 +62,18 @@ class Listen extends Component {
                 <Row className="max-border">
                   <Col sm={5} xs={5}>
                     <div className="up-vote">
-                      <i class="far fa-thumbs-up" />
+                      <i className="far fa-thumbs-up" />
                       <span>Yes</span>
                     </div>
                   </Col>
                   <Col sm={2} xs={2}>
-                    <button type="button" className="video-play-button1">
+                    <button type="button" onClick={this.soundPlayer} className="video-play-button1">
                       <span />
                     </button>
                   </Col>
                   <Col sm={5} xs={5}>
                     <div className="down-vote">
-                      <i class="far fa-thumbs-down" />
+                      <i className="far fa-thumbs-down" />
                       <span>No</span>
                     </div>
                   </Col>
@@ -66,6 +83,10 @@ class Listen extends Component {
           </Col>
           <Col xs={1} />
         </Row>
+        <Sound
+          url={SoundFile}
+          playStatus={this.state.sound?Sound.status.PLAYING:Sound.status.STOPPED}
+        />
       </Container>
     );
   }

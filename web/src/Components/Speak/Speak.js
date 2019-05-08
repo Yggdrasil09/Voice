@@ -1,11 +1,39 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import {ReactMic} from 'react-mic';
 
 import "./Speak.css";
 import Text from "../Text/Text";
 
 class Speak extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      record: false,
+    };
+  }
+
+  startRecording = () => {
+    this.setState({
+      record: true,
+    });
+  };
+
+  stopRecording = () => {
+    this.setState({
+      record: false,
+    });
+  };
+
+  onData(recordedBlob) {
+    console.log("chunk of real-time data is: ", recordedBlob);
+  }
+
+  onStop(recordedBlob) {
+    console.log("recordedBlob is: ", recordedBlob);
+  }
+
   render() {
     return (
       <Container className="max-border">
@@ -36,6 +64,16 @@ class Speak extends Component {
             </Row>
           </Container>
         </div>
+        <ReactMic
+          record={this.state.record}
+          className="sound-wave"
+          onStop={this.onStop}
+          onData={this.onData}
+          strokeColor="#000000"
+          backgroundColor="#224071"
+        />
+        <button onClick={this.startRecording} type="button">Start</button>
+        <button onClick={this.stopRecording} type="button">Stop</button>
       </Container>
     );
   }
