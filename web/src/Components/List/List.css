@@ -27,11 +27,6 @@
   font-weight: 400;
 }
 
-#play-video {
-  margin-top: -30px;
-  margin-left: -100px;
-}
-
 .text {
   margin-top: 7%;
   margin-left: auto;
@@ -43,16 +38,15 @@
   text-align: center;
 }
 
-.task-information{
-  margin-top:auto;
-  margin-bottom:auto;
-  padding-left:5vw;
+.task-information {
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left: 5vw;
   text-align: left;
 }
 
-.task-action{
-  display:block;
-  margin-top:5%;
+.task-action {
+  display: block;
 }
 
 .col h1 {
@@ -60,6 +54,7 @@
 }
 
 .video-play-button {
+  text-decoration: none !important;
   position: absolute;
   z-index: 10;
   top: 50%;
@@ -103,9 +98,35 @@
   transition: 700ms;
 }
 
+.video-play-mic:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 9px 10px #f6b3ba;
+  transition: 700ms;
+}
+
 .border-max:hover .video-play-button:after {
   transition: 700ms;
   background: #59cbb7;
+}
+
+.border-max:hover .video-play-mic:after {
+  transition: 700ms;
+  background: #ff4f5e;
+}
+
+.border-max:hover .video-play-mic i {
+  transition: 700ms;
+  color: #ffffff;
 }
 
 .video-play-button span {
@@ -118,6 +139,15 @@
   border-top: 20px solid transparent;
   border-bottom: 22px solid transparent;
   transition: 700ms;
+}
+
+.video-play-button i {
+  font-size: 3rem;
+  left: -35%;
+  color: #ff4f5e;
+  display: block;
+  position: relative;
+  z-index: 3;
 }
 
 .border-max:hover .video-play-button span {
@@ -175,6 +205,14 @@
   border-radius: 1vh;
   box-shadow: 0px 0px 8px 2px rgb(226, 226, 226);
   background-color: white;
+}
+
+.Tasks {
+  margin-left:auto;
+  margin-right:auto;
+  font-size:10vh;
+  font-family: "Zilla Slab", serif;
+  font-weight:400;
 }
 
 @keyframes pulse-border {

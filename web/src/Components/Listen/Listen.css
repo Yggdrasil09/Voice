@@ -61,65 +61,6 @@
   display: block;
 }
 
-.video-play-button1 {
-  position: absolute;
-  z-index: 10;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  box-sizing: content-box;
-  display: block;
-  width: 32px;
-  height: 44px;
-  border-radius: 50%;
-  padding: 18px 20px 18px 28px;
-}
-
-.video-play-button1:before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  display: block;
-  width: 80px;
-  height: 80px;
-  background: rgb(193, 255, 244);
-  border-radius: 50%;
-}
-
-.video-play-button1:after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  display: block;
-  width: 80px;
-  height: 80px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0px 0px 9px 10px #cadbef;
-  transition: 700ms;
-}
-
-.video-play-button1:hover {
-  box-shadow: 0px 0px 14px 7px rgb(26, 103, 190);
-}
-
-.video-play-button1 span {
-  display: block;
-  position: relative;
-  z-index: 3;
-  width: 0;
-  height: 0;
-  border-left: 25px solid #59cbb7;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  transition: 700ms;
-}
-
 .up-vote i,
 .down-vote i {
   display: inline-block;
@@ -182,3 +123,57 @@
   margin-top: 14vh;
 }
 
+.video-play-button2 {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  box-sizing: content-box;
+  display: block;
+  width: 32px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 18px 20px 18px 28px;
+}
+
+.video-play-button2:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: rgb(193, 255, 244);
+  border-radius: 50%;
+}
+
+.video-play-button2:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 9px 10px #cadbef;
+  transition: 700ms;
+}
+
+.video-play-button2 span {
+  display: block;
+  position: relative;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  border-left: 33px solid #59cbb7;
+  border-top: 20px solid transparent;
+  border-bottom: 22px solid transparent;
+  transition: 700ms;
+}

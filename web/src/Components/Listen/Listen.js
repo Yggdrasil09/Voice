@@ -67,7 +67,7 @@ class Listen extends Component {
                     </div>
                   </Col>
                   <Col sm={2} xs={2}>
-                    <button type="button" onClick={this.soundPlayer} className="video-play-button1">
+                    <button type="button" onClick={this.soundPlayer} className="video-play-button2">
                       <span />
                     </button>
                   </Col>

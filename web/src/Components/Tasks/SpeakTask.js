@@ -12,8 +12,8 @@ class SpeakTask extends Component {
         </Col>
         <Col sm={6} className="task-action">
           <NavLink to="/speak">
-            <a id="play-video" class="video-play-button" href="#top">
-              <span />
+            <a className="video-play-button video-play-mic" href="#top">
+              <i className="material-icons">mic_none</i>
             </a>
           </NavLink>
         </Col>

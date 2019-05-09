@@ -12,7 +12,7 @@ class ListenTask extends Component {
         </Col>
         <Col sm={6} className="task-action">
           <NavLink to="/listen">
-            <a id="play-video" class="video-play-button" href="#top">
+            <a className="video-play-button" href="#top">
               <span />
             </a>
           </NavLink>
