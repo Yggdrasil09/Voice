@@ -1,26 +1,39 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import Sound from 'react-sound';
+import Sound from "react-sound";
 
-import SoundFile from '../../sound/SampleAudio_0.4mb.mp3';
+import SoundFile from "../../sound/SampleAudio_0.4mb.mp3";
 import Text from "../Text/Text";
 import "./Listen.css";
 
 class Listen extends Component {
-
-  constructor()
-  {
+  constructor() {
     super();
-    this.state={sound:false};
+    this.state = { sound: false };
     this.soundPlayer = this.soundPlayer.bind(this);
   }
 
-  soundPlayer()
-  {
-    this.setState((state) => ({
+  soundPlayer() {
+    this.setState(state => ({
       sound: !state.sound,
     }));
+  }
+
+  componentWillMount() {
+    fetch("http://10.2.132.211:5000/", {
+      method: "POST",
+      mode: "no-cors",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      }),
+    }).then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -67,7 +80,11 @@ class Listen extends Component {
                     </div>
                   </Col>
                   <Col sm={2} xs={2}>
-                    <button type="button" onClick={this.soundPlayer} className="video-play-button2">
+                    <button
+                      type="button"
+                      onClick={this.soundPlayer}
+                      className="video-play-button2"
+                    >
                       <span />
                     </button>
                   </Col>
@@ -85,8 +102,11 @@ class Listen extends Component {
         </Row>
         <Sound
           url={SoundFile}
-          playStatus={this.state.sound?Sound.status.PLAYING:Sound.status.STOPPED}
+          playStatus={
+            this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
+          }
         />
+        <canvas ref="canvas" id="waves" />
       </Container>
     );
   }

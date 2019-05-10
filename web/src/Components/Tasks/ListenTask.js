@@ -3,6 +3,11 @@ import { Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 class ListenTask extends Component {
+  constructor() {
+    super();
+    this.state={};
+  }
+
   render() {
     return (
       <Row className="border-max grid-tasks listen-task">

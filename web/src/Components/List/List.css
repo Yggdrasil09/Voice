@@ -208,11 +208,11 @@
 }
 
 .Tasks {
-  margin-left:auto;
-  margin-right:auto;
-  font-size:10vh;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 10vh;
   font-family: "Zilla Slab", serif;
-  font-weight:400;
+  font-weight: 400;
 }
 
 @keyframes pulse-border {
@@ -223,5 +223,30 @@
   100% {
     background-position-x: 0;
     background-position-y: 40%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .task-information{
+    text-align:center;
+  }
+
+  .task-information h1{
+    font-size:7vh;
+  }
+
+  .task-information h3{
+    font-size:3vh;
+  }
+
+  .task-action{
+    height:20vh;
+  }
+  .border-max{
+    max-height: 225px!important;
+  }
+
+  .grid-tasks{
+    height:225px;
   }
 }
