@@ -83,13 +83,13 @@
 .up-vote:hover {
   transition: 0.5s;
   color: white;
-  background-color: #59cbb7;
+  background-color: #45fad9;
 }
 
 .down-vote:hover {
   transition: 1s;
   color: white;
-  background-color: #ff4f5e;
+  background-color: #f8707b;
 }
 
 .down-vote i {

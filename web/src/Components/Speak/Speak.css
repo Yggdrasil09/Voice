@@ -45,7 +45,8 @@
   box-shadow: 0px 0px 14px 7px #ee7c87;
 }
 
-.video-play-button1 i {
+.video-play-button1 i#mic {
+  display:none!important;
   font-size: 3rem;
   left: -35%;
   color: #ff4f5e;
@@ -54,12 +55,42 @@
   z-index: 3;
 }
 
+i#mic.active{
+  display:block!important;
+  font-size: 3rem;
+  left: -35%;
+  color: #ff4f5e;
+  display: block;
+  position: relative;
+  z-index: 3;
+}
+
+#pause{
+  display:block;
+  font-size: 3rem;
+  left: -35%;
+  color: #ff4f5e;
+  display: block;
+  position: relative;
+  z-index: 3;
+}
+
+#pause.active{
+  display:none;
+}
+
 .video-play-button1:hover:after {
   transition: 500ms;
   background: #ff4f5e;
 }
 
-.video-play-button1:hover i {
+.video-play-button1:hover i#mic {
   transition: 700ms;
   color: #ffffff;
 }
+
+.video-play-button1:hover i#pause {
+  transition: 700ms;
+  color: #ffffff;
+}
+

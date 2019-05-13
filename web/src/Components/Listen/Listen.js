@@ -3,33 +3,144 @@ import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
 
-import SoundFile from "../../sound/SampleAudio_0.4mb.mp3";
+// import SoundTemp from '../../sound/SampleAudio_0.4mb.mp3'
 import Text from "../Text/Text";
 import "./Listen.css";
 
 class Listen extends Component {
   constructor() {
     super();
-    this.state = { sound: false };
+    this.state = {
+      sound: false,
+      SoundFile_url: "",
+      text: "",
+      text_Id: "",
+      AID: "",
+    };
     this.soundPlayer = this.soundPlayer.bind(this);
+    this.sendResponseYes = this.sendResponseYes.bind(this);
+    this.sendResponseNo = this.sendResponseNo.bind(this);
   }
 
   soundPlayer() {
     this.setState(state => ({
       sound: !state.sound,
     }));
+    document.getElementById("play").classList.toggle("active");
+    document.getElementById("stop").classList.toggle("active");
   }
 
   componentWillMount() {
-    fetch("http://10.2.132.211:5000/", {
+    // fetch("http://10.2.132.211:5000/test2", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body:JSON.stringify({TID:"hi"})
+    // })
+    //   .then(res => {
+    //     return res.json();
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //     this.setState({
+    //       text: data,
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // fetch("http://10.2.138.219:5000/showTextSnippet", {
+    //   method: "GET",
+    // })
+    //   .then(res => {
+    //     return res.json();
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //     this.setState({
+    //       text: data[0][1],
+    //       text_Id:data[0][0],
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+
+    // fetch("http://10.2.138.219:5000/sendText", {
+    //   method: "GET",
+    // })
+    //   .then(res => {
+    //     return res.json();
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //     this.setState({
+    //       text: data[0][0],
+    //       AID: data[0][1],
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+
+    fetch("http://10.2.138.219:5000/sendAudio2", {
       method: "POST",
-      mode: "no-cors",
-      headers: new Headers({
+      headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
-      }),
-    }).then(res => {
-        console.log(res);
+      },
+    })
+      .then(res => {
+        if (!res.ok) throw new Error(`${res.status} = ${res.statusText}`);
+        var reader = res.body.getReader();
+        return reader.read().then(result => {
+          return result;
+        });
+      })
+      .then(response => {
+        console.log(response.value);
+        var blob = new Blob([response.value], { type: "audio/mp3" });
+        var url = window.URL.createObjectURL(blob);
+        this.setState({
+          SoundFile_url: url,
+        });
+        // window.audio = new Audio();
+        // window.audio.src = url;
+        // window.audio.play();
+      })
+      .catch(error => {
+        this.setState({
+          error: error.message,
+        });
+      });
+  }
+
+  sendResponseYes() {
+    fetch("http://10.2.138.219:5000/review", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ response: "YES", AID: this.state.AID }),
+    })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  sendResponseNo() {
+    fetch("http://10.2.138.219:5000/review", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ response: "NO", AID: this.state.AID }),
+    })
+      .then(data => {
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -68,13 +179,13 @@ class Listen extends Component {
               </svg>
               <p> did they accurately speak the sentence?</p>
             </div>
-            <Text />
+            <Text text={this.state.text} />
 
             <div className="review-step">
               <Container className="max-border">
                 <Row className="max-border">
                   <Col sm={5} xs={5}>
-                    <div className="up-vote">
+                    <div className="up-vote" onClick={this.sendResponseYes}>
                       <i className="far fa-thumbs-up" />
                       <span>Yes</span>
                     </div>
@@ -85,11 +196,12 @@ class Listen extends Component {
                       onClick={this.soundPlayer}
                       className="video-play-button2"
                     >
-                      <span />
+                      <span id="play" className="play-toggle active" />
+                      <div id="stop" className="stop active" />
                     </button>
                   </Col>
                   <Col sm={5} xs={5}>
-                    <div className="down-vote">
+                    <div className="down-vote" onClick={this.sendResponseNo}>
                       <i className="far fa-thumbs-down" />
                       <span>No</span>
                     </div>
@@ -101,10 +213,11 @@ class Listen extends Component {
           <Col xs={1} />
         </Row>
         <Sound
-          url={SoundFile}
+          url={this.state.SoundFile_url}
           playStatus={
             this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
           }
+          onFinishedPlaying={this.soundPlayer}
         />
         <canvas ref="canvas" id="waves" />
       </Container>

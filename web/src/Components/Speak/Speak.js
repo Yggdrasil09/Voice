@@ -11,7 +11,11 @@ class Speak extends Component {
     super(props);
     this.state = {
       record: false,
+      text: "",
+      textId:null,
+      playing:false,
     };
+    this.onStop = this.onStop.bind(this)
   }
 
   startRecording = () => {
@@ -19,6 +23,15 @@ class Speak extends Component {
       record: true,
     });
   };
+
+  play = () =>{
+    document.getElementById('mic').classList.toggle("active");
+    document.getElementById('pause').classList.toggle("active");
+    this.state.playing?this.stopRecording():this.startRecording();
+    this.setState({
+      playing:!this.state.playing,
+    })
+  }
 
   stopRecording = () => {
     this.setState({
@@ -32,36 +45,55 @@ class Speak extends Component {
 
   onStop(recordedBlob) {
     console.log("recordedBlob is: ", recordedBlob.blob);
-    fetch("http://10.2.132.211:5000/test", {
+    fetch("http://10.2.138.219:5000/getSnippetId", {
       method: "POST",
-      mode: "no-cors",
-      body:recordedBlob.blob
-    }).then(res => {
-        console.log(res);
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({TID:this.state.textId}),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    fetch("http://10.2.138.219:5000/saveAudio", {
+      method: "POST",
+      // mode: "no-cors",
+      body: recordedBlob.blob,
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
       });
   }
 
-  componentDidMount()
-  {
-    fetch('http://10.2.132.211:5000/test1',{
-      method:"GET",
-      headers: {
-        // 'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      mode:'no-cors',
-    }).then(response => {
-      return response.json()
+  componentDidMount() {
+    fetch("http://10.2.138.219:5000/showTextSnippet", {
+      method: "GET",
     })
-    .then(data => {
-      console.log(data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        this.setState({
+          text: data[0][1],
+          textId:data[0][0],
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -77,7 +109,7 @@ class Speak extends Component {
         <Row>
           <Col xs={1} />
           <Col xs={10} className="display">
-            <Text />
+            <Text text={this.state.text} />
           </Col>
           <Col xs={1} />
         </Row>
@@ -89,8 +121,10 @@ class Speak extends Component {
                 <button
                   type="button"
                   className="video-play-button1 video-play-mic"
+                  onClick={this.play}
                 >
-                  <i className="material-icons">mic_none</i>
+                  <i id="mic" className="material-icons active">mic_none</i>
+                  <i id="pause" className="material-icons active">pause</i>
                 </button>
               </Col>
               <Col sm={5} xs={5} />
