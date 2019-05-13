@@ -6,9 +6,6 @@ import {
   MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBModalFooter,
-  MDBIcon,
-  MDBCardHeader,
   MDBBtn,
   MDBInput
 } from "mdbreact";
@@ -48,22 +45,46 @@ class SignUp extends Component {
   }
 
   handlefnameChange(event) {
-    this.state.formData.fname = event.target.value;
+    this.setState({
+      formData:{
+        fname:event.target.value,
+      }
+    })
   }
   handlelnameChange(event) {
-    this.state.formData.lname = event.target.value;
+    this.setState({
+      formData:{
+        lname:event.target.value,
+      }
+    })
   }
   handleemailChange(event) {
-    this.state.formData.email = event.target.value;
+    this.setState({
+      formData:{
+        email:event.target.value,
+      }
+    })
   }
   handlemobileChange(event) {
-    this.state.formData.mobile = event.target.value;
+    this.setState({
+      formData:{
+        mobile:event.target.value,
+      }
+    })
   }
   handlepasswordChange(event) {
-    this.state.formData.password = event.target.value;
+    this.setState({
+      formData:{
+        password:event.target.value,
+      }
+    })
   }
   handlepaymentChange(event) {
-    this.state.formData.payment = event.target.value;
+    this.setState({
+      formData:{
+        payment:event.target.value,
+      }
+    })
   }
 
 

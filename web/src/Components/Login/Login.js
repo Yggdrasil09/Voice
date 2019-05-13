@@ -6,7 +6,6 @@ import {
   MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBModalFooter,
   MDBIcon,
   MDBCardHeader,
   MDBBtn,
@@ -40,11 +39,16 @@ class Login extends Component {
   }
 
   handleemailChange(event) {
-    this.state.formData.email = event.target.value;
-    // console.log(this.state.formData.email)
+    this.setState({
+      formData:{email:event.target.value}
+    })
   }
   handlepasswordChange(event) {
-    this.state.formData.password = event.target.value;
+    this.setState({
+      formData:{
+        password:event.target.value
+      }
+    })
   }
 
 
@@ -94,7 +98,6 @@ class Login extends Component {
             <h2>
               Login.
             </h2>
-             // This has been printed using conditional rendering.
           </div>
         }
         </MDBCardBody>
