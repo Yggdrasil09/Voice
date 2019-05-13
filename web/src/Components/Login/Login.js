@@ -55,19 +55,17 @@ class Login extends Component {
   render() {
 
     return (
-      <div className="App">
+      <div className="App1">
       <MDBContainer className = "mb-4">
         <span className = "align-middle">
         <MDBRow>
         <MDBCol md ="5">
         <MDBCard>
           <MDBCardBody>
-            <MDBCardHeader className="form-header deep-blue-gradient rounded">
               <h4 className="mt-3" >
                <p className="text-center"> <MDBIcon icon="lock" > Login
                   </MDBIcon></p>
               </h4>
-            </MDBCardHeader>
           <form>
             <div className = "grey-text">
                 <MDBInput 
