@@ -12,10 +12,10 @@ class Speak extends Component {
     this.state = {
       record: false,
       text: "",
-      textId:null,
-      playing:false,
+      textId: null,
+      playing: false,
     };
-    this.onStop = this.onStop.bind(this)
+    this.onStop = this.onStop.bind(this);
   }
 
   startRecording = () => {
@@ -24,14 +24,14 @@ class Speak extends Component {
     });
   };
 
-  play = () =>{
-    document.getElementById('mic').classList.toggle("active");
-    document.getElementById('pause').classList.toggle("active");
-    this.state.playing?this.stopRecording():this.startRecording();
+  play = () => {
+    document.getElementById("mic").classList.toggle("active");
+    document.getElementById("pause").classList.toggle("active");
+    this.state.playing ? this.stopRecording() : this.startRecording();
     this.setState({
-      playing:!this.state.playing,
-    })
-  }
+      playing: !this.state.playing,
+    });
+  };
 
   stopRecording = () => {
     this.setState({
@@ -45,12 +45,12 @@ class Speak extends Component {
 
   onStop(recordedBlob) {
     console.log("recordedBlob is: ", recordedBlob.blob);
-    fetch("http://10.2.138.219:5000/getSnippetId", {
+    fetch("http://10.2.135.75:5000/getSnippetId", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({TID:this.state.textId}),
+      body: JSON.stringify({ TID: this.state.textId }),
     })
       .then(res => {
         return res.json();
@@ -61,7 +61,7 @@ class Speak extends Component {
       .catch(err => {
         console.log(err);
       });
-    fetch("http://10.2.138.219:5000/saveAudio", {
+    fetch("http://10.2.135.75:5000/saveAudio", {
       method: "POST",
       // mode: "no-cors",
       body: recordedBlob.blob,
@@ -78,7 +78,7 @@ class Speak extends Component {
   }
 
   componentDidMount() {
-    fetch("http://10.2.138.219:5000/showTextSnippet", {
+    fetch("http://10.2.135.75:5000/displayText", {
       method: "GET",
     })
       .then(res => {
@@ -88,7 +88,7 @@ class Speak extends Component {
         console.log(data);
         this.setState({
           text: data[0][1],
-          textId:data[0][0],
+          textId: data[0][0],
         });
       })
       .catch(err => {
@@ -123,8 +123,12 @@ class Speak extends Component {
                   className="video-play-button1 video-play-mic"
                   onClick={this.play}
                 >
-                  <i id="mic" className="material-icons active">mic_none</i>
-                  <i id="pause" className="material-icons active">pause</i>
+                  <i id="mic" className="material-icons active">
+                    mic_none
+                  </i>
+                  <i id="pause" className="material-icons active">
+                    pause
+                  </i>
                 </button>
               </Col>
               <Col sm={5} xs={5} />

@@ -31,92 +31,45 @@ class Listen extends Component {
   }
 
   componentWillMount() {
-    // fetch("http://10.2.132.211:5000/test2", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body:JSON.stringify({TID:"hi"})
-    // })
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //     this.setState({
-    //       text: data,
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    // fetch("http://10.2.138.219:5000/showTextSnippet", {
-    //   method: "GET",
-    // })
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //     this.setState({
-    //       text: data[0][1],
-    //       text_Id:data[0][0],
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-
-    // fetch("http://10.2.138.219:5000/sendText", {
-    //   method: "GET",
-    // })
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //     this.setState({
-    //       text: data[0][0],
-    //       AID: data[0][1],
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-
-    fetch("http://10.2.138.219:5000/sendAudio2", {
+    fetch("http://10.2.135.75:5000/sendAudio", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then(res => {
-        if (!res.ok) throw new Error(`${res.status} = ${res.statusText}`);
-        var reader = res.body.getReader();
-        return reader.read().then(result => {
-          return result;
-        });
+        return res.json();
       })
-      .then(response => {
-        console.log(response.value);
-        var blob = new Blob([response.value], { type: "audio/mp3" });
-        var url = window.URL.createObjectURL(blob);
+      .then(data => {
+        console.log(data)
         this.setState({
-          SoundFile_url: url,
+          SoundFile_url:"http://10.2.135.75:5000/static/audio_files/" + data.file,
         });
-        // window.audio = new Audio();
-        // window.audio.src = url;
-        // window.audio.play();
+        console.log(this.state.SoundFile_url)
+        fetch("http://10.2.135.75:5000/displayTextReview", {
+          method: "GET",
+        })
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+            this.setState({
+              text: data.data[0][0],
+              AID: data.a_id,
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
-      .catch(error => {
-        this.setState({
-          error: error.message,
-        });
+      .catch(err => {
+        console.log(err);
       });
   }
 
   sendResponseYes() {
-    fetch("http://10.2.138.219:5000/review", {
+    fetch("http://10.2.135.75:5000/review", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +85,7 @@ class Listen extends Component {
   }
 
   sendResponseNo() {
-    fetch("http://10.2.138.219:5000/review", {
+    fetch("http://10.2.135.75:5000/review", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -187,7 +140,7 @@ class Listen extends Component {
                   <Col sm={5} xs={5}>
                     <div className="up-vote" onClick={this.sendResponseYes}>
                       <i className="far fa-thumbs-up" />
-                      <span>Yes</span>
+          
                     </div>
                   </Col>
                   <Col sm={2} xs={2}>
@@ -203,7 +156,7 @@ class Listen extends Component {
                   <Col sm={5} xs={5}>
                     <div className="down-vote" onClick={this.sendResponseNo}>
                       <i className="far fa-thumbs-down" />
-                      <span>No</span>
+                      
                     </div>
                   </Col>
                 </Row>

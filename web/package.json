@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "eslint": "5.16.0",
+    "ftp-client": "^0.2.2",
     "mdbreact": "^4.13.0",
     "prettier": "^1.17.0",
     "react": "^16.8.6",

@@ -64,26 +64,25 @@
 .up-vote i,
 .down-vote i {
   display: inline-block;
-  margin-left: -6vw;
   font-size: 5vh;
 }
 
 .up-vote i {
-  margin-top: 2vh;
+  margin-top: 1.3rem;
 }
 
 .up-vote {
-  right:0;
+  right: 3rem;
 }
 
 .down-vote {
-  left:0;
+  left: 3rem;
 }
 
 .up-vote:hover {
   transition: 0.5s;
   color: white;
-  background-color: #45fad9;
+  background-color: #73c294;
 }
 
 .down-vote:hover {
@@ -93,30 +92,21 @@
 }
 
 .down-vote i {
-  margin-top: 2vh;
+  margin-top: 1.3rem;
 }
 
 .up-vote,
 .down-vote {
-  color:rgb(87, 80, 80);
+  color: rgb(87, 80, 80);
   cursor: pointer;
   margin-top: -5vh;
   position: absolute;
   border: solid 1px rgb(202, 202, 202);
   box-shadow: 0px 0px 15px 2px rgb(216, 216, 216);
   border-radius: 5rem;
-  width: 12vw;
-  height: 10vh;
+  width: 5rem;
+  height: 4.75rem;
   border-radius: 1;
-}
-
-.up-vote span,
-.down-vote span {
-  position: absolute;
-  margin-top: 2vh;
-  padding-left: 3vw;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.5rem;
 }
 
 .review-step {
@@ -176,4 +166,8 @@
   border-top: 20px solid transparent;
   border-bottom: 22px solid transparent;
   transition: 700ms;
+}
+
+@media (min-width: 300px) and (max-width: 575.98px) {
+  
 }
