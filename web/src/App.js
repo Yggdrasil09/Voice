@@ -5,8 +5,9 @@ import Header from "./Components/Header/Header";
 import List from "./Components/List/List";
 import Listen from "./Components/Listen/Listen";
 import Speak from './Components/Speak/Speak';
-import SignUp from './Components/Login/SignUp';
+import Campaign from './Components/Campaign/Campaign';
 import Login from './Components/Login/Login';
+import SignUp from './Components/Login/SignUp';
 
 function App() {
   return (
@@ -15,12 +16,12 @@ function App() {
         <Header />
       </div>
       <Switch>
-        <Route path="/" component={List} exact/>
-        <Route path="/listen" component={Listen}/>
-        <Route path="/speak" component={Speak} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/login" component={Login} />
-
+        <Route path="/" component={Campaign} exact/>
+        <Route path="/tasks" component={List} exact/>
+        <Route path="/listen" component={Listen} exact/>
+        <Route path="/speak" component={Speak} exact/>
+        <Route path="/login" component={Login} exact/>
+        <Route path="/signup" component={SignUp} exact/>
       </Switch>
     </BrowserRouter>
   );

@@ -1,0 +1,17 @@
+.contain-height{
+    max-width:100%!important;
+}
+
+.event-head{
+    margin:5vh 0 5vh 5vw ;
+    color:rgb(73, 71, 71);
+    font-family:"Open Sans";
+    font-size:3.5rem;
+    padding-bottom:1rem;
+    border-bottom:2px solid rgb(110, 110, 110,0.4)
+}
+
+.campaigns{
+    margin-left:auto;
+    margin-right:auto;
+}

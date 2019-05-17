@@ -11,11 +11,10 @@ class Header extends Component {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="Contribute">Contribute</Nav.Link>
-            <Nav.Link href="languages">languages</Nav.Link>
+            <Nav.Link href="languages">Languages</Nav.Link>
+            <Nav.Link href="tasks">Tasks</Nav.Link>
             <Nav.Link href="login">Login</Nav.Link>
-
             <Nav.Link href="signup">SignUp</Nav.Link>
-
           </Nav>
         </Navbar.Collapse>
       </Navbar>

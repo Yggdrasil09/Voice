@@ -1,0 +1,25 @@
+.form-login {
+  margin-top: 8vh;
+  border: 2px solid rgb(206, 202, 202);
+  border-radius: 1rem;
+  padding: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30rem;
+}
+
+.form-signup {
+  margin-top: 5vh;
+  border: 2px solid rgb(206, 202, 202);
+  border-radius: 1rem;
+  padding: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30rem;
+}
+
+@media (max-width: 575.98px) {
+  .form-signup ,.form-login{
+    width: 90vw;
+  }
+}
