@@ -15,6 +15,7 @@ class Header extends Component {
             <Nav.Link href="tasks">Tasks</Nav.Link>
             <Nav.Link href="login">Login</Nav.Link>
             <Nav.Link href="signup">SignUp</Nav.Link>
+            <Nav.Link href="createcampaign">Create campaign</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

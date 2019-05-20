@@ -3,7 +3,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
 
-// import SoundTemp from '../../sound/SampleAudio_0.4mb.mp3'
 import Text from "../Text/Text";
 import "./Listen.css";
 

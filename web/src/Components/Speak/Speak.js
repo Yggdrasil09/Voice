@@ -111,7 +111,35 @@ class Speak extends Component {
           <Col xs={10} className="display">
             <Text text={this.state.text} />
           </Col>
-          <Col xs={1} />
+          <Col xs={1}>
+            <div className="no-of-tasks">
+              <p>
+                <span>5/5</span>Clips
+              </p>
+            </div>
+            <div className="taskmarking">
+              <p className="activespeak">
+                <i className="material-icons speakicon">mic_none</i>
+                <div className="taskno">1</div>
+              </p>
+              <p className="activespeak">
+                <i className="material-icons speakicon">mic_none</i>
+                <div className="taskno">2</div>
+              </p>
+              <p className="activespeak">
+                <i className="material-icons speakicon">mic_none</i>
+                <div className="taskno">3</div>
+              </p>
+              <p className="activespeak">
+                <i className="material-icons speakicon">mic_none</i>
+                <div className="taskno">4</div>
+              </p>
+              <p className="activespeak">
+                <i className="material-icons speakicon">mic_none</i>
+                <div className="taskno">5</div>
+              </p>
+            </div>
+          </Col>
         </Row>
         <div className="review-step">
           <Container className="max-border">

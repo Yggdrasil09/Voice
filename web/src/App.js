@@ -8,6 +8,7 @@ import Speak from './Components/Speak/Speak';
 import Campaign from './Components/Campaign/Campaign';
 import Login from './Components/Login/Login';
 import SignUp from './Components/Login/SignUp';
+import CreateCampaign from './Components/CreateCampaign/CreateCampaign';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/speak" component={Speak} exact/>
         <Route path="/login" component={Login} exact/>
         <Route path="/signup" component={SignUp} exact/>
+        <Route path="/createcampaign" component={CreateCampaign} exact/>
       </Switch>
     </BrowserRouter>
   );
