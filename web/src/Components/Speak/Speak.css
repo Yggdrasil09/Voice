@@ -95,9 +95,10 @@ i#mic.active{
 }
 
 .activespeak{
-  height:7vh;
-  width:auto;
+  width:6rem;
+  height:2.75rem;
   border:1px solid rgb(187, 187, 187);
+  box-shadow:0 0 10px 1px rgb(196, 196, 196);
   border-radius:2rem;
 }
 
@@ -106,13 +107,38 @@ i#mic.active{
   left:5px;
   position:relative;
   font-size:2.5rem;
+  visibility:visible;
+}
+
+.no-of-tasks{
+  font-family: "Zilla Slab", serif;
+  font-size:1.5rem;
 }
 
 .taskno{
+  width:36px;
+  height:36px;
+  border-radius:18px;
+  text-align:center;
   font-size:1.5rem;
+  background:rgb(201, 196, 196);
   font-family: "Zilla Slab", serif;
-  display:inline;
-  top:-10px;
+  display:inline-block;
+  top:-11px;
   left:10px;
   position:relative;
+}
+
+.speakicon.active{
+  visibility:hidden;
+}
+
+.activespeak.active{
+  border:0px;
+  box-shadow:0 0 0 0 ;
+  border-radius:0rem;
+}
+
+.taskno.active{
+  background:white;
 }

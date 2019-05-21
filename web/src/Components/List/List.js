@@ -4,6 +4,7 @@ import { Container, Row } from "react-bootstrap";
 import "./List.css";
 import ListenTask from "../Tasks/ListenTask";
 import SpeakTask from "../Tasks/SpeakTask";
+import TranscribeTask from "../Tasks/TranscribeTask";
 
 class List extends Component {
   render() {
@@ -12,6 +13,7 @@ class List extends Component {
         <Row>
           <h2 className="Tasks">ToDo</h2>
         </Row>
+        <TranscribeTask/>
         <ListenTask />
         <SpeakTask />
         <Row>

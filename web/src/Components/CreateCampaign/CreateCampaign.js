@@ -6,8 +6,8 @@ class CreateCampaign extends Component {
     super();
     this.state = {
       campaignName: "",
-      languageType: "",
-      textType:"",
+      languageType: 1,
+      textType: "",
       paid: false,
       locked: false,
       amountForTask: null,
@@ -17,7 +17,8 @@ class CreateCampaign extends Component {
       totalTranscribe: null,
       timer: null,
       duration: null,
-      campaignStatus: null,
+      campaignStatus: 1,
+      description : "",
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,19 +33,20 @@ class CreateCampaign extends Component {
     e.preventDefault();
     console.log(this.state);
     const data = {
-      campaign_name : this.state.campaignName,
-      p_lang_id : this.state.languageType,
-      p_text_type : this.state.textType,
-      p_paid : this.state.paid?1:0,
-      p_limit_tasks : this.state.limitOnTask,
-      p_amount : this.state.amountForTask,
-      p_total_tasks_speak : this.state.totalSpeak,
-      p_total_tasks_listen : this.state.totalListen,
-      p_total_tasks_transcribe : this.state.totalTranscribe,
-      p_timer : this.state.timer,
-      p_ends_in : this.state.duration,
-      p_locked : this.state.locked?1:0,
-    }
+      campaign_name: this.state.campaignName,
+      p_lang_id: this.state.languageType,
+      p_text_type: this.state.textType,
+      p_paid: this.state.paid ? "yes" : "no",
+      p_limit_tasks: this.state.limitOnTask,
+      p_amount: this.state.amountForTask,
+      p_total_tasks_speak: this.state.totalSpeak,
+      p_total_tasks_listen: this.state.totalListen,
+      p_total_tasks_transcribe: this.state.totalTranscribe,
+      p_timer: this.state.timer,
+      p_ends_in: this.state.duration,
+      p_locked: this.state.locked ? 1 : 0,
+      campaign_description : this.state.description,
+    };
     fetch("http://10.2.135.75:5000/campaignCreate", {
       method: "POST",
       body: JSON.stringify(data),
@@ -89,8 +91,6 @@ class CreateCampaign extends Component {
     e.preventDefault();
     this.setState({
       campaignStatus: e.target.value,
-      p_lang_id : this.state.languageType,
-
     });
   }
 
@@ -136,6 +136,11 @@ class CreateCampaign extends Component {
         duration: e.target.value,
       });
     }
+    if (e.target.name === "description") {
+      this.setState({
+        description: e.target.value,
+      });
+    }
   }
 
   render() {
@@ -171,7 +176,7 @@ class CreateCampaign extends Component {
                     placeholder="Select Language"
                     onChange={this.handleTextType}
                   >
-                    <option value="corpus_snippet">Corpus Snippet</option>
+                    <option value="corpus_snip">Corpus Snippet</option>
                     <option value="JAM">JAM</option>
                     <option value="QA">QA</option>
                   </Form.Control>
@@ -239,6 +244,10 @@ class CreateCampaign extends Component {
                     name="duration"
                     onChange={this.handleValueChange}
                   />
+                </Form.Group>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>Campaign Description</Form.Label>
+                  <Form.Control as="textarea" rows="3" name="description" onChange={this.handleValueChange}/>
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Label>Campaign status</Form.Label>

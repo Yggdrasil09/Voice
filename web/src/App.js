@@ -9,6 +9,7 @@ import Campaign from './Components/Campaign/Campaign';
 import Login from './Components/Login/Login';
 import SignUp from './Components/Login/SignUp';
 import CreateCampaign from './Components/CreateCampaign/CreateCampaign';
+import Transcribe from './Components/Transcribe/Transcribe';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" component={Login} exact/>
         <Route path="/signup" component={SignUp} exact/>
         <Route path="/createcampaign" component={CreateCampaign} exact/>
+        <Route path="/Transcribe" component={Transcribe} exact/>
       </Switch>
     </BrowserRouter>
   );

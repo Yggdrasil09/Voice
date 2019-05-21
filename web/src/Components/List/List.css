@@ -177,6 +177,29 @@
   background-position-y: 40%;
 }
 
+.transcribe-task {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../../img/wave2.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 0;
+  background-position-y: 20%;
+  transition: 1s;
+}
+
+.transcribe-task:hover {
+  background: url("../../img/wave2.svg");
+  animation: pulse-border 700ms ease-out;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: 0;
+  background-position-y: 40%;
+}
+
+
 .speak-task {
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),

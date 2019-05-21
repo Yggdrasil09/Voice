@@ -168,6 +168,46 @@
   transition: 700ms;
 }
 
-@media (min-width: 300px) and (max-width: 575.98px) {
-  
+.listenicon{
+  color:#59cbb7;
+  left:10px;
+  top:1px;
+  position:relative;
+  font-size:2rem;
+  visibility:visible;
+}
+
+.listenicon.active{
+  visibility:hidden;
+}
+
+.activelisten{
+  width:6rem;
+  height:2.75rem;
+  border:1px solid rgb(187, 187, 187);
+  box-shadow:0 0 10px 1px rgb(196, 196, 196);
+  border-radius:2rem;
+}
+
+.activelisten.active{
+  border:0px;
+  box-shadow:0 0 0 0 ;
+  border-radius:0rem;
+}
+
+.listenno{
+  width:36px;
+  height:36px;
+  border-radius:18px;
+  text-align:center;
+  font-size:1.5rem;
+  background:rgb(201, 196, 196);
+  font-family: "Zilla Slab", serif;
+  display:inline-block;
+  left:15px;
+  position:relative;
+}
+
+.listenno.active{
+  background:white;
 }
