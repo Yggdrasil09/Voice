@@ -5,9 +5,24 @@ import { Card, Badge, Button, Nav } from "react-bootstrap";
 import "./Campaign.css";
 
 class Campaign extends Component {
+  componentWillMount() {
+    fetch("http://10.2.135.75:5000/displayCampaign", {
+      method: "GET",
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(er => {
+        console.log(er);
+      });
+  }
+
   render() {
     return (
-      <Card >
+      <Card>
         <Card.Header>
           <Nav variant="tabs" defaultActiveKey="#active">
             <Nav.Item>
@@ -21,8 +36,10 @@ class Campaign extends Component {
             </Nav.Item>
           </Nav>
         </Card.Header>
-        <Container className="contain-height" >
-          <h1 id="active" className="event-head">Active Campaigns</h1>
+        <Container className="contain-height">
+          <h1 id="active" className="event-head">
+            Active Campaigns
+          </h1>
           <Row>
             <Col sm={6} lg={4}>
               <Card className="campaigns" style={{ width: "18rem" }}>
@@ -84,8 +101,10 @@ class Campaign extends Component {
               </Card>
             </Col>
           </Row>
-          <h1 id="upcoming" className="event-head">Upcoming Campaigns</h1>
-          <Row >
+          <h1 id="upcoming" className="event-head">
+            Upcoming Campaigns
+          </h1>
+          <Row>
             <Col sm={6} lg={4}>
               <Card className="campaigns" style={{ width: "18rem" }}>
                 <Card.Img
@@ -146,7 +165,9 @@ class Campaign extends Component {
               </Card>
             </Col>
           </Row>
-          <h1 id="past" className="event-head">Past Campaigns</h1>
+          <h1 id="past" className="event-head">
+            Past Campaigns
+          </h1>
           <Row>
             <Col sm={6} lg={4}>
               <Card className="campaigns" style={{ width: "18rem" }}>

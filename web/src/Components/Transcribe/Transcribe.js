@@ -1,16 +1,37 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Modal, Button } from "react-bootstrap";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import Sound from "react-sound";
 
-import Text from "../Text/Text";
+import './Transcribe.css'
 
 class Transcribe extends Component {
-  constructor(){
-    super()
-    this.state={
-      text:"",
-    }
+  constructor() {
+    super();
+    this.state = {
+      text: "",
+      sound: false,
+      SoundFile_url: "",
+    };
+    this.soundPlayer = this.soundPlayer.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
   }
+
+  handleValueChange(e) {
+    e.preventDefault();
+    this.setState({
+      text: e.target.value,
+    });
+  }
+
+  soundPlayer() {
+    this.setState(state => ({
+      sound: !state.sound,
+    }));
+    document.getElementById("play").classList.toggle("active");
+    document.getElementById("stop").classList.toggle("active");
+  }
+
   render() {
     return (
       <Container className="max-border">
@@ -41,16 +62,27 @@ class Transcribe extends Component {
                   </g>
                 </g>
               </svg>
-              <p> did they accurately speak the sentence?</p>
+              <p>, Transcribe the speech to text</p>
             </div>
-            <Text text={this.state.text} />
+            <div className="text-container">
+              <Form>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Control
+                    as="textarea"
+                    placeholder="Enter transcribed text here ..."
+                    className="textinput"
+                    onChange={this.handleValueChange}
+                  />
+                </Form.Group>
+              </Form>
+            </div>
 
             <div className="review-step">
               <Container className="max-border">
                 <Row className="max-border">
                   <Col sm={5} xs={5}>
-                    <div className="up-vote" onClick={this.sendResponseYes}>
-                      <i className="far fa-thumbs-up" />
+                    <div className="submit" onClick={this.sendResponseYes}>
+                      <h5>Submit</h5>
                     </div>
                   </Col>
                   <Col sm={2} xs={2}>
@@ -63,11 +95,7 @@ class Transcribe extends Component {
                       <div id="stop" className="stop active" />
                     </button>
                   </Col>
-                  <Col sm={5} xs={5}>
-                    <div className="down-vote" onClick={this.sendResponseNo}>
-                      <i className="far fa-thumbs-down" />
-                    </div>
-                  </Col>
+                  <Col sm={5} xs={5} />
                 </Row>
               </Container>
             </div>
@@ -102,6 +130,13 @@ class Transcribe extends Component {
             </div>
           </Col>
         </Row>
+        <Sound
+          url={this.state.SoundFile_url}
+          playStatus={
+            this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
+          }
+          onFinishedPlaying={this.soundPlayer}
+        />
       </Container>
     );
   }

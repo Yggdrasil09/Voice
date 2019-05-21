@@ -268,7 +268,6 @@ class Listen extends Component {
           }
           onFinishedPlaying={this.soundPlayer}
         />
-        <canvas ref="canvas" id="waves" />
       </Container>
     );
   }

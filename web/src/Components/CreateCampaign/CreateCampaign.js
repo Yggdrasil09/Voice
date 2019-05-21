@@ -7,7 +7,7 @@ class CreateCampaign extends Component {
     this.state = {
       campaignName: "",
       languageType: 1,
-      textType: "",
+      textType: "corpus_snip",
       paid: false,
       locked: false,
       amountForTask: null,
@@ -33,7 +33,7 @@ class CreateCampaign extends Component {
     e.preventDefault();
     console.log(this.state);
     const data = {
-      campaign_name: this.state.campaignName,
+      p_campaign_name: this.state.campaignName,
       p_lang_id: this.state.languageType,
       p_text_type: this.state.textType,
       p_paid: this.state.paid ? "yes" : "no",
@@ -45,7 +45,8 @@ class CreateCampaign extends Component {
       p_timer: this.state.timer,
       p_ends_in: this.state.duration,
       p_locked: this.state.locked ? 1 : 0,
-      campaign_description : this.state.description,
+      p_campaign_description : this.state.description,
+      p_campaign_status : this.state.campaignStatus,
     };
     fetch("http://10.2.135.75:5000/campaignCreate", {
       method: "POST",
