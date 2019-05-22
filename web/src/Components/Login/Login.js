@@ -16,6 +16,18 @@ class Login extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    fetch("http://10.2.135.75:5000/validateLogin",{
+      method: "POST",
+      body : JSON.stringify(this.state)
+    }).then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data)
+      })
+      .catch(er => {
+        console.log(er);
+      });
   }
 
   handleValueChange(e) {

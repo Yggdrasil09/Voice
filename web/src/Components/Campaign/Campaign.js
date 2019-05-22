@@ -15,7 +15,7 @@ class Campaign extends Component {
   }
 
   componentWillMount() {
-    fetch("http://10.2.135.75:5000/displayCampaign", {
+    fetch("http://10.2.135.75:5000/displayCampaign",{
       method: "GET",
     })
       .then(res => {
@@ -53,14 +53,15 @@ class Campaign extends Component {
     let length = this.state.activeCampaigns.length;
     for (let i = 0; i < this.state.activeCampaigns.length; i++) {
       let col = [];
-      for (let j = 0; j < (length>3)?3:length; j++) {
+      let cols = (length>3)?3:length;
+      for (let j = 0; j < cols; j++) {
         col.push(
-          <Col sm={6} lg={4}>
+          <Col key={this.state.activeCampaigns[i][1]} sm={6} lg={4}>
             <Card className="campaigns" style={{ width: "18rem" }}>
               <Card.Img variant="top" src={require("../../img/campaign.png")} />
               <Card.Body>
                 <Card.Title>
-                  {this.state.activeCampaigns[i][0]}
+                  {this.state.activeCampaigns[i][0] +" "}
                   { this.state.activeCampaigns[i][5] === "yes" && <Badge pill variant="danger">
                     Paid
                   </Badge>}
@@ -80,7 +81,7 @@ class Campaign extends Component {
       }
       length -= 3;
       row.push(
-        <Row>{col}</Row>
+        <Row key={this.state.activeCampaigns[i][1]}>{col}</Row>
       )
     }
     return row;
@@ -91,14 +92,15 @@ class Campaign extends Component {
     let length = this.state.archiveCampaigns.length;
     for (let i = 0; i < this.state.archiveCampaigns.length; i++) {
       let col = [];
-      for (let j = 0; j < (length>3)?3:length; j++) {
+      let cols = (length>3)?3:length;
+      for (let j = 0; j < cols ;j++) {
         col.push(
-          <Col sm={6} lg={4}>
+          <Col key={this.state.archiveCampaigns[i][1]} sm={6} lg={4}>
             <Card className="campaigns" style={{ width: "18rem" }}>
               <Card.Img variant="top" src={require("../../img/campaign.png")} />
               <Card.Body>
                 <Card.Title>
-                  {this.state.archiveCampaigns[i][0]}
+                  {this.state.archiveCampaigns[i][0]+" "}
                   { this.state.archiveCampaigns[i][5] === "yes" && <Badge pill variant="danger">
                     Paid
                   </Badge>}
@@ -118,7 +120,7 @@ class Campaign extends Component {
       }
       length -= 3;
       row.push(
-        <Row>{col}</Row>
+        <Row key={this.state.archiveCampaigns[i][1]}>{col}</Row>
       )
     }
     return row;
@@ -129,14 +131,15 @@ class Campaign extends Component {
     let length = this.state.completeCampaigns.length;
     for (let i = 0; i < this.state.completeCampaigns.length; i++) {
       let col = [];
-      for (let j = 0; j < (length>3)?3:length; j++) {
+      let cols = (length>3)?3:length;
+      for (let j = 0; j < cols; j++) {
         col.push(
-          <Col sm={6} lg={4}>
+          <Col key={this.state.completeCampaigns[i][1]} sm={6} lg={4}>
             <Card className="campaigns" style={{ width: "18rem" }}>
               <Card.Img variant="top" src={require("../../img/campaign.png")} />
               <Card.Body>
                 <Card.Title>
-                  {this.state.completeCampaigns[i][0]}
+                  {this.state.completeCampaigns[i][0]+" "}
                   { this.state.completeCampaigns[i][5] === "yes" && <Badge pill variant="danger">
                     Paid
                   </Badge>}
@@ -156,7 +159,7 @@ class Campaign extends Component {
       }
       length -= 3;
       row.push(
-        <Row>{col}</Row>
+        <Row key={this.state.completeCampaigns[i][1]}>{col}</Row>
       )
     }
     return row;
