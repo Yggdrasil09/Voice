@@ -15,7 +15,7 @@ class Campaign extends Component {
   }
 
   componentWillMount() {
-    fetch("http://10.2.135.75:5000/displayCampaign",{
+    fetch("http://10.2.135.75:5000/displayCampaign", {
       method: "GET",
     })
       .then(res => {
@@ -50,117 +50,135 @@ class Campaign extends Component {
 
   createActive = () => {
     let row = [];
-    let length = this.state.activeCampaigns.length;
+    let col = [];
+    let length = 0;
+    
     for (let i = 0; i < this.state.activeCampaigns.length; i++) {
-      let col = [];
-      let cols = (length>3)?3:length;
-      for (let j = 0; j < cols; j++) {
-        col.push(
-          <Col key={this.state.activeCampaigns[i][1]} sm={6} lg={4}>
-            <Card className="campaigns" style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={require("../../img/campaign.png")} />
-              <Card.Body>
-                <Card.Title>
-                  {this.state.activeCampaigns[i][0] +" "}
-                  { this.state.activeCampaigns[i][5] === "yes" && <Badge pill variant="danger">
+      col.push(
+        <Col key={this.state.activeCampaigns[i][1]} sm={6} lg={4}>
+          <Card className="campaigns" style={{ width: "18rem" }}>
+            <Card.Img variant="top" src={require("../../img/campaign.png")} />
+            <Card.Body>
+              <Card.Title>
+                {this.state.activeCampaigns[i][0]}
+                {this.state.activeCampaigns[i][5] === "yes" && (
+                  <Badge pill variant="danger">
                     Paid
-                  </Badge>}
-                </Card.Title>
-                <Card.Subtitle>
-                {this.state.activeCampaigns[i][3]===1?("English"):(this.state.activeCampaigns[i][3]===2?("Hindi"):("Telugu"))}
-                </Card.Subtitle>
-                <Card.Text>
-                  {this.state.activeCampaigns[i][7]}
-                </Card.Text>
-                <Card.Text>Duration : {this.state.activeCampaigns[i][8]}hrs</Card.Text>
-                <Button variant="primary">Start Contest</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        );
+                  </Badge>
+                )}
+              </Card.Title>
+              <Card.Subtitle>
+                {this.state.activeCampaigns[i][3] === 1
+                  ? "English"
+                  : this.state.activeCampaigns[i][3] === 2
+                  ? "Hindi"
+                  : "Telugu"}
+              </Card.Subtitle>
+              <Card.Text>{this.state.activeCampaigns[i][7]}</Card.Text>
+              <Card.Text>
+                Duration : {this.state.activeCampaigns[i][8]}hrs
+              </Card.Text>
+              <Button variant="primary">Start Contest</Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+      length++;
+      if(length%3 === 0 || length === this.state.activeCampaigns.length)
+      {
+        row.push(<Row key={this.state.activeCampaigns[i][1]}>{col}</Row>);
+        col=[];
       }
-      length -= 3;
-      row.push(
-        <Row key={this.state.activeCampaigns[i][1]}>{col}</Row>
-      )
     }
     return row;
   };
 
-  createArchive(){
+  createArchive() {
     let row = [];
-    let length = this.state.archiveCampaigns.length;
+    let col = [];
+    let length = 0;
+    
     for (let i = 0; i < this.state.archiveCampaigns.length; i++) {
-      let col = [];
-      let cols = (length>3)?3:length;
-      for (let j = 0; j < cols ;j++) {
-        col.push(
-          <Col key={this.state.archiveCampaigns[i][1]} sm={6} lg={4}>
-            <Card className="campaigns" style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={require("../../img/campaign.png")} />
-              <Card.Body>
-                <Card.Title>
-                  {this.state.archiveCampaigns[i][0]+" "}
-                  { this.state.archiveCampaigns[i][5] === "yes" && <Badge pill variant="danger">
+      col.push(
+        <Col key={this.state.archiveCampaigns[i][1]} sm={6} lg={4}>
+          <Card className="campaigns" style={{ width: "18rem" }}>
+            <Card.Img variant="top" src={require("../../img/campaign.png")} />
+            <Card.Body>
+              <Card.Title>
+                {this.state.archiveCampaigns[i][0]}
+                {this.state.archiveCampaigns[i][5] === "yes" && (
+                  <Badge pill variant="danger">
                     Paid
-                  </Badge>}
-                </Card.Title>
-                <Card.Subtitle>
-                {this.state.archiveCampaigns[i][3]===1?("English"):(this.state.archiveCampaigns[i][3]===2?("Hindi"):("Telugu"))}
-                </Card.Subtitle>
-                <Card.Text>
-                  {this.state.archiveCampaigns[i][7]}
-                </Card.Text>
-                <Card.Text>Duration : {this.state.archiveCampaigns[i][8]}hrs</Card.Text>
-                <Button variant="primary">Start Contest</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        );
+                  </Badge>
+                )}
+              </Card.Title>
+              <Card.Subtitle>
+                {this.state.archiveCampaigns[i][3] === 1
+                  ? "English"
+                  : this.state.archiveCampaigns[i][3] === 2
+                  ? "Hindi"
+                  : "Telugu"}
+              </Card.Subtitle>
+              <Card.Text>{this.state.archiveCampaigns[i][7]}</Card.Text>
+              <Card.Text>
+                Duration : {this.state.archiveCampaigns[i][8]}hrs
+              </Card.Text>
+              <Button variant="primary">Start Contest</Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+      length++;
+      if(length%3 === 0 || length === this.state.archiveCampaigns.length)
+      {
+        row.push(<Row key={this.state.archiveCampaigns[i][1]}>{col}</Row>);
+        col=[];
       }
-      length -= 3;
-      row.push(
-        <Row key={this.state.archiveCampaigns[i][1]}>{col}</Row>
-      )
     }
     return row;
   }
 
-  createComplete(){
+  createComplete() {
     let row = [];
-    let length = this.state.completeCampaigns.length;
+    let col = [];
+    let length = 0;
+    
     for (let i = 0; i < this.state.completeCampaigns.length; i++) {
-      let col = [];
-      let cols = (length>3)?3:length;
-      for (let j = 0; j < cols; j++) {
-        col.push(
-          <Col key={this.state.completeCampaigns[i][1]} sm={6} lg={4}>
-            <Card className="campaigns" style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={require("../../img/campaign.png")} />
-              <Card.Body>
-                <Card.Title>
-                  {this.state.completeCampaigns[i][0]+" "}
-                  { this.state.completeCampaigns[i][5] === "yes" && <Badge pill variant="danger">
+      col.push(
+        <Col key={this.state.completeCampaigns[i][1]} sm={6} lg={4}>
+          <Card className="campaigns" style={{ width: "18rem" }}>
+            <Card.Img variant="top" src={require("../../img/campaign.png")} />
+            <Card.Body>
+              <Card.Title>
+                {this.state.completeCampaigns[i][0]}
+                {this.state.completeCampaigns[i][5] === "yes" && (
+                  <Badge pill variant="danger">
                     Paid
-                  </Badge>}
-                </Card.Title>
-                <Card.Subtitle>
-                {this.state.completeCampaigns[i][3]===1?("English"):(this.state.completeCampaigns[i][3]===2?("Hindi"):("Telugu"))}
-                </Card.Subtitle>
-                <Card.Text>
-                  {this.state.completeCampaigns[i][7]}
-                </Card.Text>
-                <Card.Text>Duration : {this.state.completeCampaigns[i][8]}hrs</Card.Text>
-                <Button variant="primary">Start Contest</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        );
+                  </Badge>
+                )}
+              </Card.Title>
+              <Card.Subtitle>
+                {this.state.completeCampaigns[i][3] === 1
+                  ? "English"
+                  : this.state.completeCampaigns[i][3] === 2
+                  ? "Hindi"
+                  : "Telugu"}
+              </Card.Subtitle>
+              <Card.Text>{this.state.completeCampaigns[i][7]}</Card.Text>
+              <Card.Text>
+                Duration : {this.state.completeCampaigns[i][8]}hrs
+              </Card.Text>
+              <Button variant="primary">Start Contest</Button>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+      length++;
+      if(length%3 === 0 || length === this.state.completeCampaigns.length)
+      {
+        row.push(<Row key={this.state.completeCampaigns[i][1]}>{col}</Row>);
+        col=[];
       }
-      length -= 3;
-      row.push(
-        <Row key={this.state.completeCampaigns[i][1]}>{col}</Row>
-      )
     }
     return row;
   }
