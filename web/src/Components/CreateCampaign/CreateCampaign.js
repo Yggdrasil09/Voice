@@ -18,7 +18,7 @@ class CreateCampaign extends Component {
       timer: null,
       duration: null,
       campaignStatus: 1,
-      description : "",
+      description: "",
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,8 +45,8 @@ class CreateCampaign extends Component {
       p_timer: this.state.timer,
       p_ends_in: this.state.duration,
       p_locked: this.state.locked ? 1 : 0,
-      p_campaign_description : this.state.description,
-      p_campaign_status : this.state.campaignStatus,
+      p_campaign_description: this.state.description,
+      p_campaign_status: this.state.campaignStatus,
     };
     fetch("http://10.2.135.75:5000/campaignCreate", {
       method: "POST",
@@ -54,6 +54,22 @@ class CreateCampaign extends Component {
     })
       .then(res => {
         console.log(res);
+        this.setState({
+          campaignName: "",
+          languageType: 1,
+          textType: "corpus_snip",
+          paid: false,
+          locked: false,
+          amountForTask: null,
+          limitOnTask: null,
+          totalSpeak: null,
+          totalListen: null,
+          totalTranscribe: null,
+          timer: null,
+          duration: null,
+          campaignStatus: 1,
+          description: "",
+        });
       })
       .catch(er => {
         console.log(er);
@@ -248,7 +264,12 @@ class CreateCampaign extends Component {
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                   <Form.Label>Campaign Description</Form.Label>
-                  <Form.Control as="textarea" rows="3" name="description" onChange={this.handleValueChange}/>
+                  <Form.Control
+                    as="textarea"
+                    rows="3"
+                    name="description"
+                    onChange={this.handleValueChange}
+                  />
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Label>Campaign status</Form.Label>

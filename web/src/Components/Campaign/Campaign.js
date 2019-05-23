@@ -1,17 +1,36 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Card, Badge, Button, Nav } from "react-bootstrap";
+import { Card, Badge, Button, Nav, Modal } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
+import * as campaignAction from '../../actions/campaignAction';
 
 import "./Campaign.css";
 
 class Campaign extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       activeCampaigns: [],
       archiveCampaigns: [],
       completeCampaigns: [],
+      show: false,
+      redirectLogin: false,
+      redirectSpeak: false,
+      redirectListen: false,
+      redirectTranscribe: false,
+      activeModalValue : [],
     };
+    this.handleClose = this.handleClose.bind(this);
+    this.handleModal = this.handleModal.bind(this);
+    this.handleSpeak = this.handleSpeak.bind(this);
+    this.handleListen = this.handleListen.bind(this);
+  }
+
+  handleClose() {
+    this.setState({
+      show: !this.state.show,
+    });
   }
 
   componentWillMount() {
@@ -48,11 +67,67 @@ class Campaign extends Component {
       });
   }
 
+  handleModal(value) {
+    this.setState({
+      show: !this.state.show,
+      activeModalValue : value
+    });
+    console.log(value);
+  }
+
+  handleSpeak() {
+    this.state.activeModalValue[5]==="yes"?(this.setState({
+      redirectLogin: true
+    })):(this.setState({
+      redirectSpeak: true
+    })); 
+    let campaign = {
+      campaignId : this.state.activeModalValue[1]
+    }
+    this.props.addCampaign(campaign);
+  }
+
+  handleListen() {
+    this.state.activeModalValue[5]==="yes"?(this.setState({
+      redirectLogin: true
+    })):(this.setState({
+      redirectListen: true
+    })); 
+    let campaign = {
+      campaignId : this.state.activeModalValue[1]
+    }
+    this.props.addCampaign(campaign);
+  }
+
+  renderRedirectLogin = () => {
+    if (this.state.redirectLogin) {
+      return <Redirect to='/login' />
+    }
+  }
+
+  renderRedirectSpeak = () => {
+    if (this.state.redirectSpeak) {
+      return <Redirect to='/speak' />
+    }
+  }
+
+  renderRedirectListen = () => {
+    if (this.state.redirectListen) {
+      return <Redirect to='/listen' />
+    }
+  }
+
+  renderRedirectTranscribe = () => {
+    if (this.state.redirectTranscribe) {
+      return <Redirect to='/Transcribe' />
+    }
+  }
+
   createActive = () => {
     let row = [];
     let col = [];
     let length = 0;
-    
+
     for (let i = 0; i < this.state.activeCampaigns.length; i++) {
       col.push(
         <Col key={this.state.activeCampaigns[i][1]} sm={6} lg={4}>
@@ -60,7 +135,7 @@ class Campaign extends Component {
             <Card.Img variant="top" src={require("../../img/campaign.png")} />
             <Card.Body>
               <Card.Title>
-                {this.state.activeCampaigns[i][0]}
+                {this.state.activeCampaigns[i][0] + " "}
                 {this.state.activeCampaigns[i][5] === "yes" && (
                   <Badge pill variant="danger">
                     Paid
@@ -76,18 +151,22 @@ class Campaign extends Component {
               </Card.Subtitle>
               <Card.Text>{this.state.activeCampaigns[i][7]}</Card.Text>
               <Card.Text>
-                Duration : {this.state.activeCampaigns[i][8]}hrs
+                Duration : {this.state.activeCampaigns[i][8]+" "}days
               </Card.Text>
-              <Button variant="primary">Start Contest</Button>
+              <Button
+                onClick={() => this.handleModal(this.state.activeCampaigns[i])}
+                variant="primary"
+              >
+                Start Contest
+              </Button>
             </Card.Body>
           </Card>
         </Col>
       );
       length++;
-      if(length%3 === 0 || length === this.state.activeCampaigns.length)
-      {
+      if (length % 3 === 0 || length === this.state.activeCampaigns.length) {
         row.push(<Row key={this.state.activeCampaigns[i][1]}>{col}</Row>);
-        col=[];
+        col = [];
       }
     }
     return row;
@@ -97,7 +176,7 @@ class Campaign extends Component {
     let row = [];
     let col = [];
     let length = 0;
-    
+
     for (let i = 0; i < this.state.archiveCampaigns.length; i++) {
       col.push(
         <Col key={this.state.archiveCampaigns[i][1]} sm={6} lg={4}>
@@ -105,7 +184,7 @@ class Campaign extends Component {
             <Card.Img variant="top" src={require("../../img/campaign.png")} />
             <Card.Body>
               <Card.Title>
-                {this.state.archiveCampaigns[i][0]}
+                {this.state.archiveCampaigns[i][0] + " "}
                 {this.state.archiveCampaigns[i][5] === "yes" && (
                   <Badge pill variant="danger">
                     Paid
@@ -121,18 +200,22 @@ class Campaign extends Component {
               </Card.Subtitle>
               <Card.Text>{this.state.archiveCampaigns[i][7]}</Card.Text>
               <Card.Text>
-                Duration : {this.state.archiveCampaigns[i][8]}hrs
+                Duration : {this.state.archiveCampaigns[i][8]+" "}days
               </Card.Text>
-              <Button variant="primary">Start Contest</Button>
+              <Button
+                onClick={() => this.handleModal(this.state.activeCampaigns[i])}
+                variant="primary"
+              >
+                Start Contest
+              </Button>
             </Card.Body>
           </Card>
         </Col>
       );
       length++;
-      if(length%3 === 0 || length === this.state.archiveCampaigns.length)
-      {
+      if (length % 3 === 0 || length === this.state.archiveCampaigns.length) {
         row.push(<Row key={this.state.archiveCampaigns[i][1]}>{col}</Row>);
-        col=[];
+        col = [];
       }
     }
     return row;
@@ -142,7 +225,7 @@ class Campaign extends Component {
     let row = [];
     let col = [];
     let length = 0;
-    
+
     for (let i = 0; i < this.state.completeCampaigns.length; i++) {
       col.push(
         <Col key={this.state.completeCampaigns[i][1]} sm={6} lg={4}>
@@ -150,7 +233,7 @@ class Campaign extends Component {
             <Card.Img variant="top" src={require("../../img/campaign.png")} />
             <Card.Body>
               <Card.Title>
-                {this.state.completeCampaigns[i][0]}
+                {this.state.completeCampaigns[i][0] + " "}
                 {this.state.completeCampaigns[i][5] === "yes" && (
                   <Badge pill variant="danger">
                     Paid
@@ -166,18 +249,22 @@ class Campaign extends Component {
               </Card.Subtitle>
               <Card.Text>{this.state.completeCampaigns[i][7]}</Card.Text>
               <Card.Text>
-                Duration : {this.state.completeCampaigns[i][8]}hrs
+                Duration : {this.state.completeCampaigns[i][8]+" "}days
               </Card.Text>
-              <Button variant="primary">Start Contest</Button>
+              <Button
+                onClick={() => this.handleModal(this.state.activeCampaigns[i])}
+                variant="primary"
+              >
+                Start Contest
+              </Button>
             </Card.Body>
           </Card>
         </Col>
       );
       length++;
-      if(length%3 === 0 || length === this.state.completeCampaigns.length)
-      {
+      if (length % 3 === 0 || length === this.state.completeCampaigns.length) {
         row.push(<Row key={this.state.completeCampaigns[i][1]}>{col}</Row>);
-        col=[];
+        col = [];
       }
     }
     return row;
@@ -186,6 +273,10 @@ class Campaign extends Component {
   render() {
     return (
       <Card>
+        {this.renderRedirectLogin()}
+        {this.renderRedirectSpeak()}
+        {this.renderRedirectListen()}
+        {this.renderRedirectTranscribe()}
         <Card.Header>
           <Nav variant="tabs" defaultActiveKey="#active">
             <Nav.Item>
@@ -199,6 +290,18 @@ class Campaign extends Component {
             </Nav.Item>
           </Nav>
         </Card.Header>
+        <Modal centered show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton />
+          <Modal.Body>Please complete the following operations</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.handleListen}>
+              Listen/Transcribe
+            </Button>
+            <Button variant="primary" onClick={this.handleSpeak}>
+              Speak
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Container className="contain-height">
           <h1 id="active" className="event-head">
             Active Campaigns
@@ -218,4 +321,16 @@ class Campaign extends Component {
   }
 }
 
-export default Campaign;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    campaign: state.campaign
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addCampaign: campaign => dispatch(campaignAction.addCampaign(campaign))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campaign);

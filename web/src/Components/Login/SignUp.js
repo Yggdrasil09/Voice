@@ -4,54 +4,69 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import "./Login.css";
 
 class SignUp extends Component {
-  constructor(){
+  constructor() {
     super();
-    this.state={
-      name : "",
-      username : "",
-      email : "",
-      mobile : "",
-      password : "",
-    }
+    this.state = {
+      name: "",
+      username: "",
+      email: "",
+      mobile: "",
+      password: "",
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(e){
+  handleSubmit(e) {
     e.preventDefault();
+    fetch("http://10.2.135.75:5000/validateLogin", {
+      method: "POST",
+      body: JSON.stringify(this.state),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        this.setState({
+          name: "",
+          username: "",
+          email: "",
+          mobile: "",
+          password: "",
+        });
+      })
+      .catch(er => {
+        console.log(er);
+      });
   }
 
-  handleChange(e){
+  handleChange(e) {
     e.preventDefault();
-    if(e.target.name === "name")
-    {
+    if (e.target.name === "name") {
       this.setState({
-        name : e.target.value
-      })
+        name: e.target.value,
+      });
     }
-    if(e.target.name === "username")
-    {
+    if (e.target.name === "username") {
       this.setState({
-        username : e.target.value
-      })
+        username: e.target.value,
+      });
     }
-    if(e.target.name === "email")
-    {
+    if (e.target.name === "email") {
       this.setState({
-        email:e.target.value
-      })
+        email: e.target.value,
+      });
     }
-    if(e.target.name === "mobile")
-    {
+    if (e.target.name === "mobile") {
       this.setState({
-        mobile : e.target.value
-      })
+        mobile: e.target.value,
+      });
     }
-    if(e.target.name === "password")
-    {
+    if (e.target.name === "password") {
       this.setState({
-        password : e.target.value
-      })
+        password: e.target.value,
+      });
     }
   }
   render() {
@@ -62,23 +77,45 @@ class SignUp extends Component {
             <div className="form-signup">
               <Form onSubmit={this.handleSubmit}>
                 <Form.Label>Name</Form.Label>
-                <Form.Control placeholder="Enter name" name="name" onChange={this.handleChange}/>
+                <Form.Control
+                  placeholder="Enter name"
+                  name="name"
+                  onChange={this.handleChange}
+                />
                 <Form.Label>Username</Form.Label>
-                <Form.Control placeholder="Enter Username" name="username" onChange={this.handleChange} />
+                <Form.Control
+                  placeholder="Enter Username"
+                  name="username"
+                  onChange={this.handleChange}
+                />
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" name="email" onChange={this.handleChange}/>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    name="email"
+                    onChange={this.handleChange}
+                  />
                   <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                   </Form.Text>
                 </Form.Group>
-                <Form.Group controlId="formBasicmobile" name="mobile" onChange={this.handleChange}>
+                <Form.Group
+                  controlId="formBasicmobile"
+                  name="mobile"
+                  onChange={this.handleChange}
+                >
                   <Form.Label>Mobile No.</Form.Label>
                   <Form.Control type="email" placeholder="Enter mobile no." />
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" name="password" onChange={this.handleChange}/>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    onChange={this.handleChange}
+                  />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                   Submit

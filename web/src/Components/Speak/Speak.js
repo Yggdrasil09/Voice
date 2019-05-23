@@ -117,22 +117,27 @@ class Speak extends Component {
   }
 
   componentDidMount() {
-    // fetch("http://10.2.135.75:5000/displayText", {
-    //   method: "GET",
-    // })
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //     this.setState({
-    //       text: data[0][1],
-    //       textId: data[0][0],
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    let data = {
+      p_campaign_id : 1,
+      p_user_id : 1
+    }
+    fetch("http://10.2.135.75:5000/speakTasks", {
+      method: "POST",
+      body : JSON.stringify(data)
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        // this.setState({
+        //   text: data[0][1],
+        //   textId: data[0][0],
+        // });
+      })
+      .catch(err => {
+        console.log(err);
+      });
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
         document.getElementsByClassName("activespeak")[i].classList.toggle("active");

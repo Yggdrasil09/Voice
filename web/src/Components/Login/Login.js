@@ -16,15 +16,20 @@ class Login extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state)
-    fetch("http://10.2.135.75:5000/validateLogin",{
+    console.log(this.state);
+    fetch("http://10.2.135.75:5000/validateLogin", {
       method: "POST",
-      body : JSON.stringify(this.state)
-    }).then(res => {
+      body: JSON.stringify(this.state),
+    })
+      .then(res => {
         return res.json();
       })
       .then(data => {
-        console.log(data)
+        console.log(data);
+        this.setState({
+          username: "",
+          password: "",
+        });
       })
       .catch(er => {
         console.log(er);
@@ -33,19 +38,17 @@ class Login extends Component {
 
   handleValueChange(e) {
     e.preventDefault();
-    if(e.target.name === "username")
-    {
+    if (e.target.name === "username") {
       this.setState({
-        username : e.target.value
-      })
+        username: e.target.value,
+      });
     }
-    if(e.target.name === "password")
-    {
+    if (e.target.name === "password") {
       this.setState({
-        password : e.target.value
-      })
+        password: e.target.value,
+      });
     }
-}
+  }
 
   render() {
     return (
@@ -53,12 +56,21 @@ class Login extends Component {
         <Row>
           <Col>
             <div className="form-login">
-              <Form onSubmit = {this.handleSubmit}>
+              <Form onSubmit={this.handleSubmit}>
                 <Form.Label>Username</Form.Label>
-                <Form.Control placeholder="Enter Username" name="username" onChange={this.handleValueChange}/>
+                <Form.Control
+                  placeholder="Enter Username"
+                  name="username"
+                  onChange={this.handleValueChange}
+                />
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" name="password" onChange={this.handleValueChange}/>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    onChange={this.handleValueChange}
+                  />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                   Submit
