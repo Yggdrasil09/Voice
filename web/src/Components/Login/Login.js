@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import {connect} from 'react-redux';
+import PropTypes from "prop-types";
 
 import "./Login.css";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: "",
       password: "",
@@ -17,7 +19,7 @@ class Login extends Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state);
-    fetch("http://10.2.135.75:5000/validateLogin", {
+    fetch("http://10.2.138.219:5000/validateLogin", {
       method: "POST",
       body: JSON.stringify(this.state),
     })
@@ -48,6 +50,10 @@ class Login extends Component {
         password: e.target.value,
       });
     }
+  }
+
+  componentDidMount(){
+    console.log(this.props.campaignId)
   }
 
   render() {
@@ -84,4 +90,18 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  campaignId: PropTypes.number.isRequired,
+  task : PropTypes.string.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+const mapStateToProps = function(state) {
+	return {
+    campaignId : state.campaignId,
+    task : state.task,
+    userId : state.userId,
+	};
+};
+
+export default connect(mapStateToProps)(Login);

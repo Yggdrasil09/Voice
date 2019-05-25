@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import "./Login.css";
 
@@ -19,9 +21,17 @@ class SignUp extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    fetch("http://10.2.135.75:5000/validateLogin", {
+    let data = {
+      fname: this.state.name,
+      payment: this.state.username,
+      email: this.state.email,
+      mobile: this.state.mobile,
+      password: this.state.password,
+    };
+    console.log(data);
+    fetch("http://10.2.138.219:5000/signUp", {
       method: "POST",
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(data),
     })
       .then(res => {
         return res.json();
@@ -81,12 +91,7 @@ class SignUp extends Component {
                   placeholder="Enter name"
                   name="name"
                   onChange={this.handleChange}
-                />
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  placeholder="Enter Username"
-                  name="username"
-                  onChange={this.handleChange}
+                  value = {this.state.name}
                 />
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
@@ -95,18 +100,27 @@ class SignUp extends Component {
                     placeholder="Enter email"
                     name="email"
                     onChange={this.handleChange}
+                    value = {this.state.email}
                   />
                   <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                   </Form.Text>
                 </Form.Group>
-                <Form.Group
-                  controlId="formBasicmobile"
-                  name="mobile"
+                <Form.Label>Payment</Form.Label>
+                <Form.Control
+                  placeholder="Enter Payment method"
+                  name="username"
                   onChange={this.handleChange}
-                >
+                  value = {this.state.username}
+                />
+                <Form.Group controlId="formBasicmobile">
                   <Form.Label>Mobile No.</Form.Label>
-                  <Form.Control type="email" placeholder="Enter mobile no." />
+                  <Form.Control
+                    name="mobile"
+                    onChange={this.handleChange}
+                    placeholder="Enter mobile no."
+                    value = {this.state.mobile}
+                  />
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
@@ -115,6 +129,7 @@ class SignUp extends Component {
                     placeholder="Password"
                     name="password"
                     onChange={this.handleChange}
+                    value = {this.state.password}
                   />
                 </Form.Group>
                 <Button variant="primary" type="submit">
@@ -129,4 +144,16 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+SignUp.propTypes = {
+  campaignId: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = function(state) {
+  return {
+    campaignId: state.campaignId,
+    userId: state.userId,
+  };
+};
+
+export default connect(mapStateToProps)(SignUp);

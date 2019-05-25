@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import "./Speak.css";
 import Text from "../Text/Text";
@@ -11,11 +13,13 @@ class Speak extends Component {
     super(props);
     this.state = {
       record: false,
-      text: "",
-      textId: null,
+      text: [[null, ""]],
+      textId: [],
       playing: false,
       showModal: false,
       presentTask: [1, 0, 0, 0, 0],
+      taskno: 0,
+      blob: {},
     };
     this.onStop = this.onStop.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -50,37 +54,10 @@ class Speak extends Component {
   }
 
   onStop(recordedBlob) {
-    // console.log("recordedBlob is: ", recordedBlob.blob);
-    // fetch("http://10.2.135.75:5000/getSnippetId", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ TID: this.state.textId }),
-    // })
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    // fetch("http://10.2.135.75:5000/saveAudio", {
-    //   method: "POST",
-    //   // mode: "no-cors",
-    //   body: recordedBlob.blob,
-    // })
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    console.log("recordedBlob is: ", recordedBlob.blob);
+    this.setState({
+      blob: recordedBlob.blob,
+    });
   }
 
   handleClose() {
@@ -95,8 +72,10 @@ class Speak extends Component {
     for (let i = 0; i < this.state.presentTask.length - 1; i++) {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
-        document.getElementsByClassName("activespeak")[i].classList.toggle("active");
-        document.getElementsByClassName("speakicon")[i].classList.toggle("active");
+        document
+          .getElementsByClassName("activespeak")[i].classList.toggle("active");
+        document
+          .getElementsByClassName("speakicon")[i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
         actionList[i + 1] = 1;
         this.setState({
@@ -107,41 +86,78 @@ class Speak extends Component {
     setTimeout(() => {
       for (let i = 0; i < this.state.presentTask.length; i++) {
         if (this.state.presentTask[i]) {
-          document.getElementsByClassName("activespeak")[i].classList.toggle("active");
-          document.getElementsByClassName("speakicon")[i].classList.toggle("active");
-          document.getElementsByClassName("taskno")[i].classList.toggle("active");
+          document
+            .getElementsByClassName("activespeak")[i].classList.toggle("active");
+          document
+            .getElementsByClassName("speakicon")[i].classList.toggle("active");
+          document
+            .getElementsByClassName("taskno")[i].classList.toggle("active");
         }
       }
     }, 100);
-    this.setState({ showModal: false });
-  }
-
-  componentDidMount() {
     let data = {
-      p_campaign_id : 1,
-      p_user_id : 1
-    }
-    fetch("http://10.2.135.75:5000/speakTasks", {
+      p_text_id: this.state.text[this.state.taskno][0],
+      p_user_id: 1,
+      a_type : 'speak',
+    };
+    fetch("http://10.2.135.75:5000/getSnippetId", {
       method: "POST",
-      body : JSON.stringify(data)
+      body: JSON.stringify(data),
     })
       .then(res => {
         return res.json();
       })
       .then(data => {
         console.log(data);
-        // this.setState({
-        //   text: data[0][1],
-        //   textId: data[0][0],
-        // });
+        fetch("http://10.2.135.75:5000/saveAudio", {
+          method: "POST",
+          body: this.state.blob,
+        })
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      this.setState({ showModal: false, taskno: this.state.taskno + 1 });
+  }
+
+  componentDidMount() {
+    let data = {
+      p_campaign_id: 2,
+      p_user_id: 2,
+    };
+    fetch("http://10.2.138.219:5000/speakTasks", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        this.setState({
+          text: data.text,
+          textId: data.text,
+        });
+        console.log(this.state.text);
       })
       .catch(err => {
         console.log(err);
       });
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
-        document.getElementsByClassName("activespeak")[i].classList.toggle("active");
-        document.getElementsByClassName("speakicon")[i].classList.toggle("active");
+        document
+          .getElementsByClassName("activespeak")[i].classList.toggle("active");
+        document
+          .getElementsByClassName("speakicon")[i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
       }
     }
@@ -174,7 +190,7 @@ class Speak extends Component {
         <Row>
           <Col xs={1} />
           <Col xs={9} className="display">
-            <Text text={this.state.text} />
+            <Text text={this.state.text[this.state.taskno][1]} />
           </Col>
           <Col xs={2}>
             <div className="no-of-tasks">
@@ -230,21 +246,28 @@ class Speak extends Component {
         </div>
         <ReactMic
           record={this.state.record}
-          className="sound-wave"
+          // className="sound-wave"
           onStop={this.onStop}
           onData={this.onData}
-          strokeColor="#000000"
-          backgroundColor="#224071"
+          // strokeColor="#000000"
+          // backgroundColor="#224071"
         />
-        <button onClick={this.startRecording} type="button">
-          Start
-        </button>
-        <button onClick={this.stopRecording} type="button">
-          Stop
-        </button>
       </Container>
     );
   }
 }
 
-export default Speak;
+Speak.propTypes = {
+  campaignId: PropTypes.number.isRequired,
+  userId : PropTypes.number.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+const mapStateToProps = function(state) {
+	return {
+    campaignId : state.campaignId,
+    userId : state.userId,
+	};
+};
+
+export default connect(mapStateToProps)(Speak);

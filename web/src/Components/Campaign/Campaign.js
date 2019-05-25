@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Card, Badge, Button, Nav, Modal } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
-import { connect } from 'react-redux';
-import * as campaignAction from '../../actions/campaignAction';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import "./Campaign.css";
 
@@ -34,7 +34,7 @@ class Campaign extends Component {
   }
 
   componentWillMount() {
-    fetch("http://10.2.135.75:5000/displayCampaign", {
+    fetch("http://10.2.138.219:5000/displayCampaign", {
       method: "GET",
     })
       .then(res => {
@@ -81,10 +81,8 @@ class Campaign extends Component {
     })):(this.setState({
       redirectSpeak: true
     })); 
-    let campaign = {
-      campaignId : this.state.activeModalValue[1]
-    }
-    this.props.addCampaign(campaign);
+    this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
+    this.props.dispatch({type:"ADD_TASK",task : "speak"});
   }
 
   handleListen() {
@@ -93,10 +91,8 @@ class Campaign extends Component {
     })):(this.setState({
       redirectListen: true
     })); 
-    let campaign = {
-      campaignId : this.state.activeModalValue[1]
-    }
-    this.props.addCampaign(campaign);
+    this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
+    this.props.dispatch({type:"ADD_TASK",task : "listen"});
   }
 
   renderRedirectLogin = () => {
@@ -203,7 +199,7 @@ class Campaign extends Component {
                 Duration : {this.state.archiveCampaigns[i][8]+" "}days
               </Card.Text>
               <Button
-                onClick={() => this.handleModal(this.state.activeCampaigns[i])}
+                onClick={() => this.handleModal(this.state.archiveCampaigns[i])}
                 variant="primary"
               >
                 Start Contest
@@ -252,7 +248,7 @@ class Campaign extends Component {
                 Duration : {this.state.completeCampaigns[i][8]+" "}days
               </Card.Text>
               <Button
-                onClick={() => this.handleModal(this.state.activeCampaigns[i])}
+                onClick={() => this.handleModal(this.state.completeCampaigns[i])}
                 variant="primary"
               >
                 Start Contest
@@ -321,16 +317,18 @@ class Campaign extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    campaign: state.campaign
-  }
+Campaign.propTypes = {
+  campaignId: PropTypes.number.isRequired,
+  task: PropTypes.string.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+const mapStateToProps = function(state) {
+	return {
+    campaignId : state.campaignId,
+    task : state.task,
+    userId : state.userId,
+	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addCampaign: campaign => dispatch(campaignAction.addCampaign(campaign))
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Campaign);
+export default connect(mapStateToProps)(Campaign);

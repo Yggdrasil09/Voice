@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
-import './Transcribe.css'
+import "./Transcribe.css";
 
 class Transcribe extends Component {
   constructor() {
@@ -30,6 +32,26 @@ class Transcribe extends Component {
     }));
     document.getElementById("play").classList.toggle("active");
     document.getElementById("stop").classList.toggle("active");
+  }
+
+  componentWillqMount() {
+    let data = {
+      p_campaign_id : 1,
+      p_user_id : 1,
+    }
+    fetch("http://10.2.138.219:5000/speakTasks", {
+      method: "POST",
+      body : JSON.stringify(data)
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -142,4 +164,17 @@ class Transcribe extends Component {
   }
 }
 
-export default Transcribe;
+Transcribe.propTypes = {
+  campaignId: PropTypes.number.isRequired,
+  userId : PropTypes.number.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+const mapStateToProps = function(state) {
+	return {
+    campaignId : state.campaignId,
+    userId : state.userId,
+	};
+};
+
+export default connect(mapStateToProps)(Transcribe);

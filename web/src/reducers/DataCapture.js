@@ -1,21 +1,26 @@
-import * as actionTypes from '../actions/actionType';
-
 const initialState={
-    campaignId : '',
+    campaignId : NaN,
+    userId : NaN,
+    task : "",
 }
 
 const dataCapture = (state = initialState,action)=>{
     const newData = {...state};
     switch(action.type)
     {
-        case actionTypes.ADD_CAMPAIGN:
-        return [
-            newData,
-            Object.assign({}, action.campaign)
-        ]
+        case 'ADD_CAMPAIGN':
+            newData.campaignId = action.Id
+            break;
+        case 'ADD_USER':
+            newData.userId = action.userId
+            break;
+        case 'ADD_TASK':
+            newData.task = action.addTask
+            break;
         default:
         return newData
     }
+    return newData
 }
 
 export default dataCapture;

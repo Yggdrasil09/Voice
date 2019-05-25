@@ -17,7 +17,7 @@ class CreateCampaign extends Component {
       totalTranscribe: null,
       timer: null,
       duration: null,
-      campaignStatus: 1,
+      campaignStatus: "active",
       description: "",
     };
     this.handleValueChange = this.handleValueChange.bind(this);
@@ -212,7 +212,7 @@ class CreateCampaign extends Component {
                   onChange={this.handleLocked}
                 />
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Amount for tasks completion</Form.Label>
+                  <Form.Label>Payment amount for task completion</Form.Label>
                   <Form.Control
                     name="amount-tasks"
                     onChange={this.handleValueChange}
@@ -277,9 +277,9 @@ class CreateCampaign extends Component {
                     as="select"
                     name="status"
                     onChange={this.handleStatus}
-                  >
-                    <option value="archive">Archive</option>
+                  >  
                     <option value="active">Active</option>
+                    <option value="archive">Archive</option>
                     <option value="complete">Complete</option>
                   </Form.Control>
                 </Form.Group>
