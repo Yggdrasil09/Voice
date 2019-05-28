@@ -14,9 +14,15 @@ class Transcribe extends Component {
       text: "",
       sound: false,
       SoundFile_url: "",
+      text_Id: "",
+      AID: "",
+      showModal: false,
+      sound_files : [],
+      presentTask: [1, 0, 0, 0, 0],
     };
     this.soundPlayer = this.soundPlayer.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
+    this.handleAction = this.handleAction.bind(this);
   }
 
   handleValueChange(e) {
@@ -34,12 +40,44 @@ class Transcribe extends Component {
     document.getElementById("stop").classList.toggle("active");
   }
 
-  componentWillqMount() {
-    let data = {
-      p_campaign_id : 1,
-      p_user_id : 1,
+  handleAction() {
+    for (let i = 0; i < this.state.presentTask.length - 1; i++) {
+      let actionList = [0, 0, 0, 0, 0];
+      if (this.state.presentTask[i] === 1) {
+        document
+          .getElementsByClassName("activelisten")[i].classList.toggle("active");
+        document
+          .getElementsByClassName("listenicon")[i].classList.toggle("active");
+        document.getElementsByClassName("listenno")[i].classList.toggle("active");
+        actionList[i + 1] = 1;
+        this.setState({
+          presentTask: actionList,
+        });
+      }
     }
-    fetch("http://10.2.138.219:5000/speakTasks", {
+    setTimeout(() => {
+      for (let i = 0; i < this.state.presentTask.length; i++) {
+        if (this.state.presentTask[i]) {
+          document
+            .getElementsByClassName("activelisten")[i].classList.toggle("active");
+          document
+            .getElementsByClassName("listenicon")[i].classList.toggle("active");
+          document
+            .getElementsByClassName("listenno")[i].classList.toggle("active");
+        }
+      }
+    }, 100);
+    this.setState({ showModal: false });
+  }
+
+
+
+  componentWillMount() {
+    let data = {
+      p_campaign_id : 3,
+      p_user_id : 2,
+    }
+    fetch("http://10.2.135.75:5000/allotTranscribeTasks", {
       method: "POST",
       body : JSON.stringify(data)
     })
@@ -52,6 +90,50 @@ class Transcribe extends Component {
       .catch(err => {
         console.log(err);
       });
+
+      fetch("http://10.2.135.75:5000/sendAudioPath", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data)
+        // this.setState({
+        //   SoundFile_url:"http://10.2.138.219:5000/static/audio_files/" + data.file,
+        // });
+        this.setState({
+          sound_files : data
+        })
+        for (let i = 0; i < this.state.presentTask.length; i++) {
+          this.setState({
+            SoundFile_url :"http://10.2.135.75:5000/" + this.state.sound_files[i],
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+  }
+
+  componentDidMount() {
+    for (let i = 0; i < this.state.presentTask.length; i++) {
+      if (this.state.presentTask[i]) {
+        document
+          .getElementsByClassName("activelisten")[i].classList.toggle("active");
+        document
+          .getElementsByClassName("listenicon")[i].classList.toggle("active");
+        document.getElementsByClassName("listenno")[i].classList.toggle("active");
+        this.setState({
+          SoundFile_url :"http://10.2.135.75:5000/" + this.state.sound_files[i],
+        })
+        console.log(this.state.SoundFile_url)
+      }
+    }
   }
 
   render() {
@@ -130,23 +212,23 @@ class Transcribe extends Component {
             </div>
             <div className="taskmarking">
               <p className="activelisten active">
-                <i class="fas fa-assistive-listening-systems listenicon active" />
+                <i className="fa fa-edit listenicon active" />
                 <div className="listenno active">1</div>
               </p>
               <p className="activelisten active">
-                <i class="fas fa-assistive-listening-systems listenicon active" />
+                <i className="fa fa-edit listenicon active" />
                 <div className="listenno active">2</div>
               </p>
               <p className="activelisten active">
-                <i class="fas fa-assistive-listening-systems listenicon active" />
+                <i className="fa fa-edit listenicon active" />
                 <div className="listenno active">3</div>
               </p>
               <p className="activelisten active">
-                <i class="fas fa-assistive-listening-systems listenicon active" />
+                <i className="fa fa-edit listenicon active" />
                 <div className="listenno active">4</div>
               </p>
               <p className="activelisten active">
-                <i class="fas fa-assistive-listening-systems listenicon active" />
+                <i className="fa fa-edit listenicon active" />
                 <div className="listenno active">5</div>
               </p>
             </div>

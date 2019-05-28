@@ -98,7 +98,8 @@ class Speak extends Component {
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
       p_user_id: 1,
-      a_type : 'speak',
+      a_type : 'transcribe',
+      p_campaign_id : 3,
     };
     fetch("http://10.2.135.75:5000/getSnippetId", {
       method: "POST",
@@ -131,10 +132,10 @@ class Speak extends Component {
 
   componentDidMount() {
     let data = {
-      p_campaign_id: 2,
-      p_user_id: 2,
+      p_campaign_id: 3,
+      p_user_id: 1,
     };
-    fetch("http://10.2.138.219:5000/speakTasks", {
+    fetch("http://10.2.135.75:5000/speakTasks", {
       method: "POST",
       body: JSON.stringify(data),
     })

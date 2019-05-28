@@ -29,7 +29,7 @@ class SignUp extends Component {
       password: this.state.password,
     };
     console.log(data);
-    fetch("http://10.2.138.219:5000/signUp", {
+    fetch("http://10.2.135.75:5000/signUp", {
       method: "POST",
       body: JSON.stringify(data),
     })

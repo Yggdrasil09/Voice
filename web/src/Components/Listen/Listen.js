@@ -73,41 +73,41 @@ class Listen extends Component {
   }
 
   componentWillMount() {
-    // fetch("http://10.2.135.75:5000/sendAudio", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data)
-    //     this.setState({
-    //       SoundFile_url:"http://10.2.135.75:5000/static/audio_files/" + data.file,
-    //     });
-    //     console.log(this.state.SoundFile_url)
-    //     fetch("http://10.2.135.75:5000/displayTextReview", {
-    //       method: "GET",
-    //     })
-    //       .then(res => {
-    //         return res.json();
-    //       })
-    //       .then(data => {
-    //         console.log(data);
-    //         this.setState({
-    //           text: data.data[0][0],
-    //           AID: data.a_id,
-    //         });
-    //       })
-    //       .catch(err => {
-    //         console.log(err);
-    //       });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    fetch("http://10.2.138.219:5000/sendAudio", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data)
+        this.setState({
+          SoundFile_url:"http://10.2.138.219:5000/static/audio_files/" + data.file,
+        });
+        console.log(this.state.SoundFile_url)
+        fetch("http://10.2.138.219:5000/displayTextReview", {
+          method: "GET",
+        })
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+            this.setState({
+              text: data.data[0][0],
+              AID: data.a_id,
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   componentDidMount() {
@@ -124,7 +124,7 @@ class Listen extends Component {
 
   sendResponseYes() {
     this.handleShow();
-    // fetch("http://10.2.135.75:5000/review", {
+    // fetch("http://10.2.138.219:5000/review", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",
@@ -141,7 +141,7 @@ class Listen extends Component {
 
   sendResponseNo() {
     this.handleShow();
-    // fetch("http://10.2.135.75:5000/review", {
+    // fetch("http://10.2.138.219:5000/review", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",
