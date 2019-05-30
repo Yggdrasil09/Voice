@@ -11,12 +11,14 @@ class Listen extends Component {
     super();
     this.state = {
       sound: false,
-      SoundFile_url: "",
-      text: "",
-      text_Id: "",
+      SoundFile_url: [],
+      text: ["", ""],
+      task_Id: ["", ""],
       AID: "",
       showModal: false,
       presentTask: [1, 0, 0, 0, 0],
+      response : "",
+      taskno: 0
     };
     this.soundPlayer = this.soundPlayer.bind(this);
     this.sendResponseYes = this.sendResponseYes.bind(this);
@@ -28,7 +30,7 @@ class Listen extends Component {
 
   soundPlayer() {
     this.setState(state => ({
-      sound: !state.sound,
+      sound: !state.sound
     }));
     document.getElementById("play").classList.toggle("active");
     document.getElementById("stop").classList.toggle("active");
@@ -43,17 +45,34 @@ class Listen extends Component {
   }
 
   handleAction() {
+    let data = {
+      p_response : this.state.response,
+      p_task_id : this.state.task_Id[this.state.taskno]
+    }
+    fetch("http://10.2.135.75:5000/saveResponse",{
+      method:"POST",
+      body : JSON.stringify(data)
+    }).then(res=>{
+      console.log(res)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
     for (let i = 0; i < this.state.presentTask.length - 1; i++) {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
         document
-          .getElementsByClassName("activelisten")[i].classList.toggle("active");
+          .getElementsByClassName("activelisten")
+          [i].classList.toggle("active");
         document
-          .getElementsByClassName("listenicon")[i].classList.toggle("active");
-        document.getElementsByClassName("listenno")[i].classList.toggle("active");
+          .getElementsByClassName("listenicon")
+          [i].classList.toggle("active");
+        document
+          .getElementsByClassName("listenno")
+          [i].classList.toggle("active");
         actionList[i + 1] = 1;
         this.setState({
-          presentTask: actionList,
+          presentTask: actionList
         });
       }
     }
@@ -61,49 +80,55 @@ class Listen extends Component {
       for (let i = 0; i < this.state.presentTask.length; i++) {
         if (this.state.presentTask[i]) {
           document
-            .getElementsByClassName("activelisten")[i].classList.toggle("active");
+            .getElementsByClassName("activelisten")
+            [i].classList.toggle("active");
           document
-            .getElementsByClassName("listenicon")[i].classList.toggle("active");
+            .getElementsByClassName("listenicon")
+            [i].classList.toggle("active");
           document
-            .getElementsByClassName("listenno")[i].classList.toggle("active");
+            .getElementsByClassName("listenno")
+            [i].classList.toggle("active");
         }
       }
     }, 100);
-    this.setState({ showModal: false });
+    this.setState({ showModal: false, taskno: this.state.taskno + 1 });
   }
 
   componentWillMount() {
-    fetch("http://10.2.138.219:5000/sendAudio", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      "http://10.2.135.75:5000/allotListenTasks?p_campaign_id=1&p_user_id=1",
+      {
+        method: "POST"
+      }
+    )
       .then(res => {
         return res.json();
       })
       .then(data => {
-        console.log(data)
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    fetch(
+      "http://10.2.135.75:5000/sendAudioPath_listen?p_campaign_id=1&p_user_id=1",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
         this.setState({
-          SoundFile_url:"http://10.2.138.219:5000/static/audio_files/" + data.file,
+          SoundFile_url: data[0],
+          text: data[2],
+          task_Id: data[1]
         });
-        console.log(this.state.SoundFile_url)
-        fetch("http://10.2.138.219:5000/displayTextReview", {
-          method: "GET",
-        })
-          .then(res => {
-            return res.json();
-          })
-          .then(data => {
-            console.log(data);
-            this.setState({
-              text: data.data[0][0],
-              AID: data.a_id,
-            });
-          })
-          .catch(err => {
-            console.log(err);
-          });
       })
       .catch(err => {
         console.log(err);
@@ -114,46 +139,30 @@ class Listen extends Component {
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
         document
-          .getElementsByClassName("activelisten")[i].classList.toggle("active");
+          .getElementsByClassName("activelisten")
+          [i].classList.toggle("active");
         document
-          .getElementsByClassName("listenicon")[i].classList.toggle("active");
-        document.getElementsByClassName("listenno")[i].classList.toggle("active");
+          .getElementsByClassName("listenicon")
+          [i].classList.toggle("active");
+        document
+          .getElementsByClassName("listenno")
+          [i].classList.toggle("active");
       }
     }
   }
 
   sendResponseYes() {
     this.handleShow();
-    // fetch("http://10.2.138.219:5000/review", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ response: "YES", AID: this.state.AID }),
-    // })
-    //   .then(data => {
-    //     console.log(data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    this.setState({
+      response : "Yes"
+    })
   }
 
   sendResponseNo() {
     this.handleShow();
-    // fetch("http://10.2.138.219:5000/review", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ response: "NO", AID: this.state.AID }),
-    // })
-    //   .then(data => {
-    //     console.log(data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    this.setState({
+      response : "No"
+    })
   }
 
   render() {
@@ -202,7 +211,7 @@ class Listen extends Component {
               </svg>
               <p> did they accurately speak the sentence?</p>
             </div>
-            <Text text={this.state.text} />
+            <Text text={this.state.text[this.state.taskno][0]} />
 
             <div className="review-step">
               <Container className="max-border">
@@ -262,7 +271,7 @@ class Listen extends Component {
           </Col>
         </Row>
         <Sound
-          url={this.state.SoundFile_url}
+          url={"http://10.2.135.75:5000/"+this.state.SoundFile_url[this.state.taskno]}
           playStatus={
             this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
           }

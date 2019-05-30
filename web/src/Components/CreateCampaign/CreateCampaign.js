@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 
 class CreateCampaign extends Component {
   constructor() {
@@ -13,8 +14,8 @@ class CreateCampaign extends Component {
       amountForTask: null,
       limitOnTask: null,
       totalSpeak: null,
-      totalListen: null,
-      totalTranscribe: null,
+      // totalListen: null,
+      // totalTranscribe: null,
       timer: null,
       duration: null,
       campaignStatus: "active",
@@ -40,8 +41,8 @@ class CreateCampaign extends Component {
       p_limit_tasks: this.state.limitOnTask,
       p_amount: this.state.amountForTask,
       p_total_tasks_speak: this.state.totalSpeak,
-      p_total_tasks_listen: this.state.totalListen,
-      p_total_tasks_transcribe: this.state.totalTranscribe,
+      // p_total_tasks_listen: this.state.totalListen,
+      // p_total_tasks_transcribe: this.state.totalTranscribe,
       p_timer: this.state.timer,
       p_ends_in: this.state.duration,
       p_locked: this.state.locked ? 1 : 0,
@@ -54,27 +55,34 @@ class CreateCampaign extends Component {
     })
       .then(res => {
         console.log(res);
-        this.setState({
-          campaignName: "",
-          languageType: 1,
-          textType: "corpus_snip",
-          paid: false,
-          locked: false,
-          amountForTask: null,
-          limitOnTask: null,
-          totalSpeak: null,
-          totalListen: null,
-          totalTranscribe: null,
-          timer: null,
-          duration: null,
-          campaignStatus: 1,
-          description: "",
-        });
+        // this.setState({
+        //   campaignName: "",
+        //   languageType: 1,
+        //   textType: "corpus_snip",
+        //   paid: false,
+        //   locked: false,
+        //   amountForTask: null,
+        //   limitOnTask: null,
+        //   totalSpeak: null,
+        //   // totalListen: null,
+        //   // totalTranscribe: null,
+        //   timer: null,
+        //   duration: null,
+        //   campaignStatus: 1,
+        //   description: "",
+        // });
+        // this.renderRedirectCampaignCreated()
       })
       .catch(er => {
         console.log(er);
       });
   }
+
+  // renderRedirectCampaignCreated = () => {
+  //   // if (this.state.redirectSpeak) {
+  //     return <Redirect to='/' />
+  //   // }
+  // }
 
   handlePaid(e) {
     e.preventDefault();
@@ -133,16 +141,16 @@ class CreateCampaign extends Component {
         totalSpeak: e.target.value,
       });
     }
-    if (e.target.name === "listen-tasks") {
-      this.setState({
-        totalListen: e.target.value,
-      });
-    }
-    if (e.target.name === "transcribe-tasks") {
-      this.setState({
-        totalTranscribe: e.target.value,
-      });
-    }
+    // if (e.target.name === "listen-tasks") {
+    //   this.setState({
+    //     totalListen: e.target.value,
+    //   });
+    // }
+    // if (e.target.name === "transcribe-tasks") {
+    //   this.setState({
+    //     totalTranscribe: e.target.value,
+    //   });
+    // }
     if (e.target.name === "timer") {
       this.setState({
         timer: e.target.value,
@@ -163,6 +171,7 @@ class CreateCampaign extends Component {
   render() {
     return (
       <Container>
+        {/* {this.renderRedirectCampaignCreated()} */}
         <Row>
           <Col>
             <div className="form-signup">
@@ -232,7 +241,7 @@ class CreateCampaign extends Component {
                     onChange={this.handleValueChange}
                   />
                 </Form.Group>
-                <Form.Group as={Col} controlId="formGridPassword">
+                {/* <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Total number of tasks in listen</Form.Label>
                   <Form.Control
                     name="listen-tasks"
@@ -245,7 +254,7 @@ class CreateCampaign extends Component {
                     name="transcribe-tasks"
                     onChange={this.handleValueChange}
                   />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Enter the timer limit in minutes</Form.Label>
                   <Form.Control

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
 import {connect} from 'react-redux';
@@ -13,16 +13,20 @@ class Transcribe extends Component {
     this.state = {
       text: "",
       sound: false,
-      SoundFile_url: "",
-      text_Id: "",
+      SoundFile_url: [],
+      task_Id: [],
       AID: "",
       showModal: false,
-      sound_files : [],
+      // sound_files : [],
       presentTask: [1, 0, 0, 0, 0],
+      taskno: 0,
     };
     this.soundPlayer = this.soundPlayer.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleValueChange(e) {
@@ -41,6 +45,19 @@ class Transcribe extends Component {
   }
 
   handleAction() {
+    let data = {
+      p_response : this.state.text,
+      p_task_id : this.state.task_Id[this.state.taskno]
+    }
+    fetch("http://10.2.135.75:5000/saveResponse",{
+      method:"POST",
+      body : JSON.stringify(data)
+    }).then(res=>{
+      console.log(res)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
     for (let i = 0; i < this.state.presentTask.length - 1; i++) {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
@@ -67,19 +84,25 @@ class Transcribe extends Component {
         }
       }
     }, 100);
-    this.setState({ showModal: false });
+    
+    this.setState({ showModal: false,taskno : this.state.taskno+1 ,text:""});
   }
 
+handleClose(){
+  this.setState({showModal: false});
+}
 
+handleShow(){
+  this.setState({showModal: true});
+}
+
+handleSubmit(){
+  this.handleShow();
+}
 
   componentWillMount() {
-    let data = {
-      p_campaign_id : 3,
-      p_user_id : 2,
-    }
-    fetch("http://10.2.135.75:5000/allotTranscribeTasks", {
+    fetch("http://10.2.135.75:5000/allotTranscribeTasks?p_campaign_id=2&p_user_id=1", {
       method: "POST",
-      body : JSON.stringify(data)
     })
       .then(res => {
         return res.json();
@@ -91,7 +114,7 @@ class Transcribe extends Component {
         console.log(err);
       });
 
-      fetch("http://10.2.135.75:5000/sendAudioPath", {
+      fetch("http://10.2.135.75:5000/sendAudioPath_transcribe?p_campaign_id=2&p_user_id=1", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -102,17 +125,10 @@ class Transcribe extends Component {
       })
       .then(data => {
         console.log(data)
-        // this.setState({
-        //   SoundFile_url:"http://10.2.138.219:5000/static/audio_files/" + data.file,
-        // });
         this.setState({
-          sound_files : data
+          SoundFile_url : data[0],
+          task_Id : data[1],
         })
-        for (let i = 0; i < this.state.presentTask.length; i++) {
-          this.setState({
-            SoundFile_url :"http://10.2.135.75:5000/" + this.state.sound_files[i],
-          })
-        }
       })
       .catch(err => {
         console.log(err);
@@ -128,9 +144,9 @@ class Transcribe extends Component {
         document
           .getElementsByClassName("listenicon")[i].classList.toggle("active");
         document.getElementsByClassName("listenno")[i].classList.toggle("active");
-        this.setState({
-          SoundFile_url :"http://10.2.135.75:5000/" + this.state.sound_files[i],
-        })
+        // this.setState({
+        //   SoundFile_url :"http://10.2.135.75:5000/" + this.state.sound_files[i],
+        // })
         console.log(this.state.SoundFile_url)
       }
     }
@@ -146,6 +162,20 @@ class Transcribe extends Component {
             </div>
           </NavLink>
         </div>
+        <Modal show={this.state.showModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Task Status</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Please, verify the following information</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Retake
+            </Button>
+            <Button variant="primary" onClick={this.handleAction}>
+              Submit
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Row>
           <Col xs={1} />
           <Col xs={9} className="display">
@@ -185,7 +215,7 @@ class Transcribe extends Component {
               <Container className="max-border">
                 <Row className="max-border">
                   <Col sm={5} xs={5}>
-                    <div className="submit" onClick={this.sendResponseYes}>
+                    <div className="submit" onClick={this.handleSubmit}>
                       <h5>Submit</h5>
                     </div>
                   </Col>
@@ -235,7 +265,7 @@ class Transcribe extends Component {
           </Col>
         </Row>
         <Sound
-          url={this.state.SoundFile_url}
+          url={"http://10.2.135.75:5000/"+this.state.SoundFile_url[this.state.taskno]}
           playStatus={
             this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
           }
