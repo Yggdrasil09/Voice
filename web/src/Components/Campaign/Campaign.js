@@ -126,7 +126,7 @@ class Campaign extends Component {
 
     for (let i = 0; i < this.state.activeCampaigns.length; i++) {
       col.push(
-        <Col key={this.state.activeCampaigns[i][1]} sm={6} lg={4}>
+        <Col className="campaign-col" key={this.state.activeCampaigns[i][1]} sm={6} lg={4}>
           <Card className="campaigns" style={{ width: "18rem" }}>
             <Card.Img variant="top" src={require("../../img/campaign.png")} />
             <Card.Body>
@@ -161,7 +161,7 @@ class Campaign extends Component {
       );
       length++;
       if (length % 3 === 0 || length === this.state.activeCampaigns.length) {
-        row.push(<Row key={this.state.activeCampaigns[i][1]}>{col}</Row>);
+        row.push(<Row className="campaign-row" key={this.state.activeCampaigns[i][1]}>{col}</Row>);
         col = [];
       }
     }
@@ -175,7 +175,7 @@ class Campaign extends Component {
 
     for (let i = 0; i < this.state.archiveCampaigns.length; i++) {
       col.push(
-        <Col key={this.state.archiveCampaigns[i][1]} sm={6} lg={4}>
+        <Col className="campaign-col" key={this.state.archiveCampaigns[i][1]} sm={6} lg={4}>
           <Card className="campaigns" style={{ width: "18rem" }}>
             <Card.Img variant="top" src={require("../../img/campaign.png")} />
             <Card.Body>
@@ -210,7 +210,7 @@ class Campaign extends Component {
       );
       length++;
       if (length % 3 === 0 || length === this.state.archiveCampaigns.length) {
-        row.push(<Row key={this.state.archiveCampaigns[i][1]}>{col}</Row>);
+        row.push(<Row className="campaign-row" key={this.state.archiveCampaigns[i][1]}>{col}</Row>);
         col = [];
       }
     }
@@ -224,7 +224,7 @@ class Campaign extends Component {
 
     for (let i = 0; i < this.state.completeCampaigns.length; i++) {
       col.push(
-        <Col key={this.state.completeCampaigns[i][1]} sm={6} lg={4}>
+        <Col className="campaign-col" key={this.state.completeCampaigns[i][1]} sm={6} lg={4}>
           <Card className="campaigns" style={{ width: "18rem" }}>
             <Card.Img variant="top" src={require("../../img/campaign.png")} />
             <Card.Body>
@@ -259,7 +259,7 @@ class Campaign extends Component {
       );
       length++;
       if (length % 3 === 0 || length === this.state.completeCampaigns.length) {
-        row.push(<Row key={this.state.completeCampaigns[i][1]}>{col}</Row>);
+        row.push(<Row className="campaign-row" key={this.state.completeCampaigns[i][1]}>{col}</Row>);
         col = [];
       }
     }

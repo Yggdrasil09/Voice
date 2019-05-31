@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Container, Row, Col, Form, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import "./Transcribe.css";
 
@@ -19,7 +19,7 @@ class Transcribe extends Component {
       showModal: false,
       // sound_files : [],
       presentTask: [1, 0, 0, 0, 0],
-      taskno: 0,
+      taskno: 0
     };
     this.soundPlayer = this.soundPlayer.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
@@ -32,13 +32,13 @@ class Transcribe extends Component {
   handleValueChange(e) {
     e.preventDefault();
     this.setState({
-      text: e.target.value,
+      text: e.target.value
     });
   }
 
   soundPlayer() {
     this.setState(state => ({
-      sound: !state.sound,
+      sound: !state.sound
     }));
     document.getElementById("play").classList.toggle("active");
     document.getElementById("stop").classList.toggle("active");
@@ -46,29 +46,34 @@ class Transcribe extends Component {
 
   handleAction() {
     let data = {
-      p_response : this.state.text,
-      p_task_id : this.state.task_Id[this.state.taskno]
-    }
-    fetch("http://10.2.135.75:5000/saveResponse",{
-      method:"POST",
-      body : JSON.stringify(data)
-    }).then(res=>{
-      console.log(res)
+      p_response: this.state.text,
+      p_task_id: this.state.task_Id[this.state.taskno]
+    };
+    fetch("http://10.2.135.75:5000/saveResponse", {
+      method: "POST",
+      body: JSON.stringify(data)
     })
-    .catch(err=>{
-      console.log(err)
-    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     for (let i = 0; i < this.state.presentTask.length - 1; i++) {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
         document
-          .getElementsByClassName("activelisten")[i].classList.toggle("active");
+          .getElementsByClassName("activelisten")
+          [i].classList.toggle("active");
         document
-          .getElementsByClassName("listenicon")[i].classList.toggle("active");
-        document.getElementsByClassName("listenno")[i].classList.toggle("active");
+          .getElementsByClassName("listenicon")
+          [i].classList.toggle("active");
+        document
+          .getElementsByClassName("listenno")
+          [i].classList.toggle("active");
         actionList[i + 1] = 1;
         this.setState({
-          presentTask: actionList,
+          presentTask: actionList
         });
       }
     }
@@ -76,34 +81,44 @@ class Transcribe extends Component {
       for (let i = 0; i < this.state.presentTask.length; i++) {
         if (this.state.presentTask[i]) {
           document
-            .getElementsByClassName("activelisten")[i].classList.toggle("active");
+            .getElementsByClassName("activelisten")
+            [i].classList.toggle("active");
           document
-            .getElementsByClassName("listenicon")[i].classList.toggle("active");
+            .getElementsByClassName("listenicon")
+            [i].classList.toggle("active");
           document
-            .getElementsByClassName("listenno")[i].classList.toggle("active");
+            .getElementsByClassName("listenno")
+            [i].classList.toggle("active");
         }
       }
     }, 100);
-    
-    this.setState({ showModal: false,taskno : this.state.taskno+1 ,text:""});
+
+    this.setState({
+      showModal: false,
+      taskno: this.state.taskno + 1,
+      text: ""
+    });
   }
 
-handleClose(){
-  this.setState({showModal: false});
-}
+  handleClose() {
+    this.setState({ showModal: false });
+  }
 
-handleShow(){
-  this.setState({showModal: true});
-}
+  handleShow() {
+    this.setState({ showModal: true });
+  }
 
-handleSubmit(){
-  this.handleShow();
-}
+  handleSubmit() {
+    this.handleShow();
+  }
 
   componentWillMount() {
-    fetch("http://10.2.135.75:5000/allotTranscribeTasks?p_campaign_id=2&p_user_id=1", {
-      method: "POST",
-    })
+    fetch(
+      "http://10.2.135.75:5000/allotTranscribeTasks?p_campaign_id=2&p_user_id=1",
+      {
+        method: "POST"
+      }
+    )
       .then(res => {
         return res.json();
       })
@@ -114,40 +129,46 @@ handleSubmit(){
         console.log(err);
       });
 
-      fetch("http://10.2.135.75:5000/sendAudioPath_transcribe?p_campaign_id=2&p_user_id=1", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      "http://10.2.135.75:5000/sendAudioPath_transcribe?p_campaign_id=2&p_user_id=1",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
       .then(res => {
         return res.json();
       })
       .then(data => {
-        console.log(data)
+        console.log(data);
         this.setState({
-          SoundFile_url : data[0],
-          task_Id : data[1],
-        })
+          SoundFile_url: data[0],
+          task_Id: data[1]
+        });
       })
       .catch(err => {
         console.log(err);
       });
-
   }
 
   componentDidMount() {
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
         document
-          .getElementsByClassName("activelisten")[i].classList.toggle("active");
+          .getElementsByClassName("activelisten")
+          [i].classList.toggle("active");
         document
-          .getElementsByClassName("listenicon")[i].classList.toggle("active");
-        document.getElementsByClassName("listenno")[i].classList.toggle("active");
+          .getElementsByClassName("listenicon")
+          [i].classList.toggle("active");
+        document
+          .getElementsByClassName("listenno")
+          [i].classList.toggle("active");
         // this.setState({
         //   SoundFile_url :"http://10.2.135.75:5000/" + this.state.sound_files[i],
         // })
-        console.log(this.state.SoundFile_url)
+        console.log(this.state.SoundFile_url);
       }
     }
   }
@@ -177,9 +198,17 @@ handleSubmit(){
           </Modal.Footer>
         </Modal>
         <Row>
-          <Col xs={1} />
-          <Col xs={9} className="display">
-            <div>
+          <Col md={1} />
+          <Col md={9} className="display">
+            <button
+              type="button"
+              onClick={this.soundPlayer}
+              className="video-play-button2 transcribe-button"
+            >
+              <span id="play" className="play-toggle active" />
+              <div id="stop" className="stop active" />
+            </button>
+            <div className="textclick">
               <p>Click</p>
               <svg className="play-now" viewBox="0 0 13 15">
                 <g
@@ -210,31 +239,8 @@ handleSubmit(){
                 </Form.Group>
               </Form>
             </div>
-
-            <div className="review-step">
-              <Container className="max-border">
-                <Row className="max-border">
-                  <Col sm={5} xs={5}>
-                    <div className="submit" onClick={this.handleSubmit}>
-                      <h5>Submit</h5>
-                    </div>
-                  </Col>
-                  <Col sm={2} xs={2}>
-                    <button
-                      type="button"
-                      onClick={this.soundPlayer}
-                      className="video-play-button2"
-                    >
-                      <span id="play" className="play-toggle active" />
-                      <div id="stop" className="stop active" />
-                    </button>
-                  </Col>
-                  <Col sm={5} xs={5} />
-                </Row>
-              </Container>
-            </div>
           </Col>
-          <Col xs={2}>
+          <Col md={2}>
             <div className="no-of-tasks">
               <p>
                 <span>5/5</span>Clips
@@ -264,8 +270,24 @@ handleSubmit(){
             </div>
           </Col>
         </Row>
+        <div className="review-step">
+          <Container className="max-border">
+            <Row className="max-border">
+              <Col sm={5} xs={5} />
+              <Col sm={2} xs={2}>
+                <div className="submit" onClick={this.handleSubmit}>
+                  <h5>Submit</h5>
+                </div>
+              </Col>
+              <Col sm={5} xs={5} />
+            </Row>
+          </Container>
+        </div>
         <Sound
-          url={"http://10.2.135.75:5000/"+this.state.SoundFile_url[this.state.taskno]}
+          url={
+            "http://10.2.135.75:5000/" +
+            this.state.SoundFile_url[this.state.taskno]
+          }
           playStatus={
             this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
           }
@@ -278,15 +300,15 @@ handleSubmit(){
 
 Transcribe.propTypes = {
   campaignId: PropTypes.number.isRequired,
-  userId : PropTypes.number.isRequired,
-	dispatch: PropTypes.func.isRequired
-}
+  userId: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired
+};
 
 const mapStateToProps = function(state) {
-	return {
-    campaignId : state.campaignId,
-    userId : state.userId,
-	};
+  return {
+    campaignId: state.campaignId,
+    userId: state.userId
+  };
 };
 
 export default connect(mapStateToProps)(Transcribe);

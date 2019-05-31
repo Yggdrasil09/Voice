@@ -63,8 +63,10 @@
 
 .up-vote i,
 .down-vote i {
+  position: relative;
   display: inline-block;
-  font-size: 5vh;
+  font-size: 5.5vh;
+  margin-left:20px;
 }
 
 .up-vote i {
@@ -97,6 +99,7 @@
 
 .up-vote,
 .down-vote {
+  position:relative;
   color: rgb(87, 80, 80);
   cursor: pointer;
   margin-top: -5vh;
@@ -210,4 +213,28 @@
 
 .listenno.active{
   background:white;
+}
+
+@media (max-width: 767.98px) { 
+  .no-of-tasks{
+    visibility: hidden;
+  }
+  .taskmarking{
+    display: block;
+  }
+  .activelisten{
+    border:none;
+    box-shadow: none;
+    display: inline-block!important;
+    zoom: 1; /* Trigger hasLayout */
+    width: 20%;
+    text-align: center;
+  }
+  .activelisten.active{
+    visibility: visible;
+  }
+  .listenicon{
+    display: none;
+  }
+  
 }

@@ -171,11 +171,11 @@ class Speak extends Component {
           </Modal.Footer>
         </Modal>
         <Row>
-          <Col xs={1} />
-          <Col xs={9} className="display">
+          <Col md={1} />
+          <Col md={9} className="display">
             <Text text={this.state.text[this.state.taskno][1]} />
           </Col>
-          <Col xs={2}>
+          <Col md={2}>
             <div className="no-of-tasks">
               <p>
                 <span>5/5</span>Clips

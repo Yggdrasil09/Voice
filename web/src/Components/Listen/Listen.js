@@ -190,8 +190,8 @@ class Listen extends Component {
           </Modal.Footer>
         </Modal>
         <Row>
-          <Col xs={1} />
-          <Col xs={9} className="display">
+          <Col md={1} />
+          <Col md={9} className="display">
             <div>
               <p>Click</p>
               <svg className="play-now" viewBox="0 0 13 15">
@@ -212,35 +212,8 @@ class Listen extends Component {
               <p> did they accurately speak the sentence?</p>
             </div>
             <Text text={this.state.text[this.state.taskno][0]} />
-
-            <div className="review-step">
-              <Container className="max-border">
-                <Row className="max-border">
-                  <Col sm={5} xs={5}>
-                    <div className="up-vote" onClick={this.sendResponseYes}>
-                      <i className="far fa-thumbs-up" />
-                    </div>
-                  </Col>
-                  <Col sm={2} xs={2}>
-                    <button
-                      type="button"
-                      onClick={this.soundPlayer}
-                      className="video-play-button2"
-                    >
-                      <span id="play" className="play-toggle active" />
-                      <div id="stop" className="stop active" />
-                    </button>
-                  </Col>
-                  <Col sm={5} xs={5}>
-                    <div className="down-vote" onClick={this.sendResponseNo}>
-                      <i className="far fa-thumbs-down" />
-                    </div>
-                  </Col>
-                </Row>
-              </Container>
-            </div>
           </Col>
-          <Col xs={2}>
+          <Col md={2}>
             <div className="no-of-tasks">
               <p>
                 <span>5/5</span>Clips
@@ -270,6 +243,32 @@ class Listen extends Component {
             </div>
           </Col>
         </Row>
+        <div className="review-step">
+              <Container className="max-border">
+                <Row className="max-border">
+                  <Col sm={5} xs={5}>
+                    <div className="up-vote" onClick={this.sendResponseYes}>
+                      <i className="far fa-thumbs-up" />
+                    </div>
+                  </Col>
+                  <Col sm={2} xs={2}>
+                    <button
+                      type="button"
+                      onClick={this.soundPlayer}
+                      className="video-play-button2"
+                    >
+                      <span id="play" className="play-toggle active" />
+                      <div id="stop" className="stop active" />
+                    </button>
+                  </Col>
+                  <Col sm={5} xs={5}>
+                    <div className="down-vote" onClick={this.sendResponseNo}>
+                      <i className="far fa-thumbs-down" />
+                    </div>
+                  </Col>
+                </Row>
+              </Container>
+            </div>
         <Sound
           url={"http://10.2.135.75:5000/"+this.state.SoundFile_url[this.state.taskno]}
           playStatus={

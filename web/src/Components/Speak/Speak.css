@@ -142,3 +142,29 @@ i#mic.active{
 .taskno.active{
   background:white;
 }
+
+@media (max-width: 767.98px) { 
+  .no-of-tasks{
+    visibility: hidden;
+  }
+  .taskmarking{
+    display: block;
+  }
+  .activespeak{
+    border:none;
+    box-shadow: none;
+    display: inline-block!important;
+    zoom: 1; /* Trigger hasLayout */
+    width: 20%;
+    text-align: center;
+  }
+  .activespeak.active{
+    visibility: visible;
+  }
+  .speakicon{
+    display: none;
+  }
+  body{
+    overflow-x: hidden;
+  }
+}
