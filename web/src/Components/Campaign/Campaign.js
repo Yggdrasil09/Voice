@@ -34,7 +34,7 @@ class Campaign extends Component {
   }
 
   componentWillMount() {
-    fetch("http://10.2.135.75:5000/displayCampaign", {
+    fetch("http://10.2.138.219:5000/displayCampaign", {
       method: "GET",
     })
       .then(res => {

@@ -10,6 +10,7 @@ import Login from './Components/Login/Login';
 import SignUp from './Components/Login/SignUp';
 import CreateCampaign from './Components/CreateCampaign/CreateCampaign';
 import Transcribe from './Components/Transcribe/Transcribe';
+import TwofactorLogin from './Components/Login/TwofactorLogin';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/speak" component={Speak} exact/>
         <Route path="/login" component={Login} exact/>
         <Route path="/signup" component={SignUp} exact/>
+        <Route path="/otplogin" component={TwofactorLogin} exact/>
         <Route path="/createcampaign" component={CreateCampaign} exact/>
         <Route path="/Transcribe" component={Transcribe} exact/>
       </Switch>

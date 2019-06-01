@@ -25,3 +25,9 @@
 .display{
     padding-top:3vh;
 }
+
+@media (max-width: 576px) { 
+    .submit{
+        left:-5vh;
+    } 
+}

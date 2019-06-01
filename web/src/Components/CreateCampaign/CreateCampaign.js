@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
 
 class CreateCampaign extends Component {
   constructor() {

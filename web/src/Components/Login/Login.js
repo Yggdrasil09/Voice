@@ -3,8 +3,8 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 
-import app from 'firebase/app';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+// import app from 'firebase/app';
+// import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 import 'firebase/auth';
 // import { connect } from 'react-firebase';

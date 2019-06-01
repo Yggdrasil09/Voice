@@ -62,14 +62,11 @@ class Listen extends Component {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
         document
-          .getElementsByClassName("activelisten")
-          [i].classList.toggle("active");
+          .getElementsByClassName("activelisten")[i].classList.toggle("active");
         document
-          .getElementsByClassName("listenicon")
-          [i].classList.toggle("active");
+          .getElementsByClassName("listenicon")[i].classList.toggle("active");
         document
-          .getElementsByClassName("listenno")
-          [i].classList.toggle("active");
+          .getElementsByClassName("listenno")[i].classList.toggle("active");
         actionList[i + 1] = 1;
         this.setState({
           presentTask: actionList
@@ -80,14 +77,11 @@ class Listen extends Component {
       for (let i = 0; i < this.state.presentTask.length; i++) {
         if (this.state.presentTask[i]) {
           document
-            .getElementsByClassName("activelisten")
-            [i].classList.toggle("active");
+            .getElementsByClassName("activelisten")[i].classList.toggle("active");
           document
-            .getElementsByClassName("listenicon")
-            [i].classList.toggle("active");
+            .getElementsByClassName("listenicon")[i].classList.toggle("active");
           document
-            .getElementsByClassName("listenno")
-            [i].classList.toggle("active");
+            .getElementsByClassName("listenno")[i].classList.toggle("active");
         }
       }
     }, 100);
@@ -139,14 +133,11 @@ class Listen extends Component {
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
         document
-          .getElementsByClassName("activelisten")
-          [i].classList.toggle("active");
+          .getElementsByClassName("activelisten")[i].classList.toggle("active");
         document
-          .getElementsByClassName("listenicon")
-          [i].classList.toggle("active");
+          .getElementsByClassName("listenicon")[i].classList.toggle("active");
         document
-          .getElementsByClassName("listenno")
-          [i].classList.toggle("active");
+          .getElementsByClassName("listenno")[i].classList.toggle("active");
       }
     }
   }

@@ -2,6 +2,7 @@ const initialState={
     campaignId : NaN,
     userId : NaN,
     task : "",
+    otpLoginId : NaN,
 }
 
 const dataCapture = (state = initialState,action)=>{
@@ -16,6 +17,9 @@ const dataCapture = (state = initialState,action)=>{
             break;
         case 'ADD_TASK':
             newData.task = action.addTask
+            break;
+        case 'ADD_OTPID':
+            newData.otpLoginId = action.otpId
             break;
         default:
         return newData
