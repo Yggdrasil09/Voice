@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import OtpInput from "react-otp-input";
 
 class OtpLogin extends Component {
   t;
@@ -11,7 +12,6 @@ class OtpLogin extends Component {
       otpId: this.props.otpLoginId,
       otp: ""
     };
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -21,31 +21,20 @@ class OtpLogin extends Component {
       message: this.state.otp,
       time: this.state.otpId
     };
+    console.log(data);
     fetch("http://10.2.138.219:5000/otpVerify", {
       method: "POST",
-      body: data
+      body: JSON.stringify(data)
     })
       .then(res => {
         return res.json();
       })
       .then(data => {
         console.log(data);
-        this.setState({
-          mobile: "",
-          response: data
-        });
-        this.props.dispatch({ type: "ADD_OTPID", otpId: data });
       })
       .catch(er => {
         console.log(er);
       });
-  }
-
-  handleChange(e) {
-    e.preventDefault();
-    this.setState({
-      otp: e.target.value
-    });
   }
 
   render() {
@@ -57,12 +46,17 @@ class OtpLogin extends Component {
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group controlId="formBasicmobile">
                   <Form.Label>Enter OTP.</Form.Label>
-                  <Form.Control
-                    name="mobile"
-                    onChange={this.handleChange}
-                    placeholder="Enter OTP"
-                    value={this.state.otp}
-                  />
+                  <div className= "otpInput">
+                    <OtpInput
+                      onChange={otp =>
+                        this.setState({
+                          otp: otp
+                        })
+                      }
+                      numInputs={6}
+                      separator={<span className="spacing" />}
+                    />
+                  </div>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                   Submit
@@ -77,7 +71,7 @@ class OtpLogin extends Component {
 }
 
 OtpLogin.propTypes = {
-  otpLoginId: PropTypes.number.isRequired,
+  otpLoginId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 

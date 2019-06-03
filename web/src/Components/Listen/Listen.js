@@ -49,7 +49,7 @@ class Listen extends Component {
       p_response : this.state.response,
       p_task_id : this.state.task_Id[this.state.taskno]
     }
-    fetch("http://10.2.135.75:5000/saveResponse",{
+    fetch("http://10.2.138.219:5000/saveResponse",{
       method:"POST",
       body : JSON.stringify(data)
     }).then(res=>{
@@ -90,7 +90,7 @@ class Listen extends Component {
 
   componentWillMount() {
     fetch(
-      "http://10.2.135.75:5000/allotListenTasks?p_campaign_id=1&p_user_id=1",
+      "http://10.2.138.219:5000/allotListenTasks?p_campaign_id=1&p_user_id=1",
       {
         method: "POST"
       }
@@ -105,7 +105,7 @@ class Listen extends Component {
         console.log(err);
       });
     fetch(
-      "http://10.2.135.75:5000/sendAudioPath_listen?p_campaign_id=1&p_user_id=1",
+      "http://10.2.138.219:5000/sendAudioPath_listen?p_campaign_id=1&p_user_id=1",
       {
         method: "POST",
         headers: {

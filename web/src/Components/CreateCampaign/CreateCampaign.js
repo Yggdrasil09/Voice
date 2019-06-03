@@ -48,7 +48,7 @@ class CreateCampaign extends Component {
       p_campaign_description: this.state.description,
       p_campaign_status: this.state.campaignStatus,
     };
-    fetch("http://10.2.135.75:5000/campaignCreate", {
+    fetch("http://10.2.138.219:5000/campaignCreate", {
       method: "POST",
       body: JSON.stringify(data),
     })

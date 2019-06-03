@@ -101,7 +101,7 @@ class Speak extends Component {
       // a_type : 'speak',
       p_campaign_id : 1,
     };
-    fetch("http://10.2.135.75:5000/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
+    fetch("http://10.2.138.219:5000/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
           method: "POST",
           body: this.state.blob,
         })
@@ -118,7 +118,7 @@ class Speak extends Component {
   }
 
   componentDidMount() {
-    fetch("http://10.2.135.75:5000/speakTasks?p_campaign_id=1&p_user_id=1", {
+    fetch("http://10.2.138.219:5000/speakTasks?p_campaign_id=1&p_user_id=1", {
       method: "POST",
     })
       .then(res => {

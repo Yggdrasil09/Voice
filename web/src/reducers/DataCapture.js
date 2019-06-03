@@ -2,7 +2,7 @@ const initialState={
     campaignId : NaN,
     userId : NaN,
     task : "",
-    otpLoginId : NaN,
+    otpLoginId : "",
 }
 
 const dataCapture = (state = initialState,action)=>{

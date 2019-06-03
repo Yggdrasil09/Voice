@@ -9,8 +9,8 @@ class TwofactorLogin extends Component {
     super(props);
     this.state = {
       mobile: "",
-      response: NaN,
-      redirectOtp : false,
+      response: "",
+      redirectOtp: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,29 +30,32 @@ class TwofactorLogin extends Component {
         return res.json();
       })
       .then(data => {
-        console.log(data); 
+        console.log(data);
         this.setState({
-            response: data,
-        })
+          response: data.time,
+          mobile: "",
+        });
+        setTimeout(()=>{
+          this.props.dispatch({ type: "ADD_OTPID", otpId: this.state.response });
+          this.setState({
+            redirectOtp: true,
+          })
+        },0)
       })
       .catch(err => {
         console.log(err);
       });
-      this.setState({
-        mobile: "",
-        redirectOtp : true,
-      });
-      this.props.dispatch({type:"ADD_OTPID",otpId:this.state.response});
   }
-  renderRedirectOtp(){
+
+  renderRedirectOtp() {
     if (this.state.redirectOtp) {
-        return <Redirect to='/otplogin' />
+      return <Redirect to="/otpcheck" />;
     }
   }
   render() {
-    return (       
+    return (
       <Container>
-      {this.renderRedirectOtp()}
+        {this.renderRedirectOtp()}
         <Row>
           <Col>
             <div className="form-signup">
@@ -79,13 +82,13 @@ class TwofactorLogin extends Component {
 }
 
 TwofactorLogin.propTypes = {
-  otpLoginId: PropTypes.number.isRequired,
+  otpLoginId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
 const mapStateToProps = function(state) {
   return {
-    otpLoginId: state.otpLoginId,
+    otpLoginId: state.otpLoginId
   };
 };
 
