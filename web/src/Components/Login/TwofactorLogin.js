@@ -1,0 +1,92 @@
+import React, { Component } from "react";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
+
+class TwofactorLogin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mobile: "",
+      response: NaN,
+      redirectOtp : false,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
+    e.preventDefault();
+    this.setState({ mobile: e.target.value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    fetch("http://10.2.138.219:5000/otpSend?phoneNo=" + this.state.mobile, {
+      method: "POST"
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data); 
+        this.setState({
+            response: data,
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      this.setState({
+        mobile: "",
+        redirectOtp : true,
+      });
+      this.props.dispatch({type:"ADD_OTPID",otpId:this.state.response});
+  }
+  renderRedirectOtp(){
+    if (this.state.redirectOtp) {
+        return <Redirect to='/otplogin' />
+    }
+  }
+  render() {
+    return (       
+      <Container>
+      {this.renderRedirectOtp()}
+        <Row>
+          <Col>
+            <div className="form-signup">
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group controlId="formBasicmobile">
+                  <Form.Label>Mobile No.</Form.Label>
+                  <Form.Control
+                    name="mobile"
+                    onChange={this.handleChange}
+                    placeholder="Enter mobile no."
+                    value={this.state.mobile}
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+}
+
+TwofactorLogin.propTypes = {
+  otpLoginId: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired
+};
+
+const mapStateToProps = function(state) {
+  return {
+    otpLoginId: state.otpLoginId,
+  };
+};
+
+export default connect(mapStateToProps)(TwofactorLogin);
