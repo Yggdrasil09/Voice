@@ -49,7 +49,7 @@ class Transcribe extends Component {
       p_response: this.state.text,
       p_task_id: this.state.task_Id[this.state.taskno]
     };
-    fetch("http://10.2.138.219:5000/saveResponse", {
+    fetch("http://10.2.138.28:5000/saveResponse", {
       method: "POST",
       body: JSON.stringify(data)
     })
@@ -108,7 +108,7 @@ class Transcribe extends Component {
 
   componentWillMount() {
     fetch(
-      "http://10.2.138.219:5000/allotTranscribeTasks?p_campaign_id=2&p_user_id=1",
+      "http://10.2.138.28:5000/allotTranscribeTasks?p_campaign_id=6&p_user_id=13",
       {
         method: "POST"
       }
@@ -118,33 +118,34 @@ class Transcribe extends Component {
       })
       .then(data => {
         console.log(data);
+        fetch(
+          "http://10.2.138.28:5000/sendAudioPath_transcribe?p_campaign_id=6&p_user_id=13",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+            this.setState({
+              SoundFile_url: data[0],
+              task_Id: data[1]
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         console.log(err);
       });
 
-    fetch(
-      "http://10.2.138.219:5000/sendAudioPath_transcribe?p_campaign_id=2&p_user_id=1",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    )
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        console.log(data);
-        this.setState({
-          SoundFile_url: data[0],
-          task_Id: data[1]
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    
   }
 
   componentDidMount() {
@@ -226,6 +227,7 @@ class Transcribe extends Component {
                     placeholder="Enter transcribed text here ..."
                     className="textinput"
                     onChange={this.handleValueChange}
+                    value={this.state.text}
                   />
                 </Form.Group>
               </Form>
@@ -276,7 +278,7 @@ class Transcribe extends Component {
         </div>
         <Sound
           url={
-            "http://10.2.135.75:5000/" +
+            "http://10.2.138.219:5000/" +
             this.state.SoundFile_url[this.state.taskno]
           }
           playStatus={

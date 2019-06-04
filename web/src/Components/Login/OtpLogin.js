@@ -25,7 +25,7 @@ class OtpLogin extends Component {
       time: this.state.otpId
     };
     console.log(data);
-    fetch("http://10.2.138.219:5000/otpVerify", {
+    fetch("http://10.2.138.28:5000/otpVerify", {
       method: "POST",
       body: JSON.stringify(data)
     })

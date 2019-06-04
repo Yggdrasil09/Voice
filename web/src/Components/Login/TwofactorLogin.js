@@ -23,7 +23,7 @@ class TwofactorLogin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    fetch("http://10.2.138.219:5000/otpSend?phoneNo=" + this.state.mobile, {
+    fetch("http://10.2.138.28:5000/otpSend?phoneNo=" + this.state.mobile, {
       method: "POST"
     })
       .then(res => {
@@ -83,12 +83,14 @@ class TwofactorLogin extends Component {
 
 TwofactorLogin.propTypes = {
   otpLoginId: PropTypes.string.isRequired,
+  campaignId: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
 const mapStateToProps = function(state) {
   return {
-    otpLoginId: state.otpLoginId
+    otpLoginId: state.otpLoginId,
+    campaignId: state.campaignId,
   };
 };
 

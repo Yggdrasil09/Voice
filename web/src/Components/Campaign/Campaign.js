@@ -35,7 +35,7 @@ class Campaign extends Component {
   }
 
   componentWillMount() {
-    fetch("http://10.2.138.219:5000/displayCampaign", {
+    fetch("http://10.2.138.28:5000/displayCampaign", {
       method: "GET",
     })
       .then(res => {
@@ -77,23 +77,26 @@ class Campaign extends Component {
   }
 
   handleSpeak() {
-    this.state.activeModalValue[5]==="yes"?(this.setState({
-      redirectOtpLogin: true
-    })):(this.setState({
-      redirectSpeak: true
-    })); 
+    console.log(this.state.activeModalValue[1])
+    setTimeout(()=>{
+      this.state.activeModalValue[5]==="yes"?(this.setState({
+        redirectOtpLogin: true
+      })):(this.setState({
+        redirectSpeak: true
+      })); 
+    },100)
     this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
     this.props.dispatch({type:"ADD_TASK",task : "speak"});
   }
 
   handleListen() {
+    this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
+    this.props.dispatch({type:"ADD_TASK",task : "listen"});
     this.state.activeModalValue[5]==="yes"?(this.setState({
       redirectLogin: true
     })):(this.setState({
       redirectListen: true
     })); 
-    this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
-    this.props.dispatch({type:"ADD_TASK",task : "listen"});
   }
 
   renderRedirectOtpLogin = () => {

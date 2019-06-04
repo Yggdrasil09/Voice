@@ -98,10 +98,9 @@ class Speak extends Component {
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
       p_user_id: 1,
-      // a_type : 'speak',
-      p_campaign_id : 1,
+      p_campaign_id : this.props.campaignId,
     };
-    fetch("http://10.2.138.219:5000/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
+    fetch("http://10.2.138.28:5000/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
           method: "POST",
           body: this.state.blob,
         })
@@ -115,10 +114,18 @@ class Speak extends Component {
             console.log(err);
           });
       this.setState({ showModal: false, taskno: this.state.taskno + 1 });
+      if(this.state.taskno === 5)
+      {
+        this.setState({
+          taskno : 0,
+          text: [[null, ""]],
+          textId: [[null,""]],
+        })
+      }
   }
 
   componentDidMount() {
-    fetch("http://10.2.138.219:5000/speakTasks?p_campaign_id=1&p_user_id=1", {
+    fetch("http://10.2.138.28:5000/speakTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=1", {
       method: "POST",
     })
       .then(res => {

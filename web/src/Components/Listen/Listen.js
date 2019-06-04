@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
+import {connect} from "react-redux"
+import PropTypes from 'prop-types';
 
 import Text from "../Text/Text";
 import "./Listen.css";
@@ -49,7 +51,7 @@ class Listen extends Component {
       p_response : this.state.response,
       p_task_id : this.state.task_Id[this.state.taskno]
     }
-    fetch("http://10.2.138.219:5000/saveResponse",{
+    fetch("http://10.2.138.28:5000/saveResponse",{
       method:"POST",
       body : JSON.stringify(data)
     }).then(res=>{
@@ -86,11 +88,19 @@ class Listen extends Component {
       }
     }, 100);
     this.setState({ showModal: false, taskno: this.state.taskno + 1 });
+    if(this.state.taskno === 5)
+    {
+      this.setState({
+        taskno: 0,
+        text: ["", ""],
+        task_Id: ["", ""],
+      })
+    }
   }
 
   componentWillMount() {
     fetch(
-      "http://10.2.138.219:5000/allotListenTasks?p_campaign_id=1&p_user_id=1",
+      "http://10.2.138.28:5000/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
       {
         method: "POST"
       }
@@ -105,7 +115,7 @@ class Listen extends Component {
         console.log(err);
       });
     fetch(
-      "http://10.2.138.219:5000/sendAudioPath_listen?p_campaign_id=1&p_user_id=1",
+      "http://10.2.138.28:5000/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
       {
         method: "POST",
         headers: {
@@ -261,7 +271,7 @@ class Listen extends Component {
               </Container>
             </div>
         <Sound
-          url={"http://10.2.135.75:5000/"+this.state.SoundFile_url[this.state.taskno]}
+          url={"http://10.2.138.219:5000/"+this.state.SoundFile_url[this.state.taskno]}
           playStatus={
             this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
           }
@@ -272,4 +282,17 @@ class Listen extends Component {
   }
 }
 
-export default Listen;
+Listen.propTypes = {
+  campaignId: PropTypes.number.isRequired,
+  userId : PropTypes.number.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+const mapStateToProps = function(state) {
+	return {
+    campaignId : state.campaignId,
+    userId : state.userId,
+	};
+};
+
+export default connect(mapStateToProps)(Listen);
