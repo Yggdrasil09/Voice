@@ -19,6 +19,7 @@ class Campaign extends Component {
       redirectSpeak: false,
       redirectListen: false,
       redirectTranscribe: false,
+      redirectOtpLogin : false,
       activeModalValue : [],
     };
     this.handleClose = this.handleClose.bind(this);
@@ -77,7 +78,7 @@ class Campaign extends Component {
 
   handleSpeak() {
     this.state.activeModalValue[5]==="yes"?(this.setState({
-      redirectLogin: true
+      redirectOtpLogin: true
     })):(this.setState({
       redirectSpeak: true
     })); 
@@ -93,6 +94,12 @@ class Campaign extends Component {
     })); 
     this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
     this.props.dispatch({type:"ADD_TASK",task : "listen"});
+  }
+
+  renderRedirectOtpLogin = () => {
+    if (this.state.redirectOtpLogin) {
+      return <Redirect to='/otplogin' />
+    }
   }
 
   renderRedirectLogin = () => {
@@ -269,6 +276,7 @@ class Campaign extends Component {
   render() {
     return (
       <Card>
+        {this.renderRedirectOtpLogin()}
         {this.renderRedirectLogin()}
         {this.renderRedirectSpeak()}
         {this.renderRedirectListen()}

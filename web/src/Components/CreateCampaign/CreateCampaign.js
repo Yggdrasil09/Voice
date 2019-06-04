@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Redirect } from 'react-router-dom';
 
 class CreateCampaign extends Component {
   constructor() {
@@ -15,6 +16,7 @@ class CreateCampaign extends Component {
       totalSpeak: null,
       // totalListen: null,
       // totalTranscribe: null,
+      redirect : false,
       timer: null,
       duration: null,
       campaignStatus: "active",
@@ -27,6 +29,7 @@ class CreateCampaign extends Component {
     this.handlePaid = this.handlePaid.bind(this);
     this.handleLocked = this.handleLocked.bind(this);
     this.handleTextType = this.handleTextType.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   handleSubmit(e) {
@@ -48,7 +51,7 @@ class CreateCampaign extends Component {
       p_campaign_description: this.state.description,
       p_campaign_status: this.state.campaignStatus,
     };
-    fetch("http://10.2.138.219:5000/campaignCreate", {
+    fetch("http://10.2.138.28:5000/campaignCreate", {
       method: "POST",
       body: JSON.stringify(data),
     })
@@ -70,18 +73,14 @@ class CreateCampaign extends Component {
         //   campaignStatus: 1,
         //   description: "",
         // });
-        // this.renderRedirectCampaignCreated()
+        this.setState({
+          redirect : !this.state.redirect,
+        })
       })
       .catch(er => {
         console.log(er);
       });
   }
-
-  // renderRedirectCampaignCreated = () => {
-  //   // if (this.state.redirectSpeak) {
-  //     return <Redirect to='/' />
-  //   // }
-  // }
 
   handlePaid(e) {
     e.preventDefault();
@@ -167,10 +166,17 @@ class CreateCampaign extends Component {
     }
   }
 
+  handleRedirect(){
+    if(this.state.redirect)
+    {
+      return <Redirect to='/'/>
+    }
+  }
+
   render() {
     return (
       <Container>
-        {/* {this.renderRedirectCampaignCreated()} */}
+        {this.handleRedirect()} 
         <Row>
           <Col>
             <div className="form-signup">
