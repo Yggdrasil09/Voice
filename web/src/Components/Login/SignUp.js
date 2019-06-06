@@ -3,6 +3,7 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import url from '../../url_service.js'
 import "./Login.css";
 
 class SignUp extends Component {
@@ -10,7 +11,7 @@ class SignUp extends Component {
     super();
     this.state = {
       name: "",
-      username: "",
+      username: "UPI",
       email: "",
       mobile: "",
       password: "",
@@ -29,7 +30,7 @@ class SignUp extends Component {
       password: this.state.password,
     };
     console.log(data);
-    fetch("http://10.2.138.219:5000/signUp", {
+    fetch(url + "/signUp", {
       method: "POST",
       body: JSON.stringify(data),
     })
@@ -106,13 +107,19 @@ class SignUp extends Component {
                     We'll never share your email with anyone else.
                   </Form.Text>
                 </Form.Group>
-                <Form.Label>Payment</Form.Label>
-                <Form.Control
-                  placeholder="Enter Payment method"
-                  name="username"
-                  onChange={this.handleChange}
-                  value = {this.state.username}
-                />
+                <Form.Group controlId="exampleForm.ControlSelect1">
+                  <Form.Label>Payment Mode</Form.Label>
+                  <Form.Control
+                    as="select"
+                    placeholder="Enter Payment method"
+                    onChange={this.handleChange}
+                    name="username"
+                    value = {this.state.username}
+                  >
+                    <option value="UPI">UPI</option>
+                    <option value="Paytm">Paytm</option>
+                  </Form.Control>
+                </Form.Group>
                 <Form.Group controlId="formBasicmobile">
                   <Form.Label>Mobile No.</Form.Label>
                   <Form.Control

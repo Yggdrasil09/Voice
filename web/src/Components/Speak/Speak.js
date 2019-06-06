@@ -5,6 +5,7 @@ import { ReactMic } from "react-mic";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import url from '../../url_service.js'
 import "./Speak.css";
 import Text from "../Text/Text";
 
@@ -97,10 +98,10 @@ class Speak extends Component {
     }, 100);
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
-      p_user_id: 1,
+      p_user_id: 7,
       p_campaign_id : this.props.campaignId,
     };
-    fetch("http://10.2.138.28:5000/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
+    fetch(url + "/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
           method: "POST",
           body: this.state.blob,
         })
@@ -125,7 +126,7 @@ class Speak extends Component {
   }
 
   componentDidMount() {
-    fetch("http://10.2.138.28:5000/speakTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=1", {
+    fetch(url + "/speakTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=7", {
       method: "POST",
     })
       .then(res => {

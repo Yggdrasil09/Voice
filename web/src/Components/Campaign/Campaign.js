@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import url from '../../url_service.js'
 import "./Campaign.css";
 
 class Campaign extends Component {
@@ -35,7 +36,7 @@ class Campaign extends Component {
   }
 
   componentWillMount() {
-    fetch("http://10.2.138.28:5000/displayCampaign", {
+    fetch(url+"/displayCampaign", {
       method: "GET",
     })
       .then(res => {

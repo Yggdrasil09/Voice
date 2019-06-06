@@ -5,6 +5,7 @@ import Sound from "react-sound";
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 
+import url from '../../url_service.js'
 import Text from "../Text/Text";
 import "./Listen.css";
 
@@ -51,7 +52,7 @@ class Listen extends Component {
       p_response : this.state.response,
       p_task_id : this.state.task_Id[this.state.taskno]
     }
-    fetch("http://10.2.138.28:5000/saveResponse",{
+    fetch(url+"/saveResponse",{
       method:"POST",
       body : JSON.stringify(data)
     }).then(res=>{
@@ -99,8 +100,7 @@ class Listen extends Component {
   }
 
   componentWillMount() {
-    fetch(
-      "http://10.2.138.28:5000/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
+    fetch(url+"/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
       {
         method: "POST"
       }
@@ -114,8 +114,7 @@ class Listen extends Component {
       .catch(err => {
         console.log(err);
       });
-    fetch(
-      "http://10.2.138.28:5000/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
+    fetch(url+"/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
       {
         method: "POST",
         headers: {

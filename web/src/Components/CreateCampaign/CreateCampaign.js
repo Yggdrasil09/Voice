@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { Redirect } from 'react-router-dom';
 
+import url from '../../url_service.js'
+
 class CreateCampaign extends Component {
   constructor() {
     super();
@@ -51,7 +53,7 @@ class CreateCampaign extends Component {
       p_campaign_description: this.state.description,
       p_campaign_status: this.state.campaignStatus,
     };
-    fetch("http://10.2.138.28:5000/campaignCreate", {
+    fetch(url+"/campaignCreate", {
       method: "POST",
       body: JSON.stringify(data),
     })

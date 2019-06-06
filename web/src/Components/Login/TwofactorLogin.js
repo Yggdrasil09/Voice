@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 
+import url from '../../url_service.js'
+
 class TwofactorLogin extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +25,7 @@ class TwofactorLogin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    fetch("http://10.2.138.28:5000/otpSend?phoneNo=" + this.state.mobile, {
+    fetch(url + "/otpSend?phoneNo=" + this.state.mobile, {
       method: "POST"
     })
       .then(res => {

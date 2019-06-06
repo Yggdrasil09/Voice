@@ -5,6 +5,7 @@ import Sound from "react-sound";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import url from '../../url_service.js'
 import "./Transcribe.css";
 
 class Transcribe extends Component {
@@ -49,7 +50,7 @@ class Transcribe extends Component {
       p_response: this.state.text,
       p_task_id: this.state.task_Id[this.state.taskno]
     };
-    fetch("http://10.2.138.28:5000/saveResponse", {
+    fetch(url + "/saveResponse", {
       method: "POST",
       body: JSON.stringify(data)
     })
@@ -107,8 +108,7 @@ class Transcribe extends Component {
   }
 
   componentWillMount() {
-    fetch(
-      "http://10.2.138.28:5000/allotTranscribeTasks?p_campaign_id=6&p_user_id=13",
+    fetch(url + "/allotTranscribeTasks?p_campaign_id=6&p_user_id=13",
       {
         method: "POST"
       }
@@ -118,8 +118,7 @@ class Transcribe extends Component {
       })
       .then(data => {
         console.log(data);
-        fetch(
-          "http://10.2.138.28:5000/sendAudioPath_transcribe?p_campaign_id=6&p_user_id=13",
+        fetch(url + "/sendAudioPath_transcribe?p_campaign_id=6&p_user_id=13",
           {
             method: "POST",
             headers: {

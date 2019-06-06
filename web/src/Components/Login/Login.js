@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
+import {Redirect} from 'react-router-dom';
 
+import url from '../../url_service.js'
 // import app from 'firebase/app';
 // import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
@@ -31,16 +33,18 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
+      redirect: false,
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
     // this.ui = this.ui.bind(this); 
   }
 
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state);
-    fetch("http://10.2.138.28:5000/validateLogin", {
+    fetch(url + "/validateLogin", {
       method: "POST",
       body: JSON.stringify(this.state),
     })
@@ -52,6 +56,7 @@ class Login extends Component {
         this.setState({
           username: "",
           password: "",
+          redirect: true,
         });
       })
       .catch(er => {
@@ -142,15 +147,21 @@ class Login extends Component {
   // });
   
 
-
-
   componentDidMount(){
     console.log(this.props.campaignId)
+  }
+
+  handleRedirect(){
+    if(this.state.redirect)
+    {
+      return <Redirect to="/lttasks" />
+    }
   }
 
   render() {
     return (
       <Container>
+        {this.handleRedirect()}
         <Row>
         <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />

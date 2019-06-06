@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import OtpInput from "react-otp-input";
 import {Redirect} from 'react-router-dom';
 
+import url from '../../url_service.js'
+
 class OtpLogin extends Component {
   t;
   constructor(props) {
@@ -25,7 +27,7 @@ class OtpLogin extends Component {
       time: this.state.otpId
     };
     console.log(data);
-    fetch("http://10.2.138.28:5000/otpVerify", {
+    fetch(url + "/otpVerify", {
       method: "POST",
       body: JSON.stringify(data)
     })
