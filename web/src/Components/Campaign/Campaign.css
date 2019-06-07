@@ -19,3 +19,17 @@
 .campaign-col{
     padding-bottom: 5vh;
 }
+
+.con-border{
+    margin:0;
+    padding:0;
+}
+
+.campaignDes{
+    margin-top:1rem;
+    min-width:95%;
+}
+
+.campImg{
+    height:25rem;
+}

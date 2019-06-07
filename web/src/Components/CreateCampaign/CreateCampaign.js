@@ -12,7 +12,6 @@ class CreateCampaign extends Component {
       languageType: 1,
       textType: "corpus_snip",
       paid: false,
-      locked: false,
       amountForTask: null,
       limitOnTask: null,
       totalSpeak: null,
@@ -23,13 +22,13 @@ class CreateCampaign extends Component {
       duration: null,
       campaignStatus: "active",
       description: "",
+      longdescription:"",
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLanguage = this.handleLanguage.bind(this);
     this.handleStatus = this.handleStatus.bind(this);
     this.handlePaid = this.handlePaid.bind(this);
-    this.handleLocked = this.handleLocked.bind(this);
     this.handleTextType = this.handleTextType.bind(this);
     this.handleRedirect = this.handleRedirect.bind(this);
   }
@@ -49,8 +48,9 @@ class CreateCampaign extends Component {
       // p_total_tasks_transcribe: this.state.totalTranscribe,
       p_timer: this.state.timer,
       p_ends_in: this.state.duration,
-      p_locked: this.state.locked ? 1 : 0,
-      p_campaign_description: this.state.description,
+      p_locked: 1 ,
+      p_campaign_description_short: this.state.description,
+      p_campaign_description_long: this.state.longdescription,
       p_campaign_status: this.state.campaignStatus,
     };
     fetch(url+"/campaignCreate", {
@@ -74,6 +74,7 @@ class CreateCampaign extends Component {
         //   duration: null,
         //   campaignStatus: 1,
         //   description: "",
+        //   longdescription: "",
         // });
         this.setState({
           redirect : !this.state.redirect,
@@ -88,13 +89,6 @@ class CreateCampaign extends Component {
     e.preventDefault();
     this.setState({
       paid: !this.state.paid,
-    });
-  }
-
-  handleLocked(e) {
-    e.preventDefault();
-    this.setState({
-      locked: !this.state.locked,
     });
   }
 
@@ -166,6 +160,11 @@ class CreateCampaign extends Component {
         description: e.target.value,
       });
     }
+    if (e.target.name === "longdescription") {
+      this.setState({
+        longdescription: e.target.value,
+      });
+    }
   }
 
   handleRedirect(){
@@ -221,12 +220,6 @@ class CreateCampaign extends Component {
                   label={`Paid`}
                   onChange={this.handlePaid}
                 />
-                <Form.Check
-                  type="checkbox"
-                  id={`default-checkbox`}
-                  label={`Locked`}
-                  onChange={this.handleLocked}
-                />
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Payment amount for task completion</Form.Label>
                   <Form.Control
@@ -279,11 +272,20 @@ class CreateCampaign extends Component {
                   />
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>A short campaign description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows="2"
+                    name="description"
+                    onChange={this.handleValueChange}
+                  />
+                </Form.Group>
+                <Form.Group controlId="exampleForm.ControlTextarea2">
                   <Form.Label>Campaign Description</Form.Label>
                   <Form.Control
                     as="textarea"
-                    rows="3"
-                    name="description"
+                    rows="4"
+                    name="longdescription"
                     onChange={this.handleValueChange}
                   />
                 </Form.Group>

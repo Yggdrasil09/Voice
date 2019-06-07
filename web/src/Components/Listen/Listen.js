@@ -100,7 +100,7 @@ class Listen extends Component {
   }
 
   componentWillMount() {
-    fetch(url+"/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
+    fetch(url+"/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=11",
       {
         method: "POST"
       }
@@ -114,7 +114,7 @@ class Listen extends Component {
       .catch(err => {
         console.log(err);
       });
-    fetch(url+"/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=12",
+    fetch(url+"/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=11",
       {
         method: "POST",
         headers: {
@@ -270,7 +270,7 @@ class Listen extends Component {
               </Container>
             </div>
         <Sound
-          url={"http://10.2.138.219:5000/"+this.state.SoundFile_url[this.state.taskno]}
+          url={url+"/"+this.state.SoundFile_url[this.state.taskno]}
           playStatus={
             this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
           }

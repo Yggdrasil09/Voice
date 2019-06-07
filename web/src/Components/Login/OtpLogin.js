@@ -3,18 +3,20 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import OtpInput from "react-otp-input";
-import {Redirect} from 'react-router-dom';
+import { Redirect } from "react-router-dom";
+import Cookies from "universal-cookie";
 
-import url from '../../url_service.js'
+import url from "../../url_service.js";
+
+const cookies = new Cookies();
 
 class OtpLogin extends Component {
-  t;
   constructor(props) {
     super(props);
     this.state = {
       otpId: this.props.otpLoginId,
       otp: "",
-      redirect : false,
+      redirect: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRedirect = this.handleRedirect.bind(this);
@@ -29,29 +31,54 @@ class OtpLogin extends Component {
     console.log(data);
     fetch(url + "/otpVerify", {
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
     })
       .then(res => {
+        console.log(res.headers.get("token"));
         return res.json();
       })
       .then(data => {
         console.log(data);
-        if(data.user_id)
-        {
+        let sliced = data.token.slice(2, data.token.length - 1);
+        cookies.set("token", sliced, { path: "/" });
+        console.log(document.cookie);
+        if (data) {
           this.setState({
-            redirect : true,
-          })
+            redirect: true
+          });
         }
+        fetch(url + "/protected", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            token: cookies.get("token")
+          },
+          credentials: "same-origin"
+        })
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(er => {
         console.log(er);
       });
   }
 
-  handleRedirect(){
-    if(this.state.redirect)
-    {
-      return <Redirect to="/speak" />
+  handleRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to="/speak" />;
     }
   }
 
@@ -65,7 +92,7 @@ class OtpLogin extends Component {
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group controlId="formBasicmobile">
                   <Form.Label>Enter OTP.</Form.Label>
-                  <div className= "otpInput">
+                  <div className="otpInput">
                     <OtpInput
                       onChange={otp =>
                         this.setState({

@@ -108,7 +108,7 @@ class Transcribe extends Component {
   }
 
   componentWillMount() {
-    fetch(url + "/allotTranscribeTasks?p_campaign_id=6&p_user_id=13",
+    fetch(url + "/allotTranscribeTasks?p_campaign_id=3&p_user_id=12",
       {
         method: "POST"
       }
@@ -118,7 +118,7 @@ class Transcribe extends Component {
       })
       .then(data => {
         console.log(data);
-        fetch(url + "/sendAudioPath_transcribe?p_campaign_id=6&p_user_id=13",
+        fetch(url + "/sendAudioPath_transcribe?p_campaign_id=3&p_user_id=12",
           {
             method: "POST",
             headers: {
@@ -276,8 +276,7 @@ class Transcribe extends Component {
           </Container>
         </div>
         <Sound
-          url={
-            "http://10.2.138.219:5000/" +
+          url={url + "/" +
             this.state.SoundFile_url[this.state.taskno]
           }
           playStatus={
