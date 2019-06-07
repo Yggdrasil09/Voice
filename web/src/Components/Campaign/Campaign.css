@@ -21,15 +21,28 @@
 }
 
 .con-border{
-    margin:0;
+    min-width:98%;
+    margin-left:auto;
+    margin-right:auto;
     padding:0;
+    margin-top:1rem;
+    border-radius:10px;
+    box-shadow: 0 0 10px 1px rgb(231, 226, 226);
 }
 
 .campaignDes{
-    margin-top:1rem;
     min-width:95%;
+    margin:0;
 }
 
 .campImg{
     height:25rem;
+}
+
+.pad-col{
+    padding:0;
+}
+
+.campaigndetails{
+    margin-top:2rem;
 }

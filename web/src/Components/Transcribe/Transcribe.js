@@ -108,7 +108,7 @@ class Transcribe extends Component {
   }
 
   componentWillMount() {
-    fetch(url + "/allotTranscribeTasks?p_campaign_id=3&p_user_id=12",
+    fetch(url + "/allotTranscribeTasks?p_campaign_id=3&p_user_id=24",
       {
         method: "POST"
       }
@@ -118,7 +118,7 @@ class Transcribe extends Component {
       })
       .then(data => {
         console.log(data);
-        fetch(url + "/sendAudioPath_transcribe?p_campaign_id=3&p_user_id=12",
+        fetch(url + "/sendAudioPath_transcribe?p_campaign_id=3&p_user_id=24",
           {
             method: "POST",
             headers: {

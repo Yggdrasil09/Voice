@@ -98,8 +98,8 @@ class Speak extends Component {
     }, 100);
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
-      p_user_id: 7,
-      p_campaign_id : this.props.campaignId,
+      p_user_id: 35,
+      p_campaign_id : localStorage.getItem('campaignId'),
     };
     fetch(url + "/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
           method: "POST",
@@ -126,7 +126,8 @@ class Speak extends Component {
   }
 
   componentDidMount() {
-    fetch(url + "/speakTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=7", {
+    console.log(localStorage.getItem('campaignId'))
+    fetch(url + "/speakTasks?p_campaign_id="+localStorage.getItem('campaignId'),+"&p_user_id=35", {
       method: "POST",
     })
       .then(res => {

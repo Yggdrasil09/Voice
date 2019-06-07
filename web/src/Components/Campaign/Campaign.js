@@ -76,7 +76,7 @@ class Campaign extends Component {
     });
     console.log(value);
   }
-
+  // remove dispatch function
   handleSpeak() {
     console.log(this.state.activeModalValue[1])
     setTimeout(()=>{
@@ -87,12 +87,16 @@ class Campaign extends Component {
       })); 
     },100)
     this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
+    localStorage.setItem('campaignId',this.state.activeModalValue[1])
     this.props.dispatch({type:"ADD_TASK",task : "speak"});
+    localStorage.setItem('task',"speak")
   }
 
   handleListen() {
     this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
+    localStorage.setItem('campaignId',this.state.activeModalValue[1])
     this.props.dispatch({type:"ADD_TASK",task : "listen"});
+    localStorage.setItem('task',"listen")
     this.state.activeModalValue[5]==="yes"?(this.setState({
       redirectLogin: true
     })):(this.setState({

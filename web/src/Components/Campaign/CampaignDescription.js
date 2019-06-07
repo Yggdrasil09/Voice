@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 import "./Campaign.css";
 
@@ -9,7 +9,7 @@ class CampaignDescription extends Component {
     return (
       <Container className="con-border">
         <Row className="con-border">
-          <Col md={8}>
+          <Col md={8} className="pad-col">
             <Card className="campaigns campaignDes" style={{ width: "18rem" }}>
               <Card.Img
                 variant="top"
@@ -18,7 +18,7 @@ class CampaignDescription extends Component {
               />
             </Card>
           </Col>
-          <Col md={4}>
+          <Col md={4} className="pad-col campaigndetails">
             <Card.Title>Campaign Name</Card.Title>
             <Card.Subtitle className="mb-2 text-muted">
               Campaign Subtitle
@@ -27,6 +27,8 @@ class CampaignDescription extends Component {
               Some quick example text about campaigns to build on the card title
               and make up the bulk of the card's content.
             </Card.Text>
+            <Button variant="primary">Start Speak</Button>
+            <Button variant="primary">Start Listen</Button>
           </Col>
         </Row>
       </Container>

@@ -100,7 +100,7 @@ class Listen extends Component {
   }
 
   componentWillMount() {
-    fetch(url+"/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=11",
+    fetch(url+"/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=20",
       {
         method: "POST"
       }
@@ -114,7 +114,7 @@ class Listen extends Component {
       .catch(err => {
         console.log(err);
       });
-    fetch(url+"/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=11",
+    fetch(url+"/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=20",
       {
         method: "POST",
         headers: {

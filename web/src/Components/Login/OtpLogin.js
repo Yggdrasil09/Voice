@@ -52,24 +52,6 @@ class OtpLogin extends Component {
             redirect: true
           });
         }
-        fetch(url + "/protected", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            token: cookies.get("token")
-          },
-          credentials: "same-origin"
-        })
-          .then(res => {
-            return res.json();
-          })
-          .then(data => {
-            console.log(data);
-          })
-          .catch(err => {
-            console.log(err);
-          });
       })
       .catch(er => {
         console.log(er);
