@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
-import {connect} from "react-redux"
-import PropTypes from 'prop-types';
 
 import url from '../../url_service.js'
 import Text from "../Text/Text";
@@ -100,7 +98,12 @@ class Listen extends Component {
   }
 
   componentWillMount() {
-    fetch(url+"/allotListenTasks?p_campaign_id="+this.props.campaignId+"&p_user_id=20",
+    let data = {
+      p_campaign_id:localStorage.getItem('campaignId'),
+      p_user_id : localStorage.getItem('uid'),
+    }
+    let query = "p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id;
+    fetch(url+"/allotListenTasks?"+query,
       {
         method: "POST"
       }
@@ -114,7 +117,7 @@ class Listen extends Component {
       .catch(err => {
         console.log(err);
       });
-    fetch(url+"/sendAudioPath_listen?p_campaign_id="+this.props.campaignId+"&p_user_id=20",
+      fetch(url+"/sendAudioPath_listen?"+query,
       {
         method: "POST",
         headers: {
@@ -281,17 +284,4 @@ class Listen extends Component {
   }
 }
 
-Listen.propTypes = {
-  campaignId: PropTypes.number.isRequired,
-  userId : PropTypes.number.isRequired,
-	dispatch: PropTypes.func.isRequired
-}
-
-const mapStateToProps = function(state) {
-	return {
-    campaignId : state.campaignId,
-    userId : state.userId,
-	};
-};
-
-export default connect(mapStateToProps)(Listen);
+export default Listen;

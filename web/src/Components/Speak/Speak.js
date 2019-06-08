@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 
 import url from '../../url_service.js'
 import "./Speak.css";
@@ -98,10 +96,11 @@ class Speak extends Component {
     }, 100);
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
-      p_user_id: 35,
+      p_user_id: localStorage.getItem('uid'),
       p_campaign_id : localStorage.getItem('campaignId'),
     };
-    fetch(url + "/saveAudio?p_text_id="+data.p_text_id+"&p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id, {
+    let query = "p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id;
+    fetch(url + "/saveAudio?p_text_id="+data.p_text_id+"&"+query, {
           method: "POST",
           body: this.state.blob,
         })
@@ -125,9 +124,14 @@ class Speak extends Component {
       }
   }
 
-  componentDidMount() {
-    console.log(localStorage.getItem('campaignId'))
-    fetch(url + "/speakTasks?p_campaign_id="+localStorage.getItem('campaignId'),+"&p_user_id=35", {
+  componentDidMount(){
+    let data = {
+      p_text_id: this.state.text[this.state.taskno][0],
+      p_user_id: localStorage.getItem('uid'),
+      p_campaign_id : localStorage.getItem('campaignId'),
+    };
+    let query = "p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id;
+    fetch(url + "/speakTasks?"+query, {
       method: "POST",
     })
       .then(res => {
@@ -249,17 +253,4 @@ class Speak extends Component {
   }
 }
 
-Speak.propTypes = {
-  campaignId: PropTypes.number.isRequired,
-  userId : PropTypes.number.isRequired,
-	dispatch: PropTypes.func.isRequired
-}
-
-const mapStateToProps = function(state) {
-	return {
-    campaignId : state.campaignId,
-    userId : state.userId,
-	};
-};
-
-export default connect(mapStateToProps)(Speak);
+export default Speak;

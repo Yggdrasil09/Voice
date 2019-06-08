@@ -88,14 +88,12 @@ class Campaign extends Component {
     },100)
     this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
     localStorage.setItem('campaignId',this.state.activeModalValue[1])
-    this.props.dispatch({type:"ADD_TASK",task : "speak"});
     localStorage.setItem('task',"speak")
   }
 
   handleListen() {
     this.props.dispatch({type:"ADD_CAMPAIGN",Id : this.state.activeModalValue[1]});
     localStorage.setItem('campaignId',this.state.activeModalValue[1])
-    this.props.dispatch({type:"ADD_TASK",task : "listen"});
     localStorage.setItem('task',"listen")
     this.state.activeModalValue[5]==="yes"?(this.setState({
       redirectLogin: true
@@ -335,14 +333,12 @@ class Campaign extends Component {
 
 Campaign.propTypes = {
   campaignId: PropTypes.number.isRequired,
-  task: PropTypes.string.isRequired,
 	dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = function(state) {
 	return {
     campaignId : state.campaignId,
-    task : state.task,
     userId : state.userId,
 	};
 };

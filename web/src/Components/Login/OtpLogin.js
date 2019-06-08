@@ -44,13 +44,17 @@ class OtpLogin extends Component {
       })
       .then(data => {
         console.log(data);
-        let sliced = data.token.slice(2, data.token.length - 1);
-        cookies.set("token", sliced, { path: "/" });
-        console.log(document.cookie);
-        if (data) {
-          this.setState({
-            redirect: true
-          });
+        if (data.message === "success") {
+          let sliced = data.token.slice(2, data.token.length - 1);
+          cookies.set("token", sliced, { path: "/" });
+          console.log(document.cookie);
+          localStorage.setItem("uid", data.uid);
+          localStorage.setItem("LoginMethod","speak")
+          if (data) {
+            this.setState({
+              redirect: true
+            });
+          }
         }
       })
       .catch(er => {

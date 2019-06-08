@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 
 import "./Campaign.css";
 
@@ -19,7 +19,12 @@ class CampaignDescription extends Component {
             </Card>
           </Col>
           <Col md={4} className="pad-col campaigndetails">
-            <Card.Title>Campaign Name</Card.Title>
+            <Card.Title>
+              Campaign Name{" "}
+              <Badge pill variant="danger">
+                Paid
+              </Badge>
+            </Card.Title>
             <Card.Subtitle className="mb-2 text-muted">
               Campaign Subtitle
             </Card.Subtitle>
@@ -30,6 +35,16 @@ class CampaignDescription extends Component {
             <Button variant="primary">Start Speak</Button>
             <Button variant="primary">Start Listen</Button>
           </Col>
+        </Row>
+        <Row>
+          <Card style={{ width: "99%" }}>
+            <Card.Body>
+              <Card.Title>Card Description</Card.Title>
+              <Card.Text>
+                A Large description about the campaign is to be presented here
+              </Card.Text>
+            </Card.Body>
+          </Card>
         </Row>
       </Container>
     );

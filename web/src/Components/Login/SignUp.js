@@ -41,7 +41,7 @@ class SignUp extends Component {
         console.log(data);
         this.setState({
           name: "",
-          username: "",
+          username: "UPI",
           email: "",
           mobile: "",
           password: "",

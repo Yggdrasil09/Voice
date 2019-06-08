@@ -65,10 +65,12 @@ class App extends Component {
           <Route path="/tasks" component={List} exact />
           <Route path="/listen" component={Listen} exact />
           <Route path="/speak" component={Speak} exact />
-          <Route path="/login" component={Login} exact />
+          <Route path="/login" exact render={()=>(
+            this.state.loggedIn&&localStorage.getItem("LoginMethod")==="listen"?<Redirect to="/lttasks"/>:<Login/>
+          )}/>
           <Route path="/signup" component={SignUp} exact />
           <Route path="/otplogin" exact render={()=>(
-            this.state.loggedIn?<Redirect to="/speak"/>:<TwofactorLogin/>
+            this.state.loggedIn&&localStorage.getItem("LoginMethod")==="speak"?<Redirect to="/speak"/>:<TwofactorLogin/>
           )}/>
           <Route path="/otpcheck" component={OtpLogin} exact />
           <Route path="/lttasks" component={ListenorTrans} exact />

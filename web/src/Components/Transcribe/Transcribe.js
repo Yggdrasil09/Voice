@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { Container, Row, Col, Form, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
-import url from '../../url_service.js'
+import url from "../../url_service.js";
 import "./Transcribe.css";
 
 class Transcribe extends Component {
@@ -108,24 +106,25 @@ class Transcribe extends Component {
   }
 
   componentWillMount() {
-    fetch(url + "/allotTranscribeTasks?p_campaign_id=3&p_user_id=24",
-      {
-        method: "POST"
-      }
-    )
+    let data = {
+      p_campaign_id: localStorage.getItem("campaignId"),
+      p_user_id: localStorage.getItem("uid")
+    };
+    let query = "p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id;
+    fetch(url + "/allotTranscribeTasks?"+query, {
+      method: "POST"
+    })
       .then(res => {
         return res.json();
       })
       .then(data => {
         console.log(data);
-        fetch(url + "/sendAudioPath_transcribe?p_campaign_id=3&p_user_id=24",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            }
+        fetch(url + "/sendAudioPath_transcribe?"+query,{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
           }
-        )
+        })
           .then(res => {
             return res.json();
           })
@@ -143,8 +142,6 @@ class Transcribe extends Component {
       .catch(err => {
         console.log(err);
       });
-
-    
   }
 
   componentDidMount() {
@@ -240,23 +237,23 @@ class Transcribe extends Component {
             </div>
             <div className="taskmarking">
               <p className="activelisten active">
-                <i className="fa fa-edit listenicon active" />
+                <i class="far fa-keyboard listenicon active"></i>
                 <div className="listenno active">1</div>
               </p>
               <p className="activelisten active">
-                <i className="fa fa-edit listenicon active" />
+                <i class="far fa-keyboard listenicon active"></i>
                 <div className="listenno active">2</div>
               </p>
               <p className="activelisten active">
-                <i className="fa fa-edit listenicon active" />
+                <i class="far fa-keyboard listenicon active"></i>
                 <div className="listenno active">3</div>
               </p>
               <p className="activelisten active">
-                <i className="fa fa-edit listenicon active" />
+                <i class="far fa-keyboard listenicon active"></i>
                 <div className="listenno active">4</div>
               </p>
               <p className="activelisten active">
-                <i className="fa fa-edit listenicon active" />
+                <i class="far fa-keyboard listenicon active"></i>
                 <div className="listenno active">5</div>
               </p>
             </div>
@@ -276,9 +273,7 @@ class Transcribe extends Component {
           </Container>
         </div>
         <Sound
-          url={url + "/" +
-            this.state.SoundFile_url[this.state.taskno]
-          }
+          url={url + "/" + this.state.SoundFile_url[this.state.taskno]}
           playStatus={
             this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
           }
@@ -289,17 +284,4 @@ class Transcribe extends Component {
   }
 }
 
-Transcribe.propTypes = {
-  campaignId: PropTypes.number.isRequired,
-  userId: PropTypes.number.isRequired,
-  dispatch: PropTypes.func.isRequired
-};
-
-const mapStateToProps = function(state) {
-  return {
-    campaignId: state.campaignId,
-    userId: state.userId
-  };
-};
-
-export default connect(mapStateToProps)(Transcribe);
+export default Transcribe;
