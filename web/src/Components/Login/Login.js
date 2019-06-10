@@ -16,7 +16,7 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      redirect: false
+      redirect: false,
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

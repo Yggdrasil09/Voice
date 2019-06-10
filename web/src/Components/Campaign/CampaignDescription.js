@@ -2,9 +2,38 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 
+import url from "../../url_service";
 import "./Campaign.css";
 
 class CampaignDescription extends Component {
+  constructor() {
+    super();
+    this.state = {
+      list: []
+    };
+  }
+
+  componentWillMount() {
+    let data = {
+      p_campaign_id: localStorage.getItem("campaignId")
+    };
+    fetch(url + "/campaignDetails?p_campaign_id=" + data.p_campaign_id, {
+      method: "POST"
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        this.setState({
+          list: data
+        });
+        console.log(this.state.list);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <Container className="con-border">
@@ -20,31 +49,49 @@ class CampaignDescription extends Component {
           </Col>
           <Col md={4} className="pad-col campaigndetails">
             <Card.Title>
-              Campaign Name{" "}
-              <Badge pill variant="danger">
-                Paid
-              </Badge>
+              {this.state.list.campaign_name + " "}
+
+              {this.state.list.paid === "yes" ? (
+                <Badge pill variant="danger">
+                  Paid
+                </Badge>
+              ) : (
+                <div />
+              )}
             </Card.Title>
             <Card.Subtitle className="mb-2 text-muted">
-              Campaign Subtitle
+              {this.state.list.lang_id === "ENG"
+                ? "English"
+                : this.state.list.lang_id === "HIN"
+                ? "Hindi"
+                : "Telugu"}
             </Card.Subtitle>
+            <Card.Text>{this.state.list.campaign_description_short}</Card.Text>
             <Card.Text>
-              Some quick example text about campaigns to build on the card title
-              and make up the bulk of the card's content.
+              Duration : {this.state.list.ends_in + " "}days
+            </Card.Text>
+            <Card.Text>
+              {this.state.list.paid === "yes" ? (
+                <p>
+                  Amount paid for Task Completion : Rs.{this.state.list.amount}/-
+                </p>
+              ) : (
+                <div />
+              )}
             </Card.Text>
             <Button variant="primary">Start Speak</Button>
             <Button variant="primary">Start Listen</Button>
           </Col>
-        </Row>
-        <Row>
-          <Card style={{ width: "99%" }}>
-            <Card.Body>
-              <Card.Title>Card Description</Card.Title>
-              <Card.Text>
-                A Large description about the campaign is to be presented here
-              </Card.Text>
-            </Card.Body>
-          </Card>
+          <Row style={{ width: "100vw" }}>
+            <Card style={{ width: "99%" }}>
+              <Card.Body>
+                <Card.Title>Campaign Description</Card.Title>
+                <Card.Text>
+                  {this.state.list.campaign_description_long}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Row>
         </Row>
       </Container>
     );

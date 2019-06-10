@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import url from '../../url_service.js'
 import "./Speak.css";
 import Text from "../Text/Text";
 
 class Speak extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -130,6 +133,7 @@ class Speak extends Component {
       p_user_id: localStorage.getItem('uid'),
       p_campaign_id : localStorage.getItem('campaignId'),
     };
+    this.props.dispatch({type:"ADD_LOGIN",falselogged : 1});
     let query = "p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id;
     fetch(url + "/speakTasks?"+query, {
       method: "POST",
@@ -253,4 +257,17 @@ class Speak extends Component {
   }
 }
 
-export default Speak;
+Speak.propTypes = {
+  falselogged: PropTypes.number.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+
+const mapStateToProps = function(state) {
+	return {
+    falselogged : state.falselogged,
+	};
+};
+
+
+export default connect(mapStateToProps)(Speak);

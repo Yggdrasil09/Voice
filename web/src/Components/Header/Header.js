@@ -4,21 +4,24 @@ import Navbar from "react-bootstrap/Navbar";
 import { Button } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import "./Header.css";
 
 const cookies = new Cookies();
 
 class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isLogged: localStorage.getItem("LoginMethod"),
       displayLogout: false,
-      redirect: false
+      redirect: false,
+      falselogged : this.props.falselogged
     };
     this.logout = this.logout.bind(this);
-    this.redirect = this.redirect.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   logout() {
@@ -33,9 +36,12 @@ class Header extends Component {
     }
   }
 
-  redirect() {
+  handleRedirect() {
     if(this.state.redirect) {
-      return <Redirect to="/" />;
+      this.setState({
+        redirect:false,
+      })
+      return <Redirect to="/" />; 
     }
   }
 
@@ -57,8 +63,8 @@ class Header extends Component {
         bg="white"
         variant="light"
         className="header"
-      >
-        {this.redirect()}
+      > 
+        {this.handleRedirect()}
         <Navbar.Brand href="/">Common Voice</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -84,4 +90,17 @@ class Header extends Component {
   }
 }
 
-export default Header;
+Header.propTypes = {
+  falselogged: PropTypes.number.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+
+const mapStateToProps = function(state) {
+	return {
+    falselogged : state.falselogged,
+    userId : state.userId,
+	};
+};
+
+export default connect(mapStateToProps)(Header);

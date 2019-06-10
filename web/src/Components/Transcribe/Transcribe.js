@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Container, Row, Col, Form, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Sound from "react-sound";
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
 
 import url from "../../url_service.js";
 import "./Transcribe.css";
@@ -145,6 +147,7 @@ class Transcribe extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch({type:"ADD_LOGIN",falselogged : 1});
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
         document
@@ -284,4 +287,16 @@ class Transcribe extends Component {
   }
 }
 
-export default Transcribe;
+Transcribe.propTypes = {
+  falselogged: PropTypes.number.isRequired,
+	dispatch: PropTypes.func.isRequired
+}
+
+
+const mapStateToProps = function(state) {
+	return {
+    falselogged : state.falselogged,
+	};
+};
+
+export default connect(mapStateToProps)(Transcribe);
