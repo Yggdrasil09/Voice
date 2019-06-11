@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
-import url from '../../url_service.js'
+import url from "../../url_service.js";
 
 class CreateCampaign extends Component {
   constructor() {
@@ -15,14 +15,13 @@ class CreateCampaign extends Component {
       amountForTask: null,
       limitOnTask: null,
       totalSpeak: null,
-      // totalListen: null,
-      // totalTranscribe: null,
-      redirect : false,
+      redirect: false,
       timer: null,
       duration: null,
       campaignStatus: "active",
       description: "",
-      longdescription:"",
+      longdescription: "",
+      upload : null,
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,6 +30,7 @@ class CreateCampaign extends Component {
     this.handlePaid = this.handlePaid.bind(this);
     this.handleTextType = this.handleTextType.bind(this);
     this.handleRedirect = this.handleRedirect.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
   }
 
   handleSubmit(e) {
@@ -44,18 +44,16 @@ class CreateCampaign extends Component {
       p_limit_tasks: this.state.limitOnTask,
       p_amount: this.state.amountForTask,
       p_total_tasks_speak: this.state.totalSpeak,
-      // p_total_tasks_listen: this.state.totalListen,
-      // p_total_tasks_transcribe: this.state.totalTranscribe,
       p_timer: this.state.timer,
       p_ends_in: this.state.duration,
-      p_locked: 1 ,
+      p_locked: 1,
       p_campaign_description_short: this.state.description,
       p_campaign_description_long: this.state.longdescription,
-      p_campaign_status: this.state.campaignStatus,
+      p_campaign_status: this.state.campaignStatus
     };
-    fetch(url+"/campaignCreate", {
+    fetch(url + "/campaignCreate", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
       .then(res => {
         console.log(res);
@@ -77,39 +75,48 @@ class CreateCampaign extends Component {
         //   longdescription: "",
         // });
         this.setState({
-          redirect : !this.state.redirect,
-        })
+          redirect: !this.state.redirect
+        });
       })
       .catch(er => {
         console.log(er);
       });
   }
 
+  handleUpload(e) {
+    e.preventDefault();
+    const data = new FormData();
+    data.append("file", this.uploadInput.files[0]);
+    this.setState({
+      upload : data,
+    })
+  }
+
   handlePaid(e) {
     e.preventDefault();
     this.setState({
-      paid: !this.state.paid,
+      paid: !this.state.paid
     });
   }
 
   handleLanguage(e) {
     e.preventDefault();
     this.setState({
-      languageType: e.target.value,
+      languageType: e.target.value
     });
   }
 
   handleTextType(e) {
     e.preventDefault();
     this.setState({
-      textType: e.target.value,
+      textType: e.target.value
     });
   }
 
   handleStatus(e) {
     e.preventDefault();
     this.setState({
-      campaignStatus: e.target.value,
+      campaignStatus: e.target.value
     });
   }
 
@@ -117,67 +124,56 @@ class CreateCampaign extends Component {
     e.preventDefault();
     if (e.target.name === "first-name") {
       this.setState({
-        campaignName: e.target.value,
+        campaignName: e.target.value
       });
     }
     if (e.target.name === "amount-tasks") {
       this.setState({
-        amountForTask: e.target.value,
+        amountForTask: e.target.value
       });
     }
     if (e.target.name === "limit-tasks") {
       this.setState({
-        limitOnTask: e.target.value,
+        limitOnTask: e.target.value
       });
     }
     if (e.target.name === "speak-tasks") {
       this.setState({
-        totalSpeak: e.target.value,
+        totalSpeak: e.target.value
       });
     }
-    // if (e.target.name === "listen-tasks") {
-    //   this.setState({
-    //     totalListen: e.target.value,
-    //   });
-    // }
-    // if (e.target.name === "transcribe-tasks") {
-    //   this.setState({
-    //     totalTranscribe: e.target.value,
-    //   });
-    // }
     if (e.target.name === "timer") {
       this.setState({
-        timer: e.target.value,
+        timer: e.target.value
       });
     }
     if (e.target.name === "duration") {
       this.setState({
-        duration: e.target.value,
+        duration: e.target.value
       });
     }
     if (e.target.name === "description") {
       this.setState({
-        description: e.target.value,
+        description: e.target.value
       });
     }
     if (e.target.name === "longdescription") {
       this.setState({
-        longdescription: e.target.value,
+        longdescription: e.target.value
       });
     }
   }
 
-  handleRedirect(){
-    if(this.state.redirect)
-    {
-      return <Redirect to='/'/>
+  handleRedirect() {
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
     }
   }
 
   render() {
     return (
       <Container>
-        {this.handleRedirect()} 
+        {this.handleRedirect()}
         <Row>
           <Col>
             <div className="form-signup">
@@ -189,7 +185,7 @@ class CreateCampaign extends Component {
                   onChange={this.handleValueChange}
                 />
                 <Form.Group controlId="exampleForm.ControlSelect1">
-                  <Form.Label>Language Type</Form.Label>
+                  <Form.Label>Language</Form.Label>
                   <Form.Control
                     as="select"
                     placeholder="Select Language"
@@ -241,20 +237,6 @@ class CreateCampaign extends Component {
                     onChange={this.handleValueChange}
                   />
                 </Form.Group>
-                {/* <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Total number of tasks in listen</Form.Label>
-                  <Form.Control
-                    name="listen-tasks"
-                    onChange={this.handleValueChange}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Total number of tasks in transcribe</Form.Label>
-                  <Form.Control
-                    name="transcribe-tasks"
-                    onChange={this.handleValueChange}
-                  />
-                </Form.Group> */}
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Enter the timer limit in minutes</Form.Label>
                   <Form.Control
@@ -289,13 +271,25 @@ class CreateCampaign extends Component {
                     onChange={this.handleValueChange}
                   />
                 </Form.Group>
+                <Form.Label>Upload Corpus</Form.Label>
+                <div>
+                  <input
+                    ref={ref => {
+                      this.uploadInput = ref;
+                    }}
+                    type="file"
+                  />
+                </div>
+                <div>
+                  <button onClick={this.handleUpload}>Upload</button>
+                </div>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Label>Campaign status</Form.Label>
                   <Form.Control
                     as="select"
                     name="status"
                     onChange={this.handleStatus}
-                  >  
+                  >
                     <option value="active">Active</option>
                     <option value="archive">Archive</option>
                     <option value="complete">Complete</option>

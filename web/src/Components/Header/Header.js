@@ -76,6 +76,7 @@ class Header extends Component {
             <Nav.Link href="otplogin">2FactorLogin</Nav.Link>
             <Nav.Link href="signup">SignUp</Nav.Link>
             <Nav.Link href="createcampaign">Create campaign</Nav.Link>
+            <Nav.Link href="stats">Campaign Stats</Nav.Link>
           </Nav>
           {this.state.displayLogout ? (
             <Button variant="outline-danger" onClick={this.logout}>

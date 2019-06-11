@@ -1,0 +1,26 @@
+.cont-border{
+    overflow-x: hidden;
+    min-width:100%;
+    padding:0;
+}
+
+.stats-display{
+    margin-top: 3vh;
+    min-width:100%;
+    padding:0;
+    border: 2px solid rgb(206, 202, 202);
+    border-radius: 0.5rem;
+    padding: 3rem;
+}
+
+.stat-grid{
+    height:15vh;
+    box-shadow: 0 3px 10px 1px lightgrey;
+    margin-top:1vh;
+}
+
+.play-stat{
+    /* font-size:3rem; */
+    text-align: center;
+    vertical-align:center;
+}
