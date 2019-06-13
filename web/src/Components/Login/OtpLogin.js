@@ -6,6 +6,8 @@ import OtpInput from "react-otp-input";
 import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
 
+import Loader from 'react-loader-spinner'
+
 import url from "../../url_service.js";
 
 const cookies = new Cookies();
@@ -16,13 +18,15 @@ class OtpLogin extends Component {
     this.state = {
       otpId: this.props.otpLoginId,
       otp: "",
-      redirect: false
+      redirect: false,
+      isLoading: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   handleSubmit(e) {
+    this.setState({isLoading : true})
     e.preventDefault();
     let data = {
       message: this.state.otp,
@@ -52,7 +56,8 @@ class OtpLogin extends Component {
           localStorage.setItem("LoginMethod","speak")
           if (data) {
             this.setState({
-              redirect: true
+              redirect: true,
+              isLoading: false,
             });
           }
         }
@@ -69,6 +74,19 @@ class OtpLogin extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <Container className="contain-height">
+        <h4 id="fetching" className="center">
+            Logging you in.......
+        </h4>
+        <Row className="center">
+            <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
+        </Row>
+        {this.handleRedirect()}
+      </Container>
+      );
+    }
     return (
       <Container>
         {this.handleRedirect()}

@@ -5,6 +5,8 @@ import { ReactMic } from "react-mic";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Loader from 'react-loader-spinner'
+
 import url from '../../url_service.js'
 import "./Speak.css";
 import Text from "../Text/Text";
@@ -22,6 +24,7 @@ class Speak extends Component {
       presentTask: [1, 0, 0, 0, 0],
       taskno: 0,
       blob: {},
+      isLoading: false,
     };
     this.onStop = this.onStop.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -128,6 +131,7 @@ class Speak extends Component {
   }
 
   componentDidMount(){
+    this.setState({isLoading : true})
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
       p_user_id: localStorage.getItem('uid'),
@@ -146,6 +150,7 @@ class Speak extends Component {
         this.setState({
           text: data.text,
           textId: data.text,
+          isLoading: false,
         });
         console.log(this.state.text);
       })
@@ -164,6 +169,18 @@ class Speak extends Component {
   }
 
   render() {
+    if(this.state.isLoading) {
+      return (
+        <Container className="contain-height">
+          <h4 id="fetching" className="center">
+              Fetching tasks for you from the server.......
+          </h4>
+          <Row className="center">
+              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
+          </Row>
+        </Container>
+      );
+    }
     return (
       <Container className="max-border">
         <div className="top-heading">
