@@ -156,9 +156,6 @@ class Transcribe extends Component {
           .getElementsByClassName("listenicon")[i].classList.toggle("active");
         document
           .getElementsByClassName("listenno")[i].classList.toggle("active");
-        // this.setState({
-        //   SoundFile_url :"http://10.2.135.75:5000/" + this.state.sound_files[i],
-        // })
         console.log(this.state.SoundFile_url);
       }
     }

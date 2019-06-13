@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router";
 
-import url from '../../url_service.js'
+import url from "../../url_service.js";
 import "./Speak.css";
 import Text from "../Text/Text";
 
 class Speak extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -22,16 +22,18 @@ class Speak extends Component {
       presentTask: [1, 0, 0, 0, 0],
       taskno: 0,
       blob: {},
+      redirect: false
     };
     this.onStop = this.onStop.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   startRecording = () => {
     this.setState({
-      record: true,
+      record: true
     });
   };
 
@@ -40,13 +42,13 @@ class Speak extends Component {
     document.getElementById("pause").classList.toggle("active");
     this.state.playing ? this.stopRecording() : this.startRecording();
     this.setState({
-      playing: !this.state.playing,
+      playing: !this.state.playing
     });
   };
 
   stopRecording = () => {
     this.setState({
-      record: false,
+      record: false
     });
     this.handleShow();
   };
@@ -58,7 +60,7 @@ class Speak extends Component {
   onStop(recordedBlob) {
     console.log("recordedBlob is: ", recordedBlob.blob);
     this.setState({
-      blob: recordedBlob.blob,
+      blob: recordedBlob.blob
     });
   }
 
@@ -75,13 +77,15 @@ class Speak extends Component {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
         document
-          .getElementsByClassName("activespeak")[i].classList.toggle("active");
+          .getElementsByClassName("activespeak")
+          [i].classList.toggle("active");
         document
-          .getElementsByClassName("speakicon")[i].classList.toggle("active");
+          .getElementsByClassName("speakicon")
+          [i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
         actionList[i + 1] = 1;
         this.setState({
-          presentTask: actionList,
+          presentTask: actionList
         });
       }
     }
@@ -89,64 +93,78 @@ class Speak extends Component {
       for (let i = 0; i < this.state.presentTask.length; i++) {
         if (this.state.presentTask[i]) {
           document
-            .getElementsByClassName("activespeak")[i].classList.toggle("active");
+            .getElementsByClassName("activespeak")
+            [i].classList.toggle("active");
           document
-            .getElementsByClassName("speakicon")[i].classList.toggle("active");
+            .getElementsByClassName("speakicon")
+            [i].classList.toggle("active");
           document
-            .getElementsByClassName("taskno")[i].classList.toggle("active");
+            .getElementsByClassName("taskno")
+            [i].classList.toggle("active");
         }
       }
-    }, 100);
+    }, 10);
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
-      p_user_id: localStorage.getItem('uid'),
-      p_campaign_id : localStorage.getItem('campaignId'),
+      p_user_id: localStorage.getItem("uid"),
+      p_campaign_id: localStorage.getItem("campaignId")
     };
-    let query = "p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id;
-    fetch(url + "/saveAudio?p_text_id="+data.p_text_id+"&"+query, {
-          method: "POST",
-          body: this.state.blob,
-        })
-          .then(res => {
-            return res.json();
-          })
-          .then(data => {
-            console.log(data);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      this.setState({ showModal: false, taskno: this.state.taskno + 1 });
-      if(this.state.taskno === 5)
-      {
-        this.setState({
-          taskno : 0,
-          text: [[null, ""]],
-          textId: [[null,""]],
-        })
-      }
-  }
-
-  componentDidMount(){
-    let data = {
-      p_text_id: this.state.text[this.state.taskno][0],
-      p_user_id: localStorage.getItem('uid'),
-      p_campaign_id : localStorage.getItem('campaignId'),
-    };
-    this.props.dispatch({type:"ADD_LOGIN",falselogged : 1});
-    let query = "p_campaign_id="+data.p_campaign_id+"&p_user_id="+data.p_user_id;
-    fetch(url + "/speakTasks?"+query, {
+    let query =
+      "p_campaign_id=" + data.p_campaign_id + "&p_user_id=" + data.p_user_id;
+    fetch(url + "/saveAudio?p_text_id=" + data.p_text_id + "&" + query, {
       method: "POST",
+      body: this.state.blob
     })
       .then(res => {
         return res.json();
       })
       .then(data => {
         console.log(data);
-        this.setState({
-          text: data.text,
-          textId: data.text,
-        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    let append = this.state.text;
+    append.push([1, ""]);
+    this.setState({
+      showModal: false,
+      taskno: this.state.taskno + 1,
+      text: append
+    });
+    if (this.state.taskno === 4) {
+      this.setState({
+        redirect: true,
+        taskno: 0,
+        text: [[null, ""]],
+        textId: [[null, ""]],
+        presentTask: [1, 0, 0, 0, 0]
+      });
+    }
+  }
+
+  componentDidMount() {
+    let data = {
+      p_text_id: this.state.text[this.state.taskno][0],
+      p_user_id: localStorage.getItem("uid"),
+      p_campaign_id: localStorage.getItem("campaignId")
+    };
+    this.props.dispatch({ type: "ADD_LOGIN", falselogged: 1 });
+    let query =
+      "p_campaign_id=" + data.p_campaign_id + "&p_user_id=" + data.p_user_id;
+    fetch(url + "/speakTasks?" + query, {
+      method: "POST"
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        if (!(data.text === [])) {
+          this.setState({
+            text: data.text,
+            textId: data.text
+          });
+        }
         console.log(this.state.text);
       })
       .catch(err => {
@@ -155,17 +173,26 @@ class Speak extends Component {
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
         document
-          .getElementsByClassName("activespeak")[i].classList.toggle("active");
+          .getElementsByClassName("activespeak")
+          [i].classList.toggle("active");
         document
-          .getElementsByClassName("speakicon")[i].classList.toggle("active");
+          .getElementsByClassName("speakicon")
+          [i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
       }
+    }
+  }
+
+  handleRedirect() {
+    if (this.state.redirect) {
+      // return <Redirect to="/"/>
     }
   }
 
   render() {
     return (
       <Container className="max-border">
+        {this.handleRedirect()}
         <div className="top-heading">
           <NavLink to="/">
             <div className="back">
@@ -173,6 +200,14 @@ class Speak extends Component {
             </div>
           </NavLink>
         </div>
+        <Modal show={this.state.redirect}>
+          <Modal.Header closeButton>
+            <Modal.Title>Task Status</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>You have completed all the tasks.</Modal.Body>
+          <Modal.Footer>
+          </Modal.Footer>
+        </Modal>
         <Modal show={this.state.showModal}>
           <Modal.Header closeButton>
             <Modal.Title>Task Status</Modal.Title>
@@ -259,15 +294,13 @@ class Speak extends Component {
 
 Speak.propTypes = {
   falselogged: PropTypes.number.isRequired,
-	dispatch: PropTypes.func.isRequired
-}
-
-
-const mapStateToProps = function(state) {
-	return {
-    falselogged : state.falselogged,
-	};
+  dispatch: PropTypes.func.isRequired
 };
 
+const mapStateToProps = function(state) {
+  return {
+    falselogged: state.falselogged
+  };
+};
 
 export default connect(mapStateToProps)(Speak);
