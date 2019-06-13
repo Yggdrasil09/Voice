@@ -5,8 +5,9 @@ import { ReactMic } from "react-mic";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
+import Loader from 'react-loader-spinner'
 
-import url from "../../url_service.js";
+import url from '../../url_service.js'
 import "./Speak.css";
 import Text from "../Text/Text";
 
@@ -22,7 +23,8 @@ class Speak extends Component {
       presentTask: [1, 0, 0, 0, 0],
       taskno: 0,
       blob: {},
-      redirect: false
+      redirect: false,
+      isLoading: false,
     };
     this.onStop = this.onStop.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -77,11 +79,9 @@ class Speak extends Component {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
         document
-          .getElementsByClassName("activespeak")
-          [i].classList.toggle("active");
+          .getElementsByClassName("activespeak")[i].classList.toggle("active");
         document
-          .getElementsByClassName("speakicon")
-          [i].classList.toggle("active");
+          .getElementsByClassName("speakicon")[i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
         actionList[i + 1] = 1;
         this.setState({
@@ -93,14 +93,11 @@ class Speak extends Component {
       for (let i = 0; i < this.state.presentTask.length; i++) {
         if (this.state.presentTask[i]) {
           document
-            .getElementsByClassName("activespeak")
-            [i].classList.toggle("active");
+            .getElementsByClassName("activespeak")[i].classList.toggle("active");
           document
-            .getElementsByClassName("speakicon")
-            [i].classList.toggle("active");
+            .getElementsByClassName("speakicon")[i].classList.toggle("active");
           document
-            .getElementsByClassName("taskno")
-            [i].classList.toggle("active");
+            .getElementsByClassName("taskno")[i].classList.toggle("active");
         }
       }
     }, 10);
@@ -142,7 +139,8 @@ class Speak extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(){
+    this.setState({isLoading : true})
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
       p_user_id: localStorage.getItem("uid"),
@@ -159,12 +157,11 @@ class Speak extends Component {
       })
       .then(data => {
         console.log(data);
-        if (!(data.text === [])) {
-          this.setState({
-            text: data.text,
-            textId: data.text
-          });
-        }
+        this.setState({
+          text: data.text,
+          textId: data.text,
+          isLoading: false,
+        });
         console.log(this.state.text);
       })
       .catch(err => {
@@ -173,11 +170,9 @@ class Speak extends Component {
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
         document
-          .getElementsByClassName("activespeak")
-          [i].classList.toggle("active");
+          .getElementsByClassName("activespeak")[i].classList.toggle("active");
         document
-          .getElementsByClassName("speakicon")
-          [i].classList.toggle("active");
+          .getElementsByClassName("speakicon")[i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
       }
     }
@@ -185,11 +180,23 @@ class Speak extends Component {
 
   handleRedirect() {
     if (this.state.redirect) {
-      // return <Redirect to="/"/>
+      return <Redirect to="/"/>
     }
   }
 
   render() {
+    if(this.state.isLoading) {
+      return (
+        <Container className="contain-height">
+          <h4 id="fetching" className="center">
+              Fetching tasks for you from the server.......
+          </h4>
+          <Row className="center">
+              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
+          </Row>
+        </Container>
+      );
+    }
     return (
       <Container className="max-border">
         {this.handleRedirect()}

@@ -7,10 +7,14 @@ class ReviewStat extends Component {
   render() {
     return (
       <Row className="stat-grid">
-        <Col sm={3} className="task-action">
-          
+        <Col sm={1} className="task-action">
+          <i className="fas fa-play" />
         </Col>
-        <Col sm={9} />
+        <Col sm={3}>
+        </Col>
+        <Col sm={3}></Col>
+        <Col sm={3}></Col>
+        <Col sm={2}></Col>
       </Row>
     );
   }

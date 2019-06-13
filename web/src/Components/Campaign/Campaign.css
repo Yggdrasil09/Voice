@@ -46,3 +46,15 @@
 .campaigndetails{
     margin-top:2rem;
 }
+
+.loader{
+    margin-left:50vw;
+    margin-right:50vw;
+}
+
+@media (max-width:767.98px){
+    .loader{
+        margin-left:40%;
+        margin-right:40%;
+    }
+}
