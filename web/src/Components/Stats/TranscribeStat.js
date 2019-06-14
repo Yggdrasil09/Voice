@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col } from "react-bootstrap";
-import { Card, Icon } from "antd";
+import { Card, Icon, Button} from "antd";
 
 import "antd/dist/antd.css";
 import "./Stats.css";
@@ -10,9 +10,9 @@ const { Meta } = Card;
 class TranscribeStat extends Component {
   render() {
     return (
-      <Row className="stat-grid">
+      <Row className="stat-grid-trans">
         <Col sm={1} className="play-stat">
-          <i className="fas fa-play" />
+          <i className="fas fa-play play-audio-trans" />
         </Col>
         <Col sm={3}>
           <Card
@@ -62,7 +62,14 @@ class TranscribeStat extends Component {
             />
           </Card>
         </Col>
-        <Col sm={2}></Col>
+        <Col sm={2} className="button-col">
+          <Button type="primary" className="button-stat">
+            Clear
+          </Button>
+          <Button type="primary" icon="redo">
+            Retake
+          </Button>
+        </Col>
       </Row>
     );
   }

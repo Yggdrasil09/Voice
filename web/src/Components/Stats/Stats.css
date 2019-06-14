@@ -13,14 +13,37 @@
     padding: 3rem;
 }
 
-.stat-grid{
+.stat-grid-trans,.stat-grid-review{
     height:25vh;
-    box-shadow: 0 3px 10px 1px lightgrey;
+    border : 2px solid rgb(207, 206, 206);
+    border-radius : 0.5rem;
     margin-top:1vh;
 }
 
-.play-stat{
-    /* font-size:3rem; */
+.stat-grid-review{
+    border : 2px solid rgb(207, 206, 206);
+    border-radius : 0.5rem;
+}
+
+.play-stat,.task-action{
+    font-size:3rem;
     text-align: center;
-    vertical-align:center;
+}
+
+.play-audio-trans{
+    color :#D075D1; 
+    margin-top:100%;
+}
+
+.play-audio{
+    color :#59CBB7; 
+    margin-top:100%;
+}
+
+.button-stat{
+    margin:30px;
+}
+
+.button-col{
+    text-align:center;
 }
