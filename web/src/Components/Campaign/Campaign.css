@@ -21,18 +21,18 @@
 }
 
 .con-border{
-    min-width:98%;
+    min-width:90%;
+    border : 2px solid lightgrey;
     margin-left:auto;
     margin-right:auto;
     padding:0;
     margin-top:1rem;
-    border-radius:5px;
+    border-radius:10px;
     box-shadow: 0 0 10px 1px rgb(231, 226, 226);
 }
 
-.campaignDes{
-    min-width:95%;
-    margin:0;
+.description-col{
+    padding:1rem;
 }
 
 .campImg{
@@ -43,13 +43,27 @@
     padding:0;
 }
 
-.campaigndetails{
-    margin-top:2rem;
-}
-
 .loader{
     margin-left:50vw;
     margin-right:50vw;
+}
+
+.campaignspeakdesp{
+    width:100%;
+    height:auto;
+}
+
+.campdesc{
+    margin-top:3rem;
+}
+
+.camptitle{
+    font-size:3rem;
+}
+
+.campsubtitle{
+    font-size:1.5rem;
+    color:grey;
 }
 
 @media (max-width:767.98px){

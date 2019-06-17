@@ -17,6 +17,7 @@ import ListenorTrans from "./Components/List/ListenorTrans";
 import OtpLogin from "./Components/Login/OtpLogin";
 import CampaignDescription from "./Components/Campaign/CampaignDescription";
 import Stats from "./Components/Stats/Stats";
+import Profile from './Components/Profile/Profile';
 
 const cookies = new Cookies();
 
@@ -77,6 +78,7 @@ class App extends Component {
           <Route path="/lttasks" component={ListenorTrans} exact />
           <Route path="/stats" component={Stats} exact />
           <Route path="/campdescription" component={CampaignDescription} exact/>
+          <Route path="/profile" component={Profile} exact/>
           <Route path="/createcampaign" component={CreateCampaign} exact />
           <Route path="/Transcribe" component={Transcribe} exact />
         </Switch>

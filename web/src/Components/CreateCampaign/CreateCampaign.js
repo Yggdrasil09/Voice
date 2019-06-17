@@ -21,7 +21,7 @@ class CreateCampaign extends Component {
       campaignStatus: "active",
       description: "",
       longdescription: "",
-      upload : null,
+      upload: "",
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +35,7 @@ class CreateCampaign extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    console.log(this.state.upload);
     const data = {
       p_campaign_name: this.state.campaignName,
       p_lang_id: this.state.languageType,
@@ -56,27 +56,40 @@ class CreateCampaign extends Component {
       body: JSON.stringify(data)
     })
       .then(res => {
-        console.log(res);
-        // this.setState({
-        //   campaignName: "",
-        //   languageType: 1,
-        //   textType: "corpus_snip",
-        //   paid: false,
-        //   locked: false,
-        //   amountForTask: null,
-        //   limitOnTask: null,
-        //   totalSpeak: null,
-        //   // totalListen: null,
-        //   // totalTranscribe: null,
-        //   timer: null,
-        //   duration: null,
-        //   campaignStatus: 1,
-        //   description: "",
-        //   longdescription: "",
-        // });
-        this.setState({
-          redirect: !this.state.redirect
-        });
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        fetch(url + "/fileUpload?p_campaign_id=" + data.campaign_id, {
+          method: "POST",
+          body: this.state.upload
+        })
+          .then(res => {
+            console.log(res)
+            // this.setState({
+            //   campaignName: "",
+            //   languageType: 1,
+            //   textType: "corpus_snip",
+            //   paid: false,
+            //   locked: false,
+            //   amountForTask: null,
+            //   limitOnTask: null,
+            //   totalSpeak: null,
+            //   // totalListen: null,
+            //   // totalTranscribe: null,
+            //   timer: null,
+            //   duration: null,
+            //   campaignStatus: 1,
+            //   description: "",
+            //   longdescription: ""
+            // });
+            this.setState({
+              redirect: !this.state.redirect
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(er => {
         console.log(er);
@@ -88,8 +101,11 @@ class CreateCampaign extends Component {
     const data = new FormData();
     data.append("file", this.uploadInput.files[0]);
     this.setState({
-      upload : data,
-    })
+      upload: data
+    });
+    setTimeout(() => {
+      console.log(this.state.upload.get("file"));
+    }, 100);
   }
 
   handlePaid(e) {
