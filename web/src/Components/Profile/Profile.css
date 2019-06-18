@@ -21,3 +21,11 @@
 .status-col{
     margin-top:3rem;
 }
+
+.ant-badge{
+  width:100%;
+}
+
+.ant-scroll-num{
+  left:-10rem;
+}

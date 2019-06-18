@@ -4,6 +4,7 @@ import { Container, Row } from "react-bootstrap";
 import "./List.css";
 import ListenTask from "../Tasks/ListenTask";
 import TranscribeTask from "../Tasks/TranscribeTask";
+import ListenParallelTask from "../Tasks/ListenParallelTask";
 
 class ListenorTrans extends Component {
   render() {
@@ -14,6 +15,7 @@ class ListenorTrans extends Component {
         </Row>
         <TranscribeTask />
         <ListenTask />
+        <ListenParallelTask/>
       </Container>
     );
   }

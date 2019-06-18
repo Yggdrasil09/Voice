@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col } from "react-bootstrap";
-import { Card, Icon, Button } from "antd";
+import { Card, Icon, Button ,Popover} from "antd";
 
 import "antd/dist/antd.css";
 import "./Stats.css";
@@ -18,7 +18,10 @@ class ReviewStat extends Component {
           <Card
             style={{ width: "100%", marginTop: 12 }}
             actions={[
-              <Icon type="check" style={{ color: "green" }} />,
+              <Popover placement="bottom" content="hello">
+                <Icon type="check" style={{ color: "green" }} />
+              </Popover>
+              ,
               <Icon type="check" style={{ color: "green" }} />,
               <Icon type="close" style={{ color: "red" }} />
             ]}
