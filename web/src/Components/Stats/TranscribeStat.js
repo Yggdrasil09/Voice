@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Card, Icon, Button, Popover} from "antd";
-import { NavLink } from "react-router-dom";
+import { Card, Icon, Popover} from "antd";
 import Sound from "react-sound";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
 import Loader from 'react-loader-spinner';
-
-import url from '../../url_service.js'
-import Text from "../Text/Text";
+import url from '../../url_service.js';
 
 import "antd/dist/antd.css";
 import "./Stats.css";
@@ -35,12 +30,11 @@ class TranscribeStat extends Component {
     this.soundPlayer = this.soundPlayer.bind(this);
   }
 
-  soundPlayer() {
+  soundPlayer(value) {
     this.setState(state => ({
-      sound: !state.sound
+      SoundFile_url:value,
+      sound: !state.sound,
     }));
-    document.getElementById("play").classList.toggle("active");
-    document.getElementById("stop").classList.toggle("active");
   }
 
   componentWillMount() {
@@ -57,10 +51,7 @@ class TranscribeStat extends Component {
         console.log(data);
         console.log(data.length);
         this.setState({
-          // SoundFile_url: data[0],
-          // text: data[2],
-          // task_Id: data[1],
-          // isLoading: false, #################################################################################
+          isLoading: false, 
           noOfAudios: data.length,
           array : data,
         });
@@ -82,12 +73,9 @@ class TranscribeStat extends Component {
   componentDidMount() {
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
-        document
-          .getElementsByClassName("activelisten")[i].classList.toggle("active");
-        document
-          .getElementsByClassName("listenicon")[i].classList.toggle("active");
-        document
-          .getElementsByClassName("listenno")[i].classList.toggle("active");
+        document.getElementsByClassName("activelisten")[i].classList.toggle("active");
+        document.getElementsByClassName("listenicon")[i].classList.toggle("active");
+        document.getElementsByClassName("listenno")[i].classList.toggle("active");
       }
     }
   }
@@ -117,69 +105,97 @@ class TranscribeStat extends Component {
     for (let i = 0; i < this.state.noOfAudios; i++) {
       split_arr = this.state.array[i][0].split("_")
       let keys = split_arr[2].split(".")[0]
-      if (this.state.array[i][1][i] === "Yes") {
-        
-      }
+      let type = this.state.array[i][1][0][2][0][0] === "Yes" ? "check" : "close"
+      let type1 = this.state.array[i][1][0][2][1][0] === "Yes" ? "check" : "close"
+      let type2 = this.state.array[i][1][0][2][2][0] === "Yes" ? "check" : "close" 
+      let type3 = this.state.array[i][1][1][2][0][0] === "Yes" ? "check" : "close"
+      let type4 = this.state.array[i][1][1][2][1][0] === "Yes" ? "check" : "close"
+      let type5 = this.state.array[i][1][1][2][2][0] === "Yes" ? "check" : "close" 
+      let type6 = this.state.array[i][1][2][2][0][0] === "Yes" ? "check" : "close"
+      let type7 = this.state.array[i][1][2][2][1][0] === "Yes" ? "check" : "close"
+      let type8 = this.state.array[i][1][2][2][2][0] === "Yes" ? "check" : "close"
+
+      let highlight = this.state.array[i][3]
       cards.push(
         <Row className="stat-grid-trans">
         <Col sm={1} className="play-stat" key={keys}>
-          <i className="fas fa-play play-audio-trans" />
+          <i onClick={()=>{this.soundPlayer(this.state.array[i][0])}} className="fas fa-play play-audio-trans" />
         </Col>
         <Col sm={3}>
           <Card
-            style={{ width: "100%", marginTop: 12 }}
+            style={{ width: "100%", marginTop: 12, boxShadow: highlight === 0 ? "0 0 20px 1px #59CBB7" : "" }}
             actions={[
-              <Popover content={"Hi"} title="Title">
-                <Icon type={"check"} style={{color:"green"}}/>
+              <Popover content={"Rating : " + this.state.array[i][1][0][2][0][1]}>
+                <Icon type={type} style={{color:type === "check" ? "green" : "red"}}/>
               </Popover>,
-              <Icon type="check" style={{color:"green"}}/>,
-              <Icon type="close" style={{color:"red"}}/>
+              <Popover content={"Rating : " + this.state.array[i][1][0][2][1][1]}>
+                <Icon type={type1} style={{color:type1 === "check" ? "green" : "red"}}/>
+              </Popover>,
+              <Popover content={"Rating : " + this.state.array[i][1][0][2][2][1]}>
+                <Icon type={type2} style={{color:type2 === "check" ? "green" : "red"}}/>
+              </Popover>
             ]}
           >
+            <Popover content = {"Confidence : " + this.state.array[i][1][0][3] + "%"}>
             <Meta
               style={{ height: "50%",color:"red" }}
               description={this.state.array[i][1][0][1]}
-              
             />
+            </Popover>
           </Card>
         </Col>
         <Col sm={3}>
           <Card
-            style={{ width:"100%", marginTop: 12 }}
+            style={{ width:"100%", marginTop: 12, boxShadow: highlight === 1 ? "0 0 20px 1px #59CBB7" : ""  }}
             actions={[
-              <Icon type="check" style={{color:"green"}}/>,
-              <Icon type="close" style={{color:"red"}}/>,
-              <Icon type="check" style={{color:"green"}}/>
+              <Popover content={"Rating : " + this.state.array[i][1][1][2][0][1]}>
+                <Icon type={type3} style={{color:type3 === "check" ? "green" : "red"}}/>
+              </Popover>,
+              <Popover content={"Rating : " + this.state.array[i][1][1][2][1][1]}>
+                <Icon type={type4} style={{color:type4 === "check" ? "green" : "red"}}/>
+              </Popover>,
+              <Popover content={"Rating : " + this.state.array[i][1][1][2][2][1]}>
+                <Icon type={type5} style={{color:type5 === "check" ? "green" : "red"}}/>
+              </Popover>
             ]}
           >
+          <Popover content = {"Confidence : " + this.state.array[i][1][1][3] + "%"}>
             <Meta
               style={{ height: "50%" }}
               description={this.state.array[i][1][1][1]}
             />
+          </Popover>
           </Card>
         </Col>
         <Col sm={3}>
           <Card
-            style={{ width: "100%", marginTop: 12 }}
+            style={{ width: "100%", marginTop: 12 , boxShadow: highlight === 2 ? "0 0 20px 1px #59CBB7" : "" }}// boxShadow: "0 0 20px 1px #59CBB7"}}
             actions={[
-              <Icon type="close" style={{color:"red"}}/>,
-              <Icon type="close" style={{color:"red"}}/>,
-              <Icon type="check" style={{color:"green"}}/>
+              <Popover content={"Rating : " + this.state.array[i][1][2][2][0][1]}>
+                <Icon type={type6} style={{color:type6 === "check" ? "green" : "red"}}/>
+              </Popover>,
+              <Popover content={"Rating : " + this.state.array[i][1][2][2][1][1]}>
+                <Icon type={type7} style={{color:type7 === "check" ? "green" : "red"}}/>
+              </Popover>,
+              <Popover content={"Rating : " + this.state.array[i][1][2][2][1][1]}>
+                <Icon type={type8} style={{color:type8 === "check" ? "green" : "red"}}/>
+              </Popover>
             ]}
           >
+          <Popover content = {"Confidence : " + this.state.array[i][1][2][3] + "%"}>
             <Meta
               style={{ height: "50%" }}
               description={this.state.array[i][1][2][1]}
             />
+          </Popover>
           </Card>
         </Col>
         <Col sm={2} className="button-col">
-          <Button type="primary" className="button-stat" onClick={() => this.handleClear(this.state.array[i][2], keys)}>
+          {/* <Button type="primary" className="button-stat" onClick={() => this.handleClear(this.state.array[i][2], keys)}>
             Clear
-          </Button>
-          <Button type="primary" icon="redo">
-            Retake
-          </Button>
+          </Button> */}
+          <Icon type="delete" className="delete-stat"/>
+          <Icon type="redo" className="retake-stat" onClick={() => this.handleClear(this.state.array[i][2], keys)}/>
         </Col>
       </Row>
       );
@@ -188,85 +204,34 @@ class TranscribeStat extends Component {
   };
     
   render() {
-    // if(this.state.isLoading) {
-    //   return (
-    //     <Container className="contain-height">
-    //       <h4 id="fetching" className="center">
-    //           Fetching tasks for you from the server.......
-    //       </h4>
-    //       <Row className="center">
-    //           <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
-    //       </Row>
-    //     </Container>
-    //   );
-    // }
+    if(this.state.isLoading) {
+      return (
+        <Container className="contain-height">
+          <h1 className="event-head-stats">
+            Transcription Tasks
+          </h1>
+          <h4 id="fetching" className="center">
+              Fetching transcribe stats from the server.......
+          </h4>
+          <Row className="center">
+              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
+          </Row>
+        </Container>
+      );
+    }
     return (
-      // <Row className="stat-grid-trans">
-      //   <Col sm={1} className="play-stat">
-      //     <i className="fas fa-play play-audio-trans" />
-      //   </Col>
-      //   <Col sm={3}>
-      //     <Card
-      //       style={{ width: "100%", marginTop: 12 }}
-      //       actions={[
-      //         <Icon type="check" style={{color:"green"}}/>,
-      //         <Icon type="check" style={{color:"green"}}/>,
-      //         <Icon type="close" style={{color:"red"}}/>
-      //       ]}
-      //     >
-      //       <Meta
-      //         style={{ height: "50%" }}
-      //         title="Card title"
-      //         description="This is the description"
-      //       />
-      //     </Card>
-      //   </Col>
-      //   <Col sm={3}>
-      //     <Card
-      //       style={{ width:"100%", marginTop: 12 }}
-      //       actions={[
-      //         <Icon type="check" style={{color:"green"}}/>,
-      //         <Icon type="close" style={{color:"red"}}/>,
-      //         <Icon type="check" style={{color:"green"}}/>
-      //       ]}
-      //     >
-      //       <Meta
-      //         style={{ height: "50%" }}
-      //         title="Card title"
-      //         description="This is the description"
-      //       />
-      //     </Card>
-      //   </Col>
-      //   <Col sm={3}>
-      //     <Card
-      //       style={{ width: "100%", marginTop: 12 }}
-      //       actions={[
-      //         <Icon type="close" style={{color:"red"}}/>,
-      //         <Icon type="close" style={{color:"red"}}/>,
-      //         <Icon type="check" style={{color:"green"}}/>
-      //       ]}
-      //     >
-      //       <Meta
-      //         style={{ height: "50%" }}
-      //         title="Card title"
-      //         description="This is the description"
-      //       />
-      //     </Card>
-      //   </Col>
-      //   <Col sm={2} className="button-col">
-      //     <Button type="primary" className="button-stat">
-      //       Clear
-      //     </Button>
-      //     <Button type="primary" icon="redo">
-      //       Retake
-      //     </Button>
-      //   </Col>
-      // </Row>
       <Container>
       <h1 className="event-head-stats">
-        Transcribe Tasks
+        Transcription Tasks
       </h1>
       {this.createCards()}
+      <Sound
+          url={url+"/"+this.state.SoundFile_url}
+          playStatus={
+            this.state.sound ? Sound.status.PLAYING : Sound.status.STOPPED
+          }
+          onFinishedPlaying={this.soundPlayer}
+      />
       </Container>
     );
   }

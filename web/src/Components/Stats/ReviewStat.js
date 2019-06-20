@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Row, Col, Container} from "react-bootstrap";
 import Sound from "react-sound";
-import { Card, Icon, Button, Popover } from "antd";
-import url from '../../url_service.js'
+import { Card, Icon, Popover } from "antd";
+import url from '../../url_service.js';
+import Loader from 'react-loader-spinner';
 
 import "antd/dist/antd.css";
 import "./Stats.css";
@@ -32,10 +33,8 @@ class ReviewStat extends Component {
   soundPlayer(value) {
     this.setState(state => ({
       SoundFile_url:value,
-      sound: !state.sound
+      sound: !state.sound,
     }));
-    // document.getElementById("play").classList.toggle("active");
-    // document.getElementById("stop").classList.toggle("active");
   }
 
   componentWillMount() {
@@ -52,8 +51,6 @@ class ReviewStat extends Component {
         console.log(data);
         console.log(data[0][0]);
         this.setState({
-          // text: data[2],
-          // task_Id: data[1],
           isLoading: false, 
           noOfAudios: data.length,
           array : data,
@@ -134,6 +131,21 @@ class ReviewStat extends Component {
   };
 
   render() {
+    if(this.state.isLoading) {
+      return (
+        <Container className="contain-height">
+          <h1 className="event-head-stats">
+            Review Tasks
+          </h1>
+          <h4 id="fetching" className="center">
+              Fetching review stats from the server.......
+          </h4>
+          <Row className="center">
+              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
+          </Row>
+        </Container>
+      );
+    }
     return (
       <Container>
       <h1 className="event-head-stats">
