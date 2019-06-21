@@ -134,21 +134,27 @@ class CampaignDescription extends Component {
           </Col>
           <Col md={4} className="campdesc">
             <h2 className="camptitle">
-              Camapaign Name{" "}
-              <Badge style={{ fontSize: "1.5rem" }} pill variant="danger">
-                Paid
-              </Badge>
+              {this.state.list.campaign_name+" "}
+              {this.state.list.paid === "yes" && (
+                <Badge pill variant="danger">
+                  Paid
+                </Badge>
+              )}
             </h2>
-            <h3 className="campsubtitle">Campaign Subtitle</h3>
-            <h4>Campaign Short Description</h4>
-            <h4>Campaign Duration</h4>
+            <h3 className="campsubtitle">{this.state.list.lang_id === "ENG"
+              ? "English"
+              : this.state.list.lang_id === "HIN"
+              ? "Hindi"
+              : "Telugu"}</h3>
+            <h4>{this.state.list.campaign_description_short}</h4>
+            <h4>Duration : {this.state.list.ends_in} days</h4>
           </Col>
         </Row>
         <Divider>
           <h3>About the campaign</h3>
         </Divider>
         <Row>
-          <Col>Here goes the large description of the campaign</Col>
+          <Col>{this.state.list.campaign_description_long}</Col>
         </Row>
         <Divider>
           <h3>Register</h3>

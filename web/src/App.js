@@ -20,6 +20,7 @@ import Stats from "./Components/Stats/Stats";
 import Profile from './Components/Profile/Profile';
 import ListenParallel from './Components/Listen/ListenParallel';
 import EditCampaign from './Components/CreateCampaign/EditCampaign';
+import ConversationSpeak from './Components/Speak/ConversationSpeak';
 
 const cookies = new Cookies();
 
@@ -69,6 +70,7 @@ class App extends Component {
           <Route path="/tasks" component={List} exact />
           <Route path="/listen" component={Listen} exact />
           <Route path="/speak" component={Speak} exact />
+          <Route path="/conversation" component={ConversationSpeak} exact />
           <Route path="/login" exact render={()=>(
             this.state.loggedIn&&localStorage.getItem("LoginMethod")==="listen"?<Redirect to="/lttasks"/>:<Login/>
           )}/>
