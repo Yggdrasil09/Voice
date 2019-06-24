@@ -122,7 +122,7 @@ class Speak extends Component {
         console.log(err);
       });
     let append = this.state.text;
-    append.push([1, ""]);
+    append.push([1,""]);
     this.setState({
       showModal: false,
       taskno: this.state.taskno + 1,
@@ -140,7 +140,7 @@ class Speak extends Component {
   }
 
   componentDidMount(){
-    this.setState({isLoading : true})
+    // this.setState({isLoading : true});
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
       p_user_id: localStorage.getItem("uid"),

@@ -76,6 +76,7 @@ class Header extends Component {
             <Nav.Link href="otplogin">2FactorLogin</Nav.Link>
             <Nav.Link href="signup">SignUp</Nav.Link>
             <Nav.Link href="createcampaign">Create campaign</Nav.Link>
+            <Nav.Link href="editcampaign">Edit campaign</Nav.Link>
             <Nav.Link href="stats">Campaign Stats</Nav.Link>
             <Nav.Link href="profile">Profile</Nav.Link>
           </Nav>
