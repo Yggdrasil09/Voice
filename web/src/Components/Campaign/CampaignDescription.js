@@ -186,7 +186,7 @@ class CampaignDescription extends Component {
         <Row>
           <Col>
             <div className="form-signup">
-              <Form onSubmit={this.handleSubmit}>
+              <Form onSubmit={this.handleOtpSubmit}>
                 <Form.Group controlId="formBasicmobile">
                   <Form.Label>Enter OTP.</Form.Label>
                   <div className="otpInput">

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { Drawer } from "antd";
 
 import "./Speak.css";
 import Text from "../Text/Text";
@@ -10,16 +9,6 @@ class ConversationSpeak extends Component {
   render() {
     return (
       <Container className="max-border">
-        <Drawer
-          title="Basic Drawer"
-          placement="right"
-          closable={false}
-          visible={true}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Drawer>
         <div className="top-heading">
           <NavLink to="/">
             <div className="back">
@@ -32,7 +21,10 @@ class ConversationSpeak extends Component {
           <Col md={8} className="display">
             <Text text="hello" />
           </Col>
-          <Col md={2} />
+          <Col md={2}>
+            <div className="online">
+            </div>
+          </Col>
         </Row>
         <div className="review-step">
           <Container className="max-border">
