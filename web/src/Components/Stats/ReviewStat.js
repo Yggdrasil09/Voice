@@ -26,6 +26,7 @@ class ReviewStat extends Component {
       isLoading: false,
       noOfAudios: 0,
       array: [],
+      
     };
     this.soundPlayer = this.soundPlayer.bind(this);
   }
@@ -80,6 +81,43 @@ class ReviewStat extends Component {
     }
   }
 
+  handleClear(data, data2) {
+    let query =
+      "p_campaign_id=" + data + "&p_audio_id=" + data2;
+    fetch(url+"/clearTask?"+query,
+      {
+        method: "POST"
+      }
+    )
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  handleDelete(data) {
+    let query = "&p_audio_id=" + data;
+    fetch(url+"/deleteTask?"+query,
+      {
+        method: "POST"
+      }
+    )
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   createCards = () => {
     let cards = [];
     let split_arr = [];
@@ -121,8 +159,8 @@ class ReviewStat extends Component {
         </Popover>
         </Col>
         <Col sm={2} className="button-col">
-          <Icon type="delete" className="delete-stat"/>
-          <Icon type="redo" className="retake-stat"/>
+          <Icon type="delete" className="delete-stat" onClick={() => this.handleDelete(keys)}/>
+          <Icon type="redo" className="retake-stat" onClick={() => this.handleClear(this.state.array[i][3], keys)}/>
         </Col>
       </Row>
       );

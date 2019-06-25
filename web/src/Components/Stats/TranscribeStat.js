@@ -99,6 +99,24 @@ class TranscribeStat extends Component {
       });
   }
 
+  handleDelete(data) {
+    let query = "&p_audio_id=" + data;
+    fetch(url+"/deleteTask?"+query,
+      {
+        method: "POST"
+      }
+    )
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   createCards = () => {
     let cards = [];
     let split_arr = [];
@@ -194,7 +212,7 @@ class TranscribeStat extends Component {
           {/* <Button type="primary" className="button-stat" onClick={() => this.handleClear(this.state.array[i][2], keys)}>
             Clear
           </Button> */}
-          <Icon type="delete" className="delete-stat"/>
+          <Icon type="delete" className="delete-stat" onClick={() => this.handleDelete(keys)}/>
           <Icon type="redo" className="retake-stat" onClick={() => this.handleClear(this.state.array[i][2], keys)}/>
         </Col>
       </Row>

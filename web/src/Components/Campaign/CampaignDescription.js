@@ -5,6 +5,7 @@ import { Badge, Form, Button } from "react-bootstrap";
 import OtpInput from "react-otp-input";
 import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Loader from 'react-loader-spinner';
 
 import "antd/dist/antd.css";
 import url from "../../url_service";
@@ -20,7 +21,8 @@ class CampaignDescription extends Component {
       mobile: "",
       otp: "",
       response: "",
-      redirect: false
+      redirect: false,
+      isLoading: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,6 +56,7 @@ class CampaignDescription extends Component {
   }
 
   handleOtpSubmit(e) {
+    this.setState({isLoading : true});
     e.preventDefault();
     let data = {
       message: this.state.otp,
@@ -83,7 +86,8 @@ class CampaignDescription extends Component {
           localStorage.setItem("LoginMethod", "speak");
           if (data) {
             this.setState({
-              redirect: true
+              redirect: true,
+              isLoading: false
             });
           }
         }
@@ -105,13 +109,18 @@ class CampaignDescription extends Component {
       })
       .then(data => {
         this.setState({
-          list: data
+          list: data,
+          isLoading: false
         });
         console.log(this.state.list);
       })
       .catch(err => {
         console.log(err);
       });
+  }
+
+  componentDidMount() {
+    this.setState({ isLoading: true });
   }
 
   handleRedirect() {
@@ -121,6 +130,21 @@ class CampaignDescription extends Component {
   }
 
   render() {
+    if(this.state.isLoading) {
+      return(
+        <Container>
+          {/* <h1 className="event-head-stats">
+            Campaign Description
+          </h1> */}
+          <h4 id="fetching" className="center">
+              Loading.......
+          </h4>
+          <Row className="center">
+              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
+          </Row>
+        </Container>
+      );
+    }
     return (
       <Container className="con-border">
         {this.handleRedirect()}

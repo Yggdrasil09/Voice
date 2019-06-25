@@ -26,7 +26,7 @@ class OtpLogin extends Component {
   }
 
   handleSubmit(e) {
-    this.setState({isLoading : true})
+    this.setState({isLoading : true});
     e.preventDefault();
     let data = {
       message: this.state.otp,
@@ -72,6 +72,10 @@ class OtpLogin extends Component {
       return <Redirect to="/speak" />;
     }
   }
+
+  // componentDidMount() {
+  //   this.setState({isLoading: true});
+  // }
 
   render() {
     if (this.state.isLoading) {
