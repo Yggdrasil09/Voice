@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
+import { Icon } from 'antd';
 import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
 import { connect } from "react-redux";
@@ -52,7 +53,7 @@ class Speak extends Component {
     this.setState({
       record: false
     });
-    this.handleShow();
+    // this.handleShow();
   };
 
   onData(recordedBlob) {
@@ -282,6 +283,7 @@ class Speak extends Component {
                   </i>
                 </button>
               </Col>
+              <Icon type="redo" className="retake-stat"/>
               <Col sm={5} xs={5} />
             </Row>
           </Container>
