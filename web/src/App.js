@@ -71,18 +71,18 @@ class App extends Component {
           <Route path="/listen" component={Listen} exact />
           <Route path="/speak" component={Speak} exact />
           <Route path="/conversation" component={ConversationSpeak} exact />
-          <Route path="/login" exact render={()=>(
-            this.state.loggedIn&&localStorage.getItem("LoginMethod")==="listen"?<Redirect to="/lttasks"/>:<Login/>
-          )}/>
+          <Route path="/login" exact component={Login}/>
           <Route path="/signup" component={SignUp} exact />
           <Route path="/otplogin" exact render={()=>(
-            this.state.loggedIn&&localStorage.getItem("LoginMethod")==="speak"?<Redirect to="/speak"/>:<TwofactorLogin/>
+            this.state.loggedIn&&localStorage.getItem("LoginMethod")==="listen"?<Redirect to="/lttasks"/>:<TwofactorLogin/>
           )}/>
           <Route path="/otpcheck" component={OtpLogin} exact />
           <Route path="/lttasks" component={ListenorTrans} exact />
           <Route path="/listenparallel" component={ListenParallel} exact/>
           <Route path="/stats" component={Stats} exact />
-          <Route path="/campdescription" component={CampaignDescription} exact/>
+          <Route path="/campdescription" exact render={()=>(
+            this.state.loggedIn&&localStorage.getItem("LoginMethod")==="speak"?<Redirect to="/speak"/>:<CampaignDescription/>
+          )}/>
           <Route path="/profile" component={Profile} exact/>
           <Route path="/createcampaign" component={CreateCampaign} exact />
           <Route path="/editcampaign" component={EditCampaign} exact />

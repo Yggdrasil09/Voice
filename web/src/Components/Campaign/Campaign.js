@@ -119,7 +119,7 @@ class Campaign extends Component {
 
   renderRedirectLogin = () => {
     if (this.state.redirectLogin) {
-      return <Redirect to="/login" />;
+      return <Redirect to="/otplogin" />;
     }
   };
 
