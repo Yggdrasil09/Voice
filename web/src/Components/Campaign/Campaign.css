@@ -72,6 +72,11 @@
     padding: 2rem 5rem 2rem 5rem;
 }
 
+.icon-size-camp{
+    font-size: 2rem;
+    color: grey;
+}
+
 @media (max-width:767.98px){
     .loader{
         margin-left:40%;
