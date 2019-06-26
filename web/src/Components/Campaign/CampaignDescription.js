@@ -178,18 +178,23 @@ class CampaignDescription extends Component {
           <h3>About the campaign</h3>
         </Divider>
         <Row>
-          <Col>{this.state.list.campaign_description_long}</Col>
+          <Col className="longdesc">
+          <h5>
+            {this.state.list.campaign_description_long}
+          </h5>
+          </Col>
         </Row>
         <Divider>
           <h3>Register</h3>
         </Divider>
         <Row>
           <Col>
-            <h4>Enter Mobile number</h4>
             <div className="form-signup">
+              <Divider>
+                <h3>Enter Mobile number</h3>
+              </Divider>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group controlId="formBasicmobile">
-                  <Form.Label>Mobile No.</Form.Label>
                   <Form.Control
                     name="mobile"
                     onChange={this.handleChange}
@@ -198,21 +203,14 @@ class CampaignDescription extends Component {
                   />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                  Submit
+                  Get OTP
                 </Button>
               </Form>
-            </div>
-          </Col>
-        </Row>
-        <Divider>
-          <h3>Verify Otp</h3>
-        </Divider>
-        <Row>
-          <Col>
-            <div className="form-signup">
+              <Divider>
+                <h3>Enter OTP</h3>
+              </Divider>
               <Form onSubmit={this.handleOtpSubmit}>
                 <Form.Group controlId="formBasicmobile">
-                  <Form.Label>Enter OTP.</Form.Label>
                   <div className="otpInput">
                     <OtpInput
                       onChange={otp =>
@@ -222,18 +220,20 @@ class CampaignDescription extends Component {
                       }
                       numInputs={6}
                       separator={<span className="spacing" />}
+                      inputStyle={{
+                        border: " 1px solid white ",
+                        borderBottomColor: "black",
+                        width: "25px"
+                      }}
                     />
                   </div>
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                  Submit
+                  Login
                 </Button>
               </Form>
             </div>
           </Col>
-        </Row>
-        <Row>
-          <h1> </h1>
         </Row>
       </Container>
     );

@@ -220,9 +220,9 @@ class CreateCampaign extends Component {
                     placeholder="Select Language"
                     onChange={this.handleTextType}
                   >
-                    <option value="corpus_snip">Corpus Snippet</option>
-                    <option value="JAM">JAM</option>
-                    <option value="QA">QA</option>
+                    <option value="corpus_snip">Readouts</option>
+                    <option value="JAM">Q&A</option>
+                    <option value="QA">Conversation</option>
                   </Form.Control>
                 </Form.Group>
 
@@ -233,14 +233,14 @@ class CreateCampaign extends Component {
                   onChange={this.handlePaid}
                 />
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Payment amount for task completion</Form.Label>
+                  <Form.Label>Amount to be paid for each task</Form.Label>
                   <Form.Control
                     name="amount-tasks"
                     onChange={this.handleValueChange}
                   />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Limit on tasks</Form.Label>
+                  <Form.Label>Number of snippets in one task</Form.Label>
                   <Form.Control
                     name="limit-tasks"
                     onChange={this.handleValueChange}
