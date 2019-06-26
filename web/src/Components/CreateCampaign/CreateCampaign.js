@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
+import { Upload, Icon, } from "antd";
 
 import url from "../../url_service.js";
 
@@ -22,6 +23,8 @@ class CreateCampaign extends Component {
       description: "",
       longdescription: "",
       upload: "",
+      uploading: false,
+      fileList:[],
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,7 +68,7 @@ class CreateCampaign extends Component {
           body: this.state.upload
         })
           .then(res => {
-            console.log(res)
+            console.log(res);
             // this.setState({
             //   campaignName: "",
             //   languageType: 1,
@@ -84,7 +87,9 @@ class CreateCampaign extends Component {
             //   longdescription: ""
             // });
             this.setState({
-              redirect: !this.state.redirect
+              fileList:[],
+              uploading:false,
+              redirect: !this.state.redirect,
             });
           })
           .catch(err => {
@@ -98,10 +103,16 @@ class CreateCampaign extends Component {
 
   handleUpload(e) {
     e.preventDefault();
-    const data = new FormData();
-    data.append("file", this.uploadInput.files[0]);
+
+    const fileList = this.state.fileList;
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append('files[]', file);
+    });
+
     this.setState({
-      upload: data
+      upload: formData,
+      uploading: true
     });
     setTimeout(() => {
       console.log(this.state.upload.get("file"));
@@ -187,6 +198,26 @@ class CreateCampaign extends Component {
   }
 
   render() {
+    const fileList  = this.state.fileList;
+    const props = {
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList,
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          fileList: [...state.fileList, file],
+        }));
+        return false;
+      },
+      fileList,
+    };
     return (
       <Container>
         {this.handleRedirect()}
@@ -289,15 +320,20 @@ class CreateCampaign extends Component {
                 </Form.Group>
                 <Form.Label>Upload Corpus</Form.Label>
                 <div>
-                  <input
-                    ref={ref => {
-                      this.uploadInput = ref;
-                    }}
-                    type="file"
-                  />
-                </div>
-                <div>
-                  <button onClick={this.handleUpload}>Upload</button>
+                  <Upload {...props}>
+                    <Button>
+                      <Icon type="upload" /> Select File
+                    </Button>
+                  </Upload>
+                  <Button
+                    type="primary"
+                    onClick={this.handleUpload}
+                    disabled={fileList.length === 0}
+                    loading={this.state.uploading}
+                    style={{ marginTop: 16 }}
+                  >
+                    {this.state.uploading ? "Uploading" : "Start Upload"}
+                  </Button>
                 </div>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Label>Campaign status</Form.Label>

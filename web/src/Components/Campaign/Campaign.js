@@ -172,7 +172,7 @@ class Campaign extends Component {
                   ? "Hindi"
                   : "Telugu"}
               </Card.Subtitle>
-              <Card.Text>{this.state.activeCampaigns[i][7]}</Card.Text>
+              <Card.Text className="shortdesc">{this.state.activeCampaigns[i][7]}</Card.Text>
               <Card.Text>
                 Duration : {this.state.activeCampaigns[i][8] + " "}days
               </Card.Text>
