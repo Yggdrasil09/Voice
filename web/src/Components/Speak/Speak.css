@@ -65,6 +65,11 @@
   outline: none;
 }
 
+#mic-head{
+  font-size: 2rem;
+  color: #ff4f5e;
+}
+
 i#mic.active{
   display:block!important;
   font-size: 3rem;
@@ -188,7 +193,7 @@ i#mic.active{
 .speak-send{
   margin-right:90%;
   font-size:4rem;
-  margin-top:-5rem;
+  margin-top:-2rem;
   cursor: pointer;
   color:#f5606c!important;
 }

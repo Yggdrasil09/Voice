@@ -4,6 +4,7 @@ import { Card, Badge, Button, Nav, Modal } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Icon, Popover } from 'antd';
 import Loader from "react-loader-spinner";
 
 import url from "../../url_service.js";
@@ -111,6 +112,14 @@ class Campaign extends Component {
     }, 100); 
   }
 
+  handleCopy(data) {
+    let link = document.createElement('textarea')
+    link.innerText = 'https://localhost:3000/campdescription?p_campaign_id=' + data;
+    // document.body.appendChild(link)
+    link.select()
+    document.execCommand('copy')
+  }
+
   renderRedirectCampaignDesc = () => {
     if (this.state.redirectCampaignDesc) {
       return <Redirect to="/campdescription" />;
@@ -176,12 +185,15 @@ class Campaign extends Component {
               <Card.Text>
                 Duration : {this.state.activeCampaigns[i][8] + " "}days
               </Card.Text>
-              <Button style={{marginRight:"1rem"}}variant="primary" onClick={()=>this.handleSpeak(this.state.activeCampaigns[i])}>
+              <Button style={{marginRight:"1rem"}} variant="primary" onClick={()=>this.handleSpeak(this.state.activeCampaigns[i])}>
                 Speak
               </Button>
-              <Button variant="primary" onClick={()=>this.handleListen(this.state.activeCampaigns[i])}>
+              <Button style={{marginRight:"1rem"}} variant="primary" onClick={()=>this.handleListen(this.state.activeCampaigns[i])}>
                 Transcribe
               </Button>
+              <Popover content={"Copy URL"}>
+                <Icon style={{color:"gray"}} type="copy" className="icon-size-camp" onClick={()=>this.handleCopy("Hello"/*campaignId*/)}/>
+              </Popover>
             </Card.Body>
           </Card>
         </Col>
@@ -386,9 +398,6 @@ class Campaign extends Component {
             Active Campaigns
           </h1>
           {this.createActive()}
-          {this.state.isLoading && (
-            <Loader type="Puff" color="#00BFFF" height="100" width="100" />
-          )}
           <h1 id="upcoming" className="event-head">
             Archive Campaigns
           </h1>
