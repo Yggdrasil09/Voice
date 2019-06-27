@@ -177,6 +177,22 @@ i#mic.active{
   box-shadow : 0 0 10px 2px rgb(230, 230, 230);
 }
 
+.speak-listen{
+  margin-left:85%;
+  font-size:4rem;
+  margin-top:-5rem;
+  cursor: pointer;
+  color:grey;
+}
+
+.speak-send{
+  margin-right:90%;
+  font-size:4rem;
+  margin-top:-5rem;
+  cursor: pointer;
+  color:grey;
+}
+
 @media (max-width: 767.98px) { 
   .no-of-tasks{
     visibility: hidden;

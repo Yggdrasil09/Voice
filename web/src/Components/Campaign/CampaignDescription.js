@@ -225,6 +225,10 @@ class CampaignDescription extends Component {
                         borderBottomColor: "black",
                         width: "25px"
                       }}
+                      shouldAutoFocus={true}
+                      focusStyle={{
+                        outline: "none",
+                      }}
                     />
                   </div>
                 </Form.Group>

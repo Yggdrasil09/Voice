@@ -53,7 +53,7 @@ class OtpLogin extends Component {
           cookies.set("token", sliced, { path: "/" });
           console.log(document.cookie);
           localStorage.setItem("uid", data.uid);
-          localStorage.setItem("LoginMethod","speak")
+          localStorage.setItem("LoginMethod","listen")
           if (data) {
             this.setState({
               redirect: true,
@@ -69,7 +69,7 @@ class OtpLogin extends Component {
 
   handleRedirect() {
     if (this.state.redirect) {
-      return <Redirect to="/speak" />;
+      return <Redirect to="/lttasks" />;
     }
   }
 

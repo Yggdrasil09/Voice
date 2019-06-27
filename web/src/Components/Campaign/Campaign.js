@@ -112,6 +112,14 @@ class Campaign extends Component {
     }, 100); 
   }
 
+  handleCopy(data) {
+    let link = document.createElement('textarea')
+    link.innerText = 'https://localhost:3000/campdescription?p_campaign_id=' + data;
+    document.body.appendChild(link)
+    link.select()
+    document.execCommand('copy')
+  }
+
   renderRedirectCampaignDesc = () => {
     if (this.state.redirectCampaignDesc) {
       return <Redirect to="/campdescription" />;
@@ -120,7 +128,7 @@ class Campaign extends Component {
 
   renderRedirectLogin = () => {
     if (this.state.redirectLogin) {
-      return <Redirect to="/login" />;
+      return <Redirect to="/otplogin" />;
     }
   };
 
@@ -173,7 +181,7 @@ class Campaign extends Component {
                   ? "Hindi"
                   : "Telugu"}
               </Card.Subtitle>
-              <Card.Text>{this.state.activeCampaigns[i][7]}</Card.Text>
+              <Card.Text className="shortdesc">{this.state.activeCampaigns[i][7]}</Card.Text>
               <Card.Text>
                 Duration : {this.state.activeCampaigns[i][8] + " "}days
               </Card.Text>
@@ -184,7 +192,7 @@ class Campaign extends Component {
                 Transcribe
               </Button>
               <Popover content={"Copy URL"}>
-                <Icon style={{color:"gray"}} type="copy" className="icon-size-camp" onClick={()=>this.handleCopy()}/>
+                <Icon style={{color:"gray"}} type="copy" className="icon-size-camp" onClick={()=>this.handleCopy("Hello"/*campaignId*/)}/>
               </Popover>
             </Card.Body>
           </Card>

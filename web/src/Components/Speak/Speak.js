@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
-import { Icon } from 'antd';
+import { Icon } from "antd";
 import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
-import Loader from 'react-loader-spinner'
+import Loader from "react-loader-spinner";
 
-import url from '../../url_service.js'
+import url from "../../url_service.js";
 import "./Speak.css";
 import Text from "../Text/Text";
 
@@ -25,7 +25,7 @@ class Speak extends Component {
       taskno: 0,
       blob: {},
       redirect: false,
-      isLoading: false,
+      isLoading: false
     };
     this.onStop = this.onStop.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -79,10 +79,8 @@ class Speak extends Component {
     for (let i = 0; i < this.state.presentTask.length - 1; i++) {
       let actionList = [0, 0, 0, 0, 0];
       if (this.state.presentTask[i] === 1) {
-        document
-          .getElementsByClassName("activespeak")[i].classList.toggle("active");
-        document
-          .getElementsByClassName("speakicon")[i].classList.toggle("active");
+        document.getElementsByClassName("activespeak")[i].classList.toggle("active");
+        document.getElementsByClassName("speakicon")[i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
         actionList[i + 1] = 1;
         this.setState({
@@ -93,12 +91,9 @@ class Speak extends Component {
     setTimeout(() => {
       for (let i = 0; i < this.state.presentTask.length; i++) {
         if (this.state.presentTask[i]) {
-          document
-            .getElementsByClassName("activespeak")[i].classList.toggle("active");
-          document
-            .getElementsByClassName("speakicon")[i].classList.toggle("active");
-          document
-            .getElementsByClassName("taskno")[i].classList.toggle("active");
+          document.getElementsByClassName("activespeak")[i].classList.toggle("active");
+          document.getElementsByClassName("speakicon")[i].classList.toggle("active");
+          document.getElementsByClassName("taskno")[i].classList.toggle("active");
         }
       }
     }, 10);
@@ -123,7 +118,7 @@ class Speak extends Component {
         console.log(err);
       });
     let append = this.state.text;
-    append.push([1,""]);
+    append.push([1, ""]);
     this.setState({
       showModal: false,
       taskno: this.state.taskno + 1,
@@ -140,8 +135,8 @@ class Speak extends Component {
     }
   }
 
-  componentDidMount(){
-    this.setState({isLoading : true});
+  componentDidMount() {
+    this.setState({ isLoading: true });
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
       p_user_id: localStorage.getItem("uid"),
@@ -161,7 +156,7 @@ class Speak extends Component {
         this.setState({
           text: data.text,
           textId: data.text,
-          isLoading: false,
+          isLoading: false
         });
         console.log(this.state.text);
       })
@@ -170,10 +165,8 @@ class Speak extends Component {
       });
     for (let i = 0; i < this.state.presentTask.length; i++) {
       if (this.state.presentTask[i]) {
-        document
-          .getElementsByClassName("activespeak")[i].classList.toggle("active");
-        document
-          .getElementsByClassName("speakicon")[i].classList.toggle("active");
+        document.getElementsByClassName("activespeak")[i].classList.toggle("active");
+        document.getElementsByClassName("speakicon")[i].classList.toggle("active");
         document.getElementsByClassName("taskno")[i].classList.toggle("active");
       }
     }
@@ -181,19 +174,19 @@ class Speak extends Component {
 
   handleRedirect() {
     if (this.state.redirect) {
-      return <Redirect to="/"/>
+      return <Redirect to="/" />;
     }
   }
 
   render() {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return (
         <Container className="contain-height">
           <h4 id="fetching" className="center">
-              Fetching tasks for you from the server.......
+            Fetching tasks for you from the server.......
           </h4>
           <Row className="center">
-              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
+            <Loader type="Bars" color="#D3D3D3" height="100" width="100" />
           </Row>
         </Container>
       );
@@ -213,8 +206,7 @@ class Speak extends Component {
             <Modal.Title>Task Status</Modal.Title>
           </Modal.Header>
           <Modal.Body>You have completed all the tasks.</Modal.Body>
-          <Modal.Footer>
-          </Modal.Footer>
+          <Modal.Footer />
         </Modal>
         <Modal show={this.state.showModal}>
           <Modal.Header closeButton>
@@ -268,7 +260,9 @@ class Speak extends Component {
         <div className="review-step">
           <Container className="max-border">
             <Row className="max-border">
-              <Col sm={5} xs={5} />
+              <Col sm={5} xs={5}>
+                  <Icon type="play-circle" className="speak-listen"/>
+              </Col>
               <Col sm={2} xs={2}>
                 <button
                   type="button"
@@ -283,18 +277,16 @@ class Speak extends Component {
                   </i>
                 </button>
               </Col>
-              <Icon type="redo" className="retake-stat"/>
-              <Col sm={5} xs={5} />
+              <Col sm={5} xs={5}>
+                <Icon type="to-top" className="speak-send" onClick={this.handleAction}/>
+              </Col>
             </Row>
           </Container>
         </div>
         <ReactMic
           record={this.state.record}
-          // className="sound-wave"
           onStop={this.onStop}
           onData={this.onData}
-          // strokeColor="#000000"
-          // backgroundColor="#224071"
         />
       </Container>
     );
