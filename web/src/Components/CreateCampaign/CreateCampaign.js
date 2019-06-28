@@ -65,7 +65,7 @@ class CreateCampaign extends Component {
         console.log(data);
         fetch(url + "/fileUpload?p_campaign_id=" + data.campaign_id, {
           method: "POST",
-          body: this.state.upload
+          body: this.state.upload.get("file")
         })
           .then(res => {
             console.log(res);
@@ -107,7 +107,7 @@ class CreateCampaign extends Component {
     const fileList = this.state.fileList;
     const formData = new FormData();
     fileList.forEach(file => {
-      formData.append('files[]', file);
+      formData.append('file', file);
     });
 
     this.setState({

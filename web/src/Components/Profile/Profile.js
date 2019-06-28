@@ -13,7 +13,9 @@ class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      profiledata: []
+      profiledata: {
+        campaign_wise : [],
+      }
     };
   }
 
@@ -33,6 +35,20 @@ class Profile extends Component {
     .catch(Err=>{
       console.log(Err);
     })
+  }
+
+  createTasks(){
+    let tasks = [];
+
+    for(let i=0;i < this.state.profiledata.campaign_wise.length;i++)
+    {
+      tasks.push(
+        <TranscribeTask />,
+        <ListenTask />
+      )
+    }
+
+    return tasks;
   }
 
   render() {
@@ -74,8 +90,7 @@ class Profile extends Component {
         </Divider>
         <Row>
           <Col>
-            <TranscribeTask />
-            <ListenTask />
+            {this.createTasks()}
           </Col>
         </Row>
         <Divider>

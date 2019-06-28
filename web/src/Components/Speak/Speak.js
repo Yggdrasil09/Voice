@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router";
 
 import url from "../../url_service.js";
 import "./Speak.css";
@@ -22,11 +21,9 @@ class Speak extends Component {
       presentTask: [1, 0, 0, 0, 0],
       taskno: 0,
       blob: {},
-      redirect: false,
     };
     this.onStop = this.onStop.bind(this);
     this.handleAction = this.handleAction.bind(this);
-    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   startRecording = () => {
@@ -60,7 +57,7 @@ class Speak extends Component {
       blob: recordedBlob.blob
     });
   }
-
+  
   handleAction() {
     for (let i = 0; i < this.state.presentTask.length - 1; i++) {
       let actionList = [0, 0, 0, 0, 0];
@@ -114,13 +111,12 @@ class Speak extends Component {
       taskno: this.state.taskno + 1,
       text: append
     });
-    if (this.state.taskno === 4) {
+    if (this.state.taskno === 5) {
       this.setState({
-        redirect: true,
         taskno: 0,
         text: [[null, ""]],
         textId: [[null, ""]],
-        presentTask: [1, 0, 0, 0, 0]
+        presentTask: [0, 0, 0, 0, 0]                                                                                                                                                                                                                                                                                                                                                
       });
     }
   }
@@ -143,6 +139,7 @@ class Speak extends Component {
       })
       .then(data => {
         console.log(data);
+        data.text.push(["",""])
         this.setState({
           text: data.text,
           textId: data.text,
@@ -163,16 +160,9 @@ class Speak extends Component {
     }
   }
 
-  handleRedirect() {
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
-    }
-  }
-
   render() {
     return (
       <Container className="max-border">
-        {this.handleRedirect()}
         <div className="top-heading">
           <NavLink to="/">
             <div className="back">
