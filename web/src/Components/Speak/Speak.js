@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Modal, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+import { Icon } from "antd";
 import { NavLink } from "react-router-dom";
 import { ReactMic } from "react-mic";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router";
-import Loader from 'react-loader-spinner'
 
-import url from '../../url_service.js'
+import url from "../../url_service.js";
 import "./Speak.css";
 import Text from "../Text/Text";
 
@@ -19,18 +18,12 @@ class Speak extends Component {
       text: [[null, ""]],
       textId: [],
       playing: false,
-      showModal: false,
       presentTask: [1, 0, 0, 0, 0],
       taskno: 0,
       blob: {},
-      redirect: false,
-      isLoading: false,
     };
     this.onStop = this.onStop.bind(this);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
     this.handleAction = this.handleAction.bind(this);
-    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   startRecording = () => {
@@ -52,7 +45,6 @@ class Speak extends Component {
     this.setState({
       record: false
     });
-    this.handleShow();
   };
 
   onData(recordedBlob) {
@@ -65,15 +57,7 @@ class Speak extends Component {
       blob: recordedBlob.blob
     });
   }
-
-  handleClose() {
-    this.setState({ showModal: false });
-  }
-
-  handleShow() {
-    this.setState({ showModal: true });
-  }
-
+  
   handleAction() {
     for (let i = 0; i < this.state.presentTask.length - 1; i++) {
       let actionList = [0, 0, 0, 0, 0];
@@ -124,29 +108,27 @@ class Speak extends Component {
     let append = this.state.text;
     append.push([1, ""]);
     this.setState({
-      showModal: false,
       taskno: this.state.taskno + 1,
       text: append
     });
-    if (this.state.taskno === 4) {
+    if (this.state.taskno === 5) {
       this.setState({
-        redirect: true,
         taskno: 0,
         text: [[null, ""]],
         textId: [[null, ""]],
-        presentTask: [1, 0, 0, 0, 0]
+        presentTask: [0, 0, 0, 0, 0]                                                                                                                                                                                                                                                                                                                                                
       });
     }
   }
 
-  componentDidMount(){
-    this.setState({isLoading : true})
+  componentDidMount() {
     let data = {
       p_text_id: this.state.text[this.state.taskno][0],
       p_user_id: localStorage.getItem("uid"),
       p_campaign_id: localStorage.getItem("campaignId")
     };
     this.props.dispatch({ type: "ADD_LOGIN", falselogged: 1 });
+
     let query =
       "p_campaign_id=" + data.p_campaign_id + "&p_user_id=" + data.p_user_id;
     fetch(url + "/speakTasks?" + query, {
@@ -157,10 +139,10 @@ class Speak extends Component {
       })
       .then(data => {
         console.log(data);
+        data.text.push(["",""])
         this.setState({
           text: data.text,
           textId: data.text,
-          isLoading: false,
         });
         console.log(this.state.text);
       })
@@ -178,28 +160,9 @@ class Speak extends Component {
     }
   }
 
-  handleRedirect() {
-    if (this.state.redirect) {
-      return <Redirect to="/"/>
-    }
-  }
-
   render() {
-    if(this.state.isLoading) {
-      return (
-        <Container className="contain-height">
-          <h4 id="fetching" className="center">
-              Fetching tasks for you from the server.......
-          </h4>
-          <Row className="center">
-              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
-          </Row>
-        </Container>
-      );
-    }
     return (
       <Container className="max-border">
-        {this.handleRedirect()}
         <div className="top-heading">
           <NavLink to="/">
             <div className="back">
@@ -207,37 +170,22 @@ class Speak extends Component {
             </div>
           </NavLink>
         </div>
-        <Modal show={this.state.redirect}>
-          <Modal.Header closeButton>
-            <Modal.Title>Task Status</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>You have completed all the tasks.</Modal.Body>
-          <Modal.Footer>
-          </Modal.Footer>
-        </Modal>
-        <Modal show={this.state.showModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Task Status</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Please, verify the following information</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Retake
-            </Button>
-            <Button variant="primary" onClick={this.handleAction}>
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Modal>
         <Row>
           <Col md={1} />
           <Col md={9} className="display">
+            <div>
+              <p>Click</p>
+              <i id="mic-head" className="material-icons">
+                mic_none
+              </i>
+              <p> then read the sentence aloud</p>
+            </div>
             <Text text={this.state.text[this.state.taskno][1]} />
           </Col>
           <Col md={2}>
             <div className="no-of-tasks">
               <p>
-                <span>5/5</span>Clips
+                <span>{this.state.taskno + 1}/5</span>Clips
               </p>
             </div>
             <div className="taskmarking">
@@ -267,7 +215,9 @@ class Speak extends Component {
         <div className="review-step">
           <Container className="max-border">
             <Row className="max-border">
-              <Col sm={5} xs={5} />
+              <Col sm={5} xs={5}>
+                <Icon type="play-circle" className="speak-listen" />
+              </Col>
               <Col sm={2} xs={2}>
                 <button
                   type="button"
@@ -282,17 +232,21 @@ class Speak extends Component {
                   </i>
                 </button>
               </Col>
-              <Col sm={5} xs={5} />
+              <Col sm={5} xs={5}>
+                <i
+                  className="material-icons speak-send"
+                  onClick={this.handleAction}
+                >
+                  send
+                </i>
+              </Col>
             </Row>
           </Container>
         </div>
         <ReactMic
           record={this.state.record}
-          // className="sound-wave"
           onStop={this.onStop}
           onData={this.onData}
-          // strokeColor="#000000"
-          // backgroundColor="#224071"
         />
       </Container>
     );

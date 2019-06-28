@@ -26,7 +26,7 @@ class OtpLogin extends Component {
   }
 
   handleSubmit(e) {
-    this.setState({isLoading : true})
+    this.setState({isLoading : true});
     e.preventDefault();
     let data = {
       message: this.state.otp,
@@ -53,7 +53,7 @@ class OtpLogin extends Component {
           cookies.set("token", sliced, { path: "/" });
           console.log(document.cookie);
           localStorage.setItem("uid", data.uid);
-          localStorage.setItem("LoginMethod","speak")
+          localStorage.setItem("LoginMethod","listen")
           if (data) {
             this.setState({
               redirect: true,
@@ -69,9 +69,13 @@ class OtpLogin extends Component {
 
   handleRedirect() {
     if (this.state.redirect) {
-      return <Redirect to="/speak" />;
+      return <Redirect to="/lttasks" />;
     }
   }
+
+  // componentDidMount() {
+  //   this.setState({isLoading: true});
+  // }
 
   render() {
     if (this.state.isLoading) {

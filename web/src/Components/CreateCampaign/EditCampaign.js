@@ -1,30 +1,22 @@
 import React, { Component } from "react";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
-import { Upload, Icon, } from "antd";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 import url from "../../url_service.js";
 
-class CreateCampaign extends Component {
+class EditCampaign extends Component {
   constructor() {
     super();
     this.state = {
+      campaignId: "",
       campaignName: "",
       languageType: 1,
       textType: "corpus_snip",
       paid: false,
       amountForTask: null,
-      limitOnTask: null,
-      totalSpeak: null,
-      redirect: false,
-      timer: null,
       duration: null,
       campaignStatus: "active",
       description: "",
-      longdescription: "",
-      upload: "",
-      uploading: false,
-      fileList:[],
+      longdescription: ""
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,29 +24,25 @@ class CreateCampaign extends Component {
     this.handleStatus = this.handleStatus.bind(this);
     this.handlePaid = this.handlePaid.bind(this);
     this.handleTextType = this.handleTextType.bind(this);
-    this.handleRedirect = this.handleRedirect.bind(this);
-    this.handleUpload = this.handleUpload.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state.upload);
     const data = {
+      p_campaign_id: this.state.campaignId,
       p_campaign_name: this.state.campaignName,
       p_lang_id: this.state.languageType,
       p_text_type: this.state.textType,
       p_paid: this.state.paid ? "yes" : "no",
-      p_limit_tasks: this.state.limitOnTask,
       p_amount: this.state.amountForTask,
-      p_total_tasks_speak: this.state.totalSpeak,
-      p_timer: this.state.timer,
       p_ends_in: this.state.duration,
       p_locked: 1,
       p_campaign_description_short: this.state.description,
       p_campaign_description_long: this.state.longdescription,
       p_campaign_status: this.state.campaignStatus
     };
-    fetch(url + "/campaignCreate", {
+    console.log(data);
+    fetch(url + "/campaignEdit", {
       method: "POST",
       body: JSON.stringify(data)
     })
@@ -63,60 +51,27 @@ class CreateCampaign extends Component {
       })
       .then(data => {
         console.log(data);
-        fetch(url + "/fileUpload?p_campaign_id=" + data.campaign_id, {
-          method: "POST",
-          body: this.state.upload.get("file")
-        })
-          .then(res => {
-            console.log(res);
-            // this.setState({
-            //   campaignName: "",
-            //   languageType: 1,
-            //   textType: "corpus_snip",
-            //   paid: false,
-            //   locked: false,
-            //   amountForTask: null,
-            //   limitOnTask: null,
-            //   totalSpeak: null,
-            //   // totalListen: null,
-            //   // totalTranscribe: null,
-            //   timer: null,
-            //   duration: null,
-            //   campaignStatus: 1,
-            //   description: "",
-            //   longdescription: ""
-            // });
-            this.setState({
-              fileList:[],
-              uploading:false,
-              redirect: !this.state.redirect,
-            });
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        // this.setState({
+        //   campaignName: "",
+        //   languageType: 1,
+        //   textType: "corpus_snip",
+        //   paid: false,
+        //   locked: false,
+        //   amountForTask: null,
+        //   limitOnTask: null,
+        //   totalSpeak: null,
+        //   // totalListen: null,
+        //   // totalTranscribe: null,
+        //   timer: null,
+        //   duration: null,
+        //   campaignStatus: 1,
+        //   description: "",
+        //   longdescription: ""
+        // });
       })
       .catch(er => {
         console.log(er);
       });
-  }
-
-  handleUpload(e) {
-    e.preventDefault();
-
-    const fileList = this.state.fileList;
-    const formData = new FormData();
-    fileList.forEach(file => {
-      formData.append('file', file);
-    });
-
-    this.setState({
-      upload: formData,
-      uploading: true
-    });
-    setTimeout(() => {
-      console.log(this.state.upload.get("file"));
-    }, 100);
   }
 
   handlePaid(e) {
@@ -149,6 +104,11 @@ class CreateCampaign extends Component {
 
   handleValueChange(e) {
     e.preventDefault();
+    if (e.target.name === "campaign-id") {
+      this.setState({
+        campaignId: e.target.value
+      });
+    }
     if (e.target.name === "first-name") {
       this.setState({
         campaignName: e.target.value
@@ -157,21 +117,6 @@ class CreateCampaign extends Component {
     if (e.target.name === "amount-tasks") {
       this.setState({
         amountForTask: e.target.value
-      });
-    }
-    if (e.target.name === "limit-tasks") {
-      this.setState({
-        limitOnTask: e.target.value
-      });
-    }
-    if (e.target.name === "speak-tasks") {
-      this.setState({
-        totalSpeak: e.target.value
-      });
-    }
-    if (e.target.name === "timer") {
-      this.setState({
-        timer: e.target.value
       });
     }
     if (e.target.name === "duration") {
@@ -191,40 +136,20 @@ class CreateCampaign extends Component {
     }
   }
 
-  handleRedirect() {
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
-    }
-  }
-
   render() {
-    const fileList  = this.state.fileList;
-    const props = {
-      onRemove: file => {
-        this.setState(state => {
-          const index = state.fileList.indexOf(file);
-          const newFileList = state.fileList.slice();
-          newFileList.splice(index, 1);
-          return {
-            fileList: newFileList,
-          };
-        });
-      },
-      beforeUpload: file => {
-        this.setState(state => ({
-          fileList: [...state.fileList, file],
-        }));
-        return false;
-      },
-      fileList,
-    };
     return (
       <Container>
-        {this.handleRedirect()}
         <Row>
           <Col>
             <div className="form-signup">
+              <h3>Edit Campaign</h3>
               <Form onSubmit={this.handleSubmit}>
+                <Form.Label>Campaign Id</Form.Label>
+                <Form.Control
+                  placeholder="Enter Campaign Id"
+                  name="campaign-id"
+                  onChange={this.handleValueChange}
+                />
                 <Form.Label>Campaign Name</Form.Label>
                 <Form.Control
                   placeholder="Enter name"
@@ -251,9 +176,9 @@ class CreateCampaign extends Component {
                     placeholder="Select Language"
                     onChange={this.handleTextType}
                   >
-                    <option value="corpus_snip">Readouts</option>
-                    <option value="JAM">Q&A</option>
-                    <option value="QA">Conversation</option>
+                    <option value="corpus_snip">Corpus Snippet</option>
+                    <option value="JAM">JAM</option>
+                    <option value="QA">QA</option>
                   </Form.Control>
                 </Form.Group>
 
@@ -264,30 +189,9 @@ class CreateCampaign extends Component {
                   onChange={this.handlePaid}
                 />
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Amount to be paid for each task</Form.Label>
+                  <Form.Label>Payment amount for task completion</Form.Label>
                   <Form.Control
                     name="amount-tasks"
-                    onChange={this.handleValueChange}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Number of snippets in one task</Form.Label>
-                  <Form.Control
-                    name="limit-tasks"
-                    onChange={this.handleValueChange}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Total number of tasks in speak</Form.Label>
-                  <Form.Control
-                    name="speak-tasks"
-                    onChange={this.handleValueChange}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Enter the timer limit in minutes</Form.Label>
-                  <Form.Control
-                    name="timer"
                     onChange={this.handleValueChange}
                   />
                 </Form.Group>
@@ -318,23 +222,6 @@ class CreateCampaign extends Component {
                     onChange={this.handleValueChange}
                   />
                 </Form.Group>
-                <Form.Label>Upload Corpus</Form.Label>
-                <div>
-                  <Upload {...props}>
-                    <Button>
-                      <Icon type="upload" /> Select File
-                    </Button>
-                  </Upload>
-                  <Button
-                    type="primary"
-                    onClick={this.handleUpload}
-                    disabled={fileList.length === 0}
-                    loading={this.state.uploading}
-                    style={{ marginTop: 16 }}
-                  >
-                    {this.state.uploading ? "Uploading" : "Start Upload"}
-                  </Button>
-                </div>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Label>Campaign status</Form.Label>
                   <Form.Control
@@ -359,4 +246,4 @@ class CreateCampaign extends Component {
   }
 }
 
-export default CreateCampaign;
+export default EditCampaign;

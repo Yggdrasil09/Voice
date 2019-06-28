@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
@@ -54,6 +55,7 @@ class TwofactorLogin extends Component {
       return <Redirect to="/otpcheck" />;
     }
   }
+  
   render() {
     return (
       <Container>

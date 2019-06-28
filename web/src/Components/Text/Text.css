@@ -8,6 +8,22 @@
   height: 45vh;
 }
 
+.text-container-parallel{
+  padding: 30px 10px 10px 10px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 0px 20px 1px rgb(233, 228, 228);
+  background-color: white;
+  width: 30vw;
+  height: 45vh;
+}
+
+.text-container-parallel h1 {
+  line-height: 1.5em;
+  font-size: 2.5vw;
+  font-family: "Open Sans", sans-serif;
+}
+
 .text-container h1 {
   line-height: 1.5em;
   font-size: 2.5vw;
@@ -17,6 +33,12 @@
 .textinput{
   position:relative;
   height:30vh!important;
+}
+
+.center-speak{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 @media (min-width: 300px) and (max-width: 445.98px) {

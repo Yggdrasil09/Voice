@@ -4,9 +4,10 @@ import { Card, Badge, Button, Nav, Modal } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Loader from 'react-loader-spinner'
+import { Icon, Popover } from 'antd';
+import Loader from "react-loader-spinner";
 
-import url from '../../url_service.js'
+import url from "../../url_service.js";
 import "./Campaign.css";
 
 class Campaign extends Component {
@@ -16,25 +17,16 @@ class Campaign extends Component {
       activeCampaigns: [],
       archiveCampaigns: [],
       completeCampaigns: [],
-      show: false,
       redirectLogin: false,
       redirectSpeak: false,
       redirectListen: false,
       redirectTranscribe: false,
-      redirectOtpLogin : false,
-      activeModalValue : [],
-      isLoading : false,
+      redirectCampaignDesc: false,
+      activeModalValue: [],
+      isLoading: false
     };
-    this.handleClose = this.handleClose.bind(this);
-    this.handleModal = this.handleModal.bind(this);
     this.handleSpeak = this.handleSpeak.bind(this);
     this.handleListen = this.handleListen.bind(this);
-  }
-
-  handleClose() {
-    this.setState({
-      show: !this.state.show
-    });
   }
 
   componentWillMount() {
@@ -61,7 +53,7 @@ class Campaign extends Component {
           activeCampaigns: active,
           archiveCampaigns: archive,
           completeCampaigns: complete,
-          isLoading: false,
+          isLoading: false
         });
         console.log(this.state.activeCampaigns);
         console.log(this.state.archiveCampaigns);
@@ -73,61 +65,70 @@ class Campaign extends Component {
   }
 
   componentDidMount() {
-    this.setState({isLoading : true})
+    this.setState({ isLoading: true });
   }
 
-  handleModal(value) {
+  handleSpeak(value) {
     this.setState({
-      show: !this.state.show,
       activeModalValue: value
     });
-    console.log(value);
-  }
-  // remove dispatch function
-  handleSpeak() {
     console.log(this.state.activeModalValue[1]);
     setTimeout(() => {
+      this.props.dispatch({
+        type: "ADD_CAMPAIGN",
+        Id: this.state.activeModalValue[1]
+      });
+      localStorage.setItem("campaignId", this.state.activeModalValue[1]);
+      localStorage.setItem("task", "speak");
       this.state.activeModalValue[5] === "yes"
         ? this.setState({
-            redirectOtpLogin: true
+            redirectCampaignDesc: true
           })
         : this.setState({
             redirectSpeak: true
           });
     }, 100);
-    this.props.dispatch({
-      type: "ADD_CAMPAIGN",
-      Id: this.state.activeModalValue[1]
-    });
-    localStorage.setItem("campaignId", this.state.activeModalValue[1]);
-    localStorage.setItem("task", "speak");
   }
 
-  handleListen() {
-    this.props.dispatch({
-      type: "ADD_CAMPAIGN",
-      Id: this.state.activeModalValue[1]
+  handleListen(value) {
+    this.setState({
+      activeModalValue: value
     });
-    localStorage.setItem("campaignId", this.state.activeModalValue[1]);
-    localStorage.setItem("task", "listen");
-    this.state.activeModalValue[5] === "yes"
+    console.log(this.state.activeModalValue[1]);
+    setTimeout(() => {
+      this.props.dispatch({
+        type: "ADD_CAMPAIGN",
+        Id: this.state.activeModalValue[1]
+      });
+      localStorage.setItem("campaignId", this.state.activeModalValue[1]);
+      localStorage.setItem("task", "listen");
+      this.state.activeModalValue[5] === "yes"
       ? this.setState({
           redirectLogin: true
         })
       : this.setState({
           redirectListen: true
         });
+    }, 100); 
   }
 
-  renderRedirectOtpLogin = () => {
-    if (this.state.redirectOtpLogin) {
-      return <Redirect to="/otplogin" />;
+  handleCopy(data) {
+    let link = document.createElement('textarea')
+    link.innerText = 'https://localhost:3000/campdescription?p_campaign_id=' + data;
+    // document.body.appendChild(link)
+    link.select()
+    document.execCommand('copy')
+  }
+
+  renderRedirectCampaignDesc = () => {
+    if (this.state.redirectCampaignDesc) {
+      return <Redirect to="/campdescription" />;
     }
   };
 
   renderRedirectLogin = () => {
     if (this.state.redirectLogin) {
-      return <Redirect to="/login" />;
+      return <Redirect to="/otplogin" />;
     }
   };
 
@@ -139,7 +140,7 @@ class Campaign extends Component {
 
   renderRedirectListen = () => {
     if (this.state.redirectListen) {
-      return <Redirect to="/listen" />;
+      return <Redirect to="/profile" />;
     }
   };
 
@@ -180,16 +181,19 @@ class Campaign extends Component {
                   ? "Hindi"
                   : "Telugu"}
               </Card.Subtitle>
-              <Card.Text>{this.state.activeCampaigns[i][7]}</Card.Text>
+              <Card.Text className="shortdesc">{this.state.activeCampaigns[i][7]}</Card.Text>
               <Card.Text>
                 Duration : {this.state.activeCampaigns[i][8] + " "}days
               </Card.Text>
-              <Button
-                onClick={() => this.handleModal(this.state.activeCampaigns[i])}
-                variant="primary"
-              >
-                Start Contest
+              <Button style={{marginRight:"1rem"}} variant="primary" onClick={()=>this.handleSpeak(this.state.activeCampaigns[i])}>
+                Speak
               </Button>
+              <Button style={{marginRight:"1rem"}} variant="primary" onClick={()=>this.handleListen(this.state.activeCampaigns[i])}>
+                Transcribe
+              </Button>
+              <Popover content={"Copy URL"}>
+                <Icon style={{color:"gray"}} type="copy" className="icon-size-camp" onClick={()=>this.handleCopy("Hello"/*campaignId*/)}/>
+              </Popover>
             </Card.Body>
           </Card>
         </Col>
@@ -242,12 +246,13 @@ class Campaign extends Component {
               <Card.Text>
                 Duration : {this.state.archiveCampaigns[i][8] + " "}days
               </Card.Text>
-              {/* <Button
+              <Button
+                disabled
                 onClick={() => this.handleModal(this.state.archiveCampaigns[i])}
                 variant="primary"
               >
                 Start Contest
-              </Button> */}
+              </Button>
             </Card.Body>
           </Card>
         </Col>
@@ -300,12 +305,15 @@ class Campaign extends Component {
               <Card.Text>
                 Duration : {this.state.completeCampaigns[i][8] + " "}days
               </Card.Text>
-              {/* <Button
-                onClick={() => this.handleModal(this.state.completeCampaigns[i])}
+              <Button
+                disabled
+                onClick={() =>
+                  this.handleModal(this.state.completeCampaigns[i])
+                }
                 variant="primary"
               >
                 Start Contest
-              </Button> */}
+              </Button>
             </Card.Body>
           </Card>
         </Col>
@@ -327,80 +335,80 @@ class Campaign extends Component {
   }
 
   render() {
-    if(this.state.isLoading){
+    if (this.state.isLoading) {
       return (
-          <Container className="contain-height">
-            <h1 id="active" className="event-head">
-              Active Campaigns
-            </h1>
-            <Row className="loader">
-              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
-            </Row>
-            <h1 id="upcoming" className="event-head">
-              Archive Campaigns
-            </h1>
-            <Row className="loader">
-              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>
-            </Row>
-            <h1 id="past" className="event-head">
-              Complete Campaigns
-            </h1>
-            <Row className="loader">
-              <Loader type="Bars" color="#D3D3D3" height="100" width="100"/>{/*#00BFFF ---> Last colour*/}
-            </Row>
-          </Container> 
+        <Container className="contain-height">
+          <h1 id="active" className="event-head">
+            Active Campaigns
+          </h1>
+          <Row className="loader">
+            <Loader type="Bars" color="#D3D3D3" height="100" width="100" />
+          </Row>
+          <h1 id="upcoming" className="event-head">
+            Archive Campaigns
+          </h1>
+          <Row className="loader">
+            <Loader type="Bars" color="#D3D3D3" height="100" width="100" />
+          </Row>
+          <h1 id="past" className="event-head">
+            Complete Campaigns
+          </h1>
+          <Row className="loader">
+            <Loader type="Bars" color="#D3D3D3" height="100" width="100" />
+            {/*#00BFFF ---> Last colour*/}
+          </Row>
+        </Container>
       );
     }
-      console.log(this.state.isLoading)
-      return (
-        <Card>
-          {this.renderRedirectOtpLogin()}
-          {this.renderRedirectLogin()}
-          {this.renderRedirectSpeak()}
-          {this.renderRedirectListen()}
-          {this.renderRedirectTranscribe()}
-          <Card.Header>
-            <Nav variant="tabs" defaultActiveKey="#active">
-              <Nav.Item>
-                <Nav.Link href="#active">Active</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#upcoming">Archive</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#past">Complete</Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Card.Header>
-          <Modal centered show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton />
-            <Modal.Body>Please complete the following operations</Modal.Body>
-            <Modal.Footer>
-              <Button variant="primary" onClick={this.handleListen}>
-                Listen/Transcribe
-              </Button>
-              <Button variant="primary" onClick={this.handleSpeak}>
-                Speak
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          <Container className="contain-height">
-            <h1 id="active" className="event-head">
-              Active Campaigns
-            </h1>
-            {this.createActive()}
-            {this.state.isLoading && <Loader type="Puff" color="#00BFFF" height="100" width="100" />}
-            <h1 id="upcoming" className="event-head">
-              Archive Campaigns
-            </h1>
-            {this.createArchive()}
-            <h1 id="past" className="event-head">
-              Complete Campaigns
-            </h1>
-            {this.createComplete()}
-          </Container>
-        </Card>
-      );
+    console.log(this.state.isLoading);
+    return (
+      <Card>
+        {this.renderRedirectCampaignDesc()}
+        {this.renderRedirectLogin()}
+        {this.renderRedirectSpeak()}
+        {this.renderRedirectListen()}
+        {this.renderRedirectTranscribe()}
+        <Card.Header>
+          <Nav variant="tabs" defaultActiveKey="#active">
+            <Nav.Item>
+              <Nav.Link href="#active">Active</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href="#upcoming">Archive</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href="#past">Complete</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Card.Header>
+        <Modal centered show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton />
+          <Modal.Body>Please complete the following operations</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.handleListen}>
+              Listen/Transcribe
+            </Button>
+            <Button variant="primary" onClick={this.handleSpeak}>
+              Speak
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Container className="contain-height">
+          <h1 id="active" className="event-head">
+            Active Campaigns
+          </h1>
+          {this.createActive()}
+          <h1 id="upcoming" className="event-head">
+            Archive Campaigns
+          </h1>
+          {this.createArchive()}
+          <h1 id="past" className="event-head">
+            Complete Campaigns
+          </h1>
+          {this.createComplete()}
+        </Container>
+      </Card>
+    );
   }
 }
 
